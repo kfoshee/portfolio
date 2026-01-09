@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Kian Foshee — Research Infrastructure • Execution</title>
-  <meta name="description" content="Opportunity Insights (Harvard) contributor. R-first data infrastructure, economic mobility research, and end-to-end execution." />
+  <title>Kian Foshee — Research • Data Infrastructure • Execution</title>
+  <meta name="description" content="Research + data infrastructure + execution. Reproducible pipelines, decision-ready outputs, shipped artifacts." />
 
-  <!-- Strong cache busting (GitHub Pages can be sticky) -->
+  <!-- Cache-bust helper -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -17,38 +17,37 @@
       --bg0:#050711;
       --bg1:#070B18;
       --bg2:#0A1020;
+
       --text:#EAF0FF;
       --muted:#A9B6D8;
-      --line:rgba(255,255,255,.12);
+      --muted2: rgba(169,182,216,.78);
 
-      /* Make UI more solid (less see-through) */
-      --bar: rgba(6,8,16,.92);
-      --bar2: rgba(10,14,28,.82);
+      --line: rgba(255,255,255,.12);
+      --line2: rgba(255,255,255,.08);
 
-      --glass: rgba(10,14,28,.72);
-      --glass2: rgba(12,18,36,.62);
+      --bar0: rgba(6,8,16,.94);
+      --bar1: rgba(10,14,28,.88);
 
-      --shadow: 0 26px 90px rgba(0,0,0,.65);
-      --shadow2: 0 14px 46px rgba(0,0,0,.45);
+      --card0: rgba(10,14,28,.74);
+      --card1: rgba(12,18,36,.64);
+
+      --shadow: 0 26px 90px rgba(0,0,0,.66);
+      --shadow2: 0 16px 50px rgba(0,0,0,.48);
+      --shadow3: 0 10px 28px rgba(0,0,0,.34);
+
       --r: 22px;
+      --r2: 18px;
 
       --grad: linear-gradient(90deg, #7AA2FF 0%, #B88CFF 45%, #4FE3C1 100%);
-      --grad2: linear-gradient(135deg, rgba(122,162,255,.26), rgba(184,140,255,.20), rgba(79,227,193,.18));
+      --grad2: linear-gradient(135deg, rgba(122,162,255,.24), rgba(184,140,255,.18), rgba(79,227,193,.16));
 
       --easeOut: cubic-bezier(.16, 1, .3, 1);
       --easeInOut: cubic-bezier(.65,0,.35,1);
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-
-    /* Smooth + "locks" onto sections */
-    html{
-      scroll-behavior: smooth;
-      scroll-snap-type: y proximity;
-      scroll-padding-top: 120px;
-    }
-
+    html, body { height:100%; }
+    html{ scroll-behavior:smooth; scroll-padding-top: 110px; }
     body{
       margin:0;
       color: var(--text);
@@ -60,12 +59,11 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       overflow-x:hidden;
     }
-
     a{ color:inherit; text-decoration:none; }
-    .muted{ color: rgba(169,182,216,.84); }
+    .muted{ color: var(--muted2); }
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
 
-    /* ===== AURA ===== */
+    /* ===== Aura background ===== */
     #aura{
       position: fixed;
       inset: 0;
@@ -73,12 +71,24 @@
       filter: blur(12px) saturate(132%);
       opacity: .95;
     }
-    .bg-noise{
+    .bg-grid{
       position: fixed;
       inset: 0;
       z-index: 1;
+      pointer-events:none;
+      opacity: .24;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(700px 500px at 50% 30%, rgba(0,0,0,1), rgba(0,0,0,.15), transparent 75%);
+    }
+    .bg-noise{
+      position: fixed;
+      inset: 0;
+      z-index: 2;
       pointer-events: none;
-      opacity: .14;
+      opacity: .12;
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
       mix-blend-mode: overlay;
@@ -86,31 +96,32 @@
     .bg-spot{
       position: fixed;
       inset: 0;
-      z-index: 2;
+      z-index: 3;
       pointer-events: none;
       --x: 50%;
-      --y: 25%;
-      background: radial-gradient(760px 480px at var(--x) var(--y),
+      --y: 28%;
+      background: radial-gradient(820px 520px at var(--x) var(--y),
         rgba(255,255,255,.11),
         rgba(122,162,255,.09) 25%,
         rgba(184,140,255,.06) 48%,
         transparent 72%);
       mix-blend-mode: screen;
-      opacity: .75;
+      opacity: .72;
     }
 
-    /* ===== TOP BAR (more solid + cleaner) ===== */
+    /* ===== Top bar ===== */
     .topbar{
       position: fixed;
       inset: 0 0 auto 0;
-      z-index: 20;
+      z-index: 30;
       padding: 12px 12px 0;
-      background: linear-gradient(180deg, rgba(4,6,12,.92), rgba(4,6,12,.55), rgba(4,6,12,0));
+      background: linear-gradient(180deg, rgba(4,6,12,.94), rgba(4,6,12,.55), rgba(4,6,12,0));
       backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
     .topbar-inner{
-      max-width: 1180px;
+      position: relative;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 12px 12px;
       display:flex;
@@ -118,66 +129,84 @@
       justify-content: space-between;
       gap: 14px;
       border-radius: 18px;
-
-      /* THIS is the big visual fix */
-      background: linear-gradient(180deg, var(--bar), var(--bar2));
+      background: linear-gradient(180deg, var(--bar0), var(--bar1));
       box-shadow: 0 16px 60px rgba(0,0,0,.55);
       border: 1px solid rgba(255,255,255,.10);
     }
-    .topbar-inner::after{
-      content:"";
-      position:absolute;
-      inset:auto 0 -14px 0;
-      height: 18px;
-      filter: blur(10px);
-      background: radial-gradient(closest-side, rgba(122,162,255,.28), transparent 60%);
-      opacity: .35;
-      pointer-events:none;
-    }
-
-    .logo{
+    .brand{
       display:flex;
       align-items:center;
       gap:10px;
       padding: 10px 12px;
       border-radius: 14px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      color: rgba(234,240,255,.96);
+      user-select: none;
     }
-    .logo-dot{
+    .brand-dot{
       width: 10px;
       height: 10px;
       border-radius: 999px;
       background: var(--grad);
       box-shadow: 0 0 28px rgba(122,162,255,.55);
     }
-    .logo-text{ font-weight: 950; letter-spacing: -0.02em; }
-
-    .nav{
+    .navlinks{
       display:flex;
-      gap: 12px;
+      gap: 10px;
       align-items:center;
       font-size: 13px;
-      color: rgba(234,240,255,.88);
+      color: rgba(234,240,255,.90);
     }
-    .nav a{
+    .navlinks a{
       padding: 10px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
       transition: background .25s var(--easeOut), border-color .25s var(--easeOut), transform .25s var(--easeOut);
       opacity: .92;
     }
-    .nav a:hover{
+    .navlinks a:hover{
       border-color: rgba(255,255,255,.14);
       background: rgba(255,255,255,.05);
       transform: translateY(-1px);
     }
-    .nav a.active{
+    .navlinks a.active{
       border-color: rgba(122,162,255,.45);
       background: rgba(122,162,255,.10);
       box-shadow: 0 0 26px rgba(122,162,255,.12);
       opacity: 1;
     }
-
-    .topbar-cta{ display:flex; gap:10px; align-items:center; }
+    .cta{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(234,240,255,.95);
+      font-weight: 900;
+      font-size: 13px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.32);
+      transition: transform .30s var(--easeOut), background .30s var(--easeOut), border-color .30s var(--easeOut);
+      will-change: transform;
+      user-select: none;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(122,162,255,.42);
+      background: rgba(122,162,255,.10);
+    }
+    .btn.primary{
+      border-color: rgba(122,162,255,.68);
+      background: linear-gradient(180deg, rgba(122,162,255,.26), rgba(184,140,255,.16));
+      box-shadow: 0 22px 70px rgba(122,162,255,.18);
+    }
 
     .progress{
       height: 3px;
@@ -193,91 +222,29 @@
       transition: width .08s linear;
     }
 
-    /* Rail */
-    .rail{
-      position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 18px;
-      z-index: 15;
-      display:flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .rail-dot{
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      box-shadow: 0 10px 24px rgba(0,0,0,.45);
-      transition: transform .25s var(--easeOut), background .25s var(--easeOut), border-color .25s var(--easeOut);
-    }
-    .rail-dot:hover{ transform: scale(1.15); }
-    .rail-dot.active{
-      background: linear-gradient(180deg, rgba(122,162,255,.85), rgba(184,140,255,.60));
-      border-color: rgba(122,162,255,.80);
-      box-shadow: 0 0 22px rgba(122,162,255,.35);
-      transform: scale(1.18);
-    }
-
-    /* Layout */
-    .wrap{
+    /* ===== Page layout ===== */
+    main{
       position: relative;
-      z-index: 3;
-      max-width: 1180px;
+      z-index: 10;
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 110px 18px 80px;
+      padding: 110px 18px 70px;
     }
 
-    .section{
-      min-height: 92vh;
-      padding: 30px 0 34px;
-      scroll-margin-top: 120px;
-      scroll-snap-align: start;
-      scroll-snap-stop: normal;
-    }
-
-    .section-head{
-      display:flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .h1{
-      margin: 14px 0 0 0;
-      font-size: clamp(44px, 4.6vw, 74px);
-      line-height: 1.02;
-      letter-spacing: -0.05em;
-      font-weight: 1000;
-    }
-    .h2{
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: -0.02em;
-    }
-    .sub{
-      margin:0;
-      color: rgba(169,182,216,.90);
-      font-size: 14px;
-    }
-
-    /* Hero */
-    .hero-grid{
+    section{ scroll-margin-top: 115px; }
+    .hero{
+      padding: 18px 0 26px;
       display:grid;
       grid-template-columns: 1.25fr .95fr;
       gap: 18px;
       align-items: start;
     }
 
-    .eyebrow{
+    .kicker{
       display:flex;
       align-items:center;
       gap:10px;
-      color: rgba(234,240,255,.88);
+      color: rgba(234,240,255,.90);
       font-size: 13px;
     }
     .pill{
@@ -287,107 +254,98 @@
       background: rgba(122,162,255,.10);
       box-shadow: 0 0 32px rgba(122,162,255,.12);
     }
-    .sep{ opacity: .45; }
+    .sep{ opacity:.45; }
+    h1{
+      margin: 14px 0 0 0;
+      font-size: clamp(46px, 4.8vw, 78px);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+      font-weight: 1000;
+    }
     .grad{
       background: var(--grad);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: 0 0 32px rgba(122,162,255,.12);
+      text-shadow: 0 0 34px rgba(122,162,255,.12);
     }
-    .grad2{
-      background: linear-gradient(90deg, #4FE3C1, #B88CFF, #7AA2FF);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
     .lead{
-      margin: 16px 0 0 0;
-      max-width: 66ch;
-      color: rgba(169,182,216,.94);
+      margin: 14px 0 0 0;
+      max-width: 68ch;
+      color: rgba(169,182,216,.95);
       line-height: 1.72;
       font-size: 15px;
     }
 
-    .hero-actions{
-      margin-top: 18px;
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 11px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
-      color: rgba(234,240,255,.94);
-      font-weight: 900;
-      font-size: 13px;
-      box-shadow: 0 14px 40px rgba(0,0,0,.32);
-      transition: transform .32s var(--easeOut), background .32s var(--easeOut), border-color .32s var(--easeOut);
-      will-change: transform;
-    }
-    .btn:hover{
-      transform: translateY(-2px);
-      border-color: rgba(122,162,255,.40);
-      background: rgba(122,162,255,.10);
-    }
-    .btn.primary{
-      border-color: rgba(122,162,255,.65);
-      background: linear-gradient(180deg, rgba(122,162,255,.24), rgba(184,140,255,.16));
-      box-shadow: 0 22px 70px rgba(122,162,255,.18);
-    }
-    .btn.primary:hover{
-      background: linear-gradient(180deg, rgba(122,162,255,.32), rgba(184,140,255,.20));
-    }
-
-    .chips{
+    /* Employer lens strip */
+    .lens{
       margin-top: 14px;
-      display:flex;
-      flex-wrap: wrap;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(10,14,28,.66), rgba(12,18,36,.56));
+      box-shadow: var(--shadow3);
+      padding: 14px;
+      position: relative;
+      overflow:hidden;
+    }
+    .lens::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: var(--grad2);
+      opacity: .18;
+      filter: blur(40px);
+      z-index:0;
+    }
+    .lens > *{ position: relative; z-index:1; }
+    .lens-title{
+      font-weight: 1000;
+      letter-spacing: -0.02em;
+      font-size: 14px;
+      color: rgba(234,240,255,.92);
+      margin-bottom: 10px;
+    }
+    .lens-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
-    .chip{
-      padding: 9px 12px;
-      border-radius: 999px;
+    .lens-item{
+      border-radius: 16px;
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(10,14,28,.55);
-      color: rgba(234,240,255,.80);
-      font-size: 12px;
-      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.04);
+      padding: 12px;
+      color: rgba(169,182,216,.94);
+      line-height: 1.55;
+      font-size: 13px;
     }
+    .lens-item b{ color: rgba(234,240,255,.92); }
 
-    /* Glass cards (less transparent) */
-    .glass{
+    /* Right proof card */
+    .proof{
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, var(--glass), var(--glass2));
-      backdrop-filter: blur(18px);
+      background: linear-gradient(180deg, var(--card0), var(--card1));
       box-shadow: var(--shadow2);
+      padding: 16px;
       position: relative;
       overflow: hidden;
     }
-    .glass::after{
+    .proof::after{
       content:"";
       position:absolute;
       inset:-2px;
       background: var(--grad2);
       opacity: .22;
-      filter: blur(34px);
+      filter: blur(40px);
       z-index:0;
     }
-    .glass > *{ position: relative; z-index:1; }
+    .proof > *{ position: relative; z-index:1; }
 
-    .card{ padding: 18px; }
-    .card-head{
+    .proof-top{
       display:flex;
-      align-items:center;
       justify-content: space-between;
+      align-items:center;
       margin-bottom: 10px;
     }
     .badge{
@@ -413,27 +371,25 @@
       0%,100%{ transform: scale(1); opacity:.95; }
       50%{ transform: scale(1.6); opacity:.55; }
     }
-
-    .card-title{
+    .proof-title{
       font-weight: 1000;
       letter-spacing: -0.02em;
-      font-size: 16px;
-      line-height: 1.35;
+      font-size: 15px;
+      line-height: 1.4;
+      margin-bottom: 12px;
     }
-
-    .metrics{
-      margin-top: 14px;
+    .stats{
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
-    .metric{
-      padding: 12px;
+    .stat{
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
+      padding: 12px;
     }
-    .metric-num{
+    .stat-num{
       font-weight: 1000;
       font-size: 18px;
       letter-spacing: -0.02em;
@@ -442,247 +398,294 @@
       background-clip: text;
       color: transparent;
     }
-    .metric-label{
+    .stat-lbl{
       margin-top: 6px;
       font-size: 12px;
-      color: rgba(169,182,216,.90);
+      color: rgba(169,182,216,.92);
+    }
+    .proof-actions{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
     }
 
-    .card-links{
-      margin-top: 14px;
+    /* Section head */
+    .section-head{
+      margin-top: 18px;
       display:flex;
+      align-items: baseline;
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
     }
-
-    .mini{ padding: 16px 18px; margin-top: 12px; }
-    .mini-title{ font-weight: 1000; letter-spacing: -0.02em; margin-bottom: 10px; }
-    .mini-row{ display:flex; gap: 10px; align-items:flex-start; color: rgba(169,182,216,.94); font-size: 13px; line-height: 1.5; }
-    .mini-dot{
-      width: 8px; height: 8px; border-radius: 999px;
-      background: rgba(184,140,255,.92);
-      box-shadow: 0 0 18px rgba(184,140,255,.45);
-      margin-top: 4px;
+    h2{
+      margin:0;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      font-weight: 1000;
     }
+    .sub{ margin:0; color: rgba(169,182,216,.90); font-size: 14px; }
 
-    /* Grids */
-    .grid3{
+    /* Tiles grid */
+    .tiles{
+      margin-top: 14px;
       display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
-
-    .split{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 14px;
-    }
-
     .tile{
-      padding: 18px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(10,14,28,.70), rgba(12,18,36,.62));
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow2);
+      background: linear-gradient(180deg, rgba(10,14,28,.74), rgba(12,18,36,.62));
+      box-shadow: var(--shadow3);
+      padding: 16px;
       position: relative;
-      overflow: hidden;
-      transform: translateZ(0);
-      transition: transform .45s var(--easeOut), border-color .45s var(--easeOut);
-      will-change: transform;
-    }
-    .tile:hover{
-      transform: translateY(-4px);
-      border-color: rgba(122,162,255,.34);
+      overflow:hidden;
+      cursor: pointer;
+      transition: transform .45s var(--easeOut), border-color .45s var(--easeOut), box-shadow .45s var(--easeOut);
+      user-select: none;
     }
     .tile::after{
       content:"";
       position:absolute;
       inset:-2px;
       background: var(--grad2);
-      opacity: .18;
-      filter: blur(36px);
-      z-index:0;
-    }
-    .tile > *{ position: relative; z-index:1; }
-
-    .tile-top{ display:flex; gap: 10px; align-items:center; margin-bottom: 8px; }
-    .icon{ font-size: 20px; }
-    .tile-title{ font-weight: 1000; letter-spacing: -0.01em; }
-    .tile-text{ margin: 0 0 12px 0; color: rgba(169,182,216,.94); line-height: 1.65; font-size: 14px; }
-
-    .timeline{ display:grid; gap: 14px; }
-    .titem{
-      padding: 18px;
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(10,14,28,.62);
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow2);
-    }
-    .tcap{ margin-bottom: 10px; }
-    .trole{ font-weight: 1000; letter-spacing: -0.01em; }
-    .tmeta{ margin-top: 6px; color: rgba(169,182,216,.90); font-size: 13px; }
-
-    .panel{ padding: 18px; }
-    .panel-title{ font-weight: 1000; letter-spacing: -0.01em; }
-    .panel-text{ margin: 10px 0 0 0; color: rgba(169,182,216,.94); line-height: 1.7; font-size: 14px; }
-    .pillrow{ display:flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-    .bullets{
-      margin: 12px 0 0 18px;
-      color: rgba(169,182,216,.94);
-      line-height: 1.7;
-      font-size: 14px;
-    }
-    .workstyle{
-      margin-top: 12px;
-      display:grid;
-      gap: 10px;
-    }
-    .ws{
-      display:flex;
-      gap: 12px;
-      align-items:flex-start;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-    }
-    .ws-k{
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: rgba(122,162,255,.14);
-      border: 1px solid rgba(122,162,255,.26);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight: 1000;
-    }
-    .ws-v{ color: rgba(169,182,216,.94); line-height: 1.55; font-size: 14px; }
-
-    /* Awards */
-    .awardgrid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .award{
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(10,14,28,.60);
-      color: rgba(169,182,216,.94);
-      line-height: 1.5;
-      box-shadow: 0 12px 34px rgba(0,0,0,.35);
-    }
-
-    /* Contact */
-    .contact{ min-height: 70vh; display:flex; align-items:center; }
-    .contact-card{
-      width: 100%;
-      padding: 22px;
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(10,14,28,.78), rgba(12,18,36,.62));
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow:hidden;
-    }
-    .contact-card::after{
-      content:"";
-      position:absolute; inset:-2px;
-      background: var(--grad2);
-      opacity:.22;
+      opacity: .16;
       filter: blur(44px);
       z-index:0;
     }
-    .contact-card > *{ position: relative; z-index: 1; }
-    .contact-title{ font-weight: 1000; letter-spacing: -0.02em; font-size: 20px; }
-    .contact-text{ margin: 10px 0 0 0; color: rgba(169,182,216,.94); line-height: 1.65; }
-    .contact-actions{ margin-top: 16px; display:flex; flex-wrap:wrap; gap:10px; }
-    .contact-foot{ margin-top: 16px; color: rgba(169,182,216,.82); font-size: 12px; }
+    .tile > *{ position: relative; z-index:1; }
+    .tile:hover{
+      transform: translateY(-4px);
+      border-color: rgba(122,162,255,.36);
+      box-shadow: 0 22px 70px rgba(0,0,0,.52);
+    }
+    .tile-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .tile-title{
+      font-weight: 1000;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+    }
+    .tile-tag{
+      font-size: 12px;
+      color: rgba(234,240,255,.82);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .tile-text{
+      margin: 10px 0 0 0;
+      color: rgba(169,182,216,.94);
+      line-height: 1.65;
+      font-size: 14px;
+      max-width: 70ch;
+    }
+    .tile-cta{
+      margin-top: 12px;
+      color: rgba(122,162,255,.95);
+      font-weight: 950;
+      font-size: 13px;
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
+    }
 
-    .footer{
+    /* Expanded panel */
+    .panel{
+      margin-top: 14px;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(10,14,28,.78), rgba(12,18,36,.64));
+      box-shadow: var(--shadow2);
+      padding: 18px;
+      position: relative;
+      overflow:hidden;
+
+      opacity: 0;
+      transform: translateY(10px);
+      filter: blur(6px);
+      pointer-events: none;
+      max-height: 0;
+      transition:
+        opacity .55s var(--easeOut),
+        transform .55s var(--easeOut),
+        filter .55s var(--easeOut),
+        max-height .60s var(--easeOut),
+        padding .60s var(--easeOut);
+    }
+    .panel.open{
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      pointer-events: auto;
+      max-height: 560px;
+    }
+    .panel::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: var(--grad2);
+      opacity: .14;
+      filter: blur(54px);
+      z-index:0;
+    }
+    .panel > *{ position: relative; z-index:1; }
+
+    .panel-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+    .panel-title{
+      font-weight: 1000;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+      margin: 0;
+    }
+    .panel-sub{
+      margin: 6px 0 0 0;
+      color: rgba(169,182,216,.92);
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 80ch;
+    }
+    .close{
+      flex: none;
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      font-weight: 950;
+      color: rgba(234,240,255,.90);
+      cursor: pointer;
+      transition: transform .25s var(--easeOut), border-color .25s var(--easeOut), background .25s var(--easeOut);
+    }
+    .close:hover{
+      transform: translateY(-1px);
+      border-color: rgba(122,162,255,.38);
+      background: rgba(122,162,255,.10);
+    }
+
+    .panel-grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .block{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding: 12px;
+    }
+    .block h3{
+      margin: 0 0 8px 0;
+      font-size: 13px;
+      font-weight: 1000;
+      letter-spacing: -0.01em;
+      color: rgba(234,240,255,.92);
+    }
+    .bullets{
+      margin: 0 0 0 18px;
+      color: rgba(169,182,216,.94);
+      line-height: 1.65;
+      font-size: 13px;
+    }
+    .links{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* Contact footer */
+    .contact{
       margin-top: 26px;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10,14,28,.60);
+      box-shadow: var(--shadow3);
+      padding: 16px;
       display:flex;
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
-      color: rgba(169,182,216,.76);
+      align-items:center;
+    }
+    .contact strong{ font-weight: 1000; }
+    .footer{
+      margin-top: 20px;
+      color: rgba(169,182,216,.70);
       font-size: 12px;
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
       padding-bottom: 10px;
     }
 
-    /* Reveal (smoother + less harsh) */
-    .reveal{
-      opacity: 0;
-      transform: translateY(14px);
-      filter: blur(6px);
-    }
+    /* Reveal */
+    .reveal{ opacity:0; transform: translateY(14px); filter: blur(10px); }
     .reveal.in{
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-      transition: opacity .9s var(--easeOut), transform .9s var(--easeOut), filter .9s var(--easeOut);
-    }
-
-    /* Better “section settle” feel: slight fade of background while snapping */
-    .section::before{
-      content:"";
-      position:absolute;
-      inset: -20px 0 auto 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
-      opacity: .6;
-      pointer-events:none;
+      opacity:1; transform: translateY(0); filter: blur(0);
+      transition: opacity .95s var(--easeOut), transform .95s var(--easeOut), filter .95s var(--easeOut);
     }
 
     /* Responsive */
     @media (max-width: 980px){
-      .nav{ display:none; }
-      .rail{ display:none; }
-      .hero-grid{ grid-template-columns: 1fr; }
-      .metrics{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .grid3{ grid-template-columns: 1fr; }
-      .split{ grid-template-columns: 1fr; }
-      .awardgrid{ grid-template-columns: 1fr; }
+      .navlinks{ display:none; }
+      .hero{ grid-template-columns: 1fr; }
+      .lens-grid{ grid-template-columns: 1fr; }
+      .stats{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tiles{ grid-template-columns: 1fr; }
+      .panel-grid{ grid-template-columns: 1fr; }
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      html{ scroll-behavior:auto; scroll-snap-type:none; }
-      .pulse{ animation: none; }
-      .btn, .tile{ transition:none; }
+      .pulse{ animation:none; }
+      .btn, .tile, .close{ transition:none; }
       .reveal, .reveal.in{ transition:none; transform:none; filter:none; }
+      .panel{ transition:none; }
     }
   </style>
 </head>
 
 <body>
   <canvas id="aura" aria-hidden="true"></canvas>
+  <div class="bg-grid" aria-hidden="true"></div>
   <div class="bg-noise" aria-hidden="true"></div>
   <div class="bg-spot" aria-hidden="true"></div>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="logo" href="#top" aria-label="Home">
-        <span class="logo-dot"></span>
-        <span class="logo-text">Kian Foshee</span>
+      <a class="brand" href="#top" aria-label="Home">
+        <span class="brand-dot"></span>
+        <span>Kian Foshee</span>
       </a>
 
-      <nav class="nav" aria-label="Sections">
+      <nav class="navlinks" aria-label="Sections">
         <a href="#work" data-nav="work">Work</a>
-        <a href="#experience" data-nav="experience">Experience</a>
-        <a href="#ops" data-nav="ops">Ops</a>
-        <a href="#awards" data-nav="awards">Awards</a>
+        <a href="#focus" data-nav="focus">Focus</a>
         <a href="#contact" data-nav="contact">Contact</a>
       </nav>
 
-      <div class="topbar-cta">
-        <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">SSRN ↗</a>
+      <div class="cta">
+        <!-- Replace these three with your actual destinations -->
+        <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper ↗</a>
+        <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        <a class="btn primary" href="mailto:KianFoshee@gmail.com">Email</a>
       </div>
     </div>
 
@@ -691,260 +694,186 @@
     </div>
   </header>
 
-  <aside class="rail" aria-label="Quick nav">
-    <a class="rail-dot" href="#top" data-spy="top" title="Top"></a>
-    <a class="rail-dot" href="#work" data-spy="work" title="Work"></a>
-    <a class="rail-dot" href="#experience" data-spy="experience" title="Experience"></a>
-    <a class="rail-dot" href="#ops" data-spy="ops" title="Ops"></a>
-    <a class="rail-dot" href="#awards" data-spy="awards" title="Awards"></a>
-    <a class="rail-dot" href="#contact" data-spy="contact" title="Contact"></a>
-  </aside>
-
-  <main id="top" class="wrap">
+  <main id="top">
     <!-- HERO -->
-    <section class="section hero" data-section="top">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow reveal">
-            <span class="pill">Opportunity Insights (Harvard)</span>
-            <span class="sep">•</span>
-            <span class="muted">Economic mobility + data infrastructure (R)</span>
-          </div>
-
-          <h1 class="h1 reveal">
-            I build <span class="grad">systems</span> that turn messy data into
-            <span class="grad2">decision-ready proof.</span>
-          </h1>
-
-          <p class="lead reveal">
-            Reproducible pipelines. Crosswalk-grade joins. Maps + briefs that survive reality.
-            I like ambiguous problems and I ship end-to-end: question → data → QA → output → artifact.
-          </p>
-
-          <div class="hero-actions reveal">
-            <a class="btn primary" href="#work">Scroll the work ↓</a>
-            <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Read paper ↗</a>
-            <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub ↗</a>
-            <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
-            <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          </div>
-
-          <div class="chips reveal">
-            <span class="chip">R-first reproducible pipelines</span>
-            <span class="chip">Geo consistency + stable keys</span>
-            <span class="chip">QA + versioned outputs</span>
-            <span class="chip">Interpretability > vibes</span>
-            <span class="chip">Ops execution</span>
-          </div>
+    <section class="hero">
+      <div>
+        <div class="kicker reveal">
+          <span class="pill">Opportunity Insights (Harvard)</span>
+          <span class="sep">•</span>
+          <span class="muted">Research + data infrastructure (R) + execution</span>
         </div>
 
-        <div>
-          <div class="glass card reveal" data-tilt>
-            <div class="card-head">
-              <span class="badge">Live signal</span>
-              <span class="pulse" aria-hidden="true"></span>
-            </div>
+        <h1 class="reveal">
+          Research. <span class="grad">Data infrastructure.</span> Execution.
+        </h1>
 
-            <div class="card-title">
-              Builder energy: research + infrastructure + execution.
-            </div>
+        <p class="lead reveal">
+          I build reproducible pipelines and decision-ready outputs—clean joins, QA checks, map-ready deliverables,
+          and writeups designed to be interpretable. Employers: you can verify everything in one click.
+        </p>
 
-            <div class="metrics">
-              <div class="metric">
-                <div class="metric-num" data-count="50" data-suffix="K+">0</div>
-                <div class="metric-label">Sales built</div>
-              </div>
-              <div class="metric">
-                <div class="metric-num" data-count="40" data-suffix="K+">0</div>
-                <div class="metric-label">Followers</div>
-              </div>
-              <div class="metric">
-                <div class="metric-num" data-count="100" data-suffix="M+">0</div>
-                <div class="metric-label">Views</div>
-              </div>
-              <div class="metric">
-                <div class="metric-num" data-count="1000" data-suffix="+">0</div>
-                <div class="metric-label">Survey N analyzed</div>
-              </div>
-              <div class="metric">
-                <div class="metric-num">SSRN</div>
-                <div class="metric-label">Working paper</div>
-              </div>
-              <div class="metric">
-                <div class="metric-num">R</div>
-                <div class="metric-label">Reproducibility</div>
-              </div>
-            </div>
-
-            <div class="card-links">
-              <a class="btn" href="#work">Featured work →</a>
-              <a class="btn" href="#awards">Awards →</a>
-            </div>
+        <div class="lens reveal">
+          <div class="lens-title">Employer lens — what you get</div>
+          <div class="lens-grid">
+            <div class="lens-item"><b>Fast ramp.</b> I translate ambiguity into a clear pipeline + outputs.</div>
+            <div class="lens-item"><b>Correctness.</b> Stable keys, join QA, reproducibility, and versioned artifacts.</div>
+            <div class="lens-item"><b>Shipping.</b> Outputs designed for decisions (not just “a model”).</div>
           </div>
+        </div>
+      </div>
 
-          <div class="glass mini reveal">
-            <div class="mini-title">My default mode</div>
-            <div class="mini-row"><span class="mini-dot"></span><span>Turn chaos into a pipeline that reruns clean.</span></div>
-            <div class="mini-row"><span class="mini-dot"></span><span>Ship outputs people can actually use.</span></div>
-            <div class="mini-row"><span class="mini-dot"></span><span>Own the work end-to-end, no handoffs.</span></div>
-          </div>
+      <div class="proof reveal">
+        <div class="proof-top">
+          <span class="badge">Proof</span>
+          <span class="pulse" aria-hidden="true"></span>
+        </div>
+        <div class="proof-title">
+          Click → verify. No fluff. Paper + code + outputs.
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="stat-num">SSRN</div><div class="stat-lbl">Working paper</div></div>
+          <div class="stat"><div class="stat-num">R</div><div class="stat-lbl">Reproducibility</div></div>
+          <div class="stat"><div class="stat-num">N=1,000+</div><div class="stat-lbl">Survey analysis</div></div>
+          <div class="stat"><div class="stat-num">$50K+</div><div class="stat-lbl">Sales built</div></div>
+          <div class="stat"><div class="stat-num">40K+</div><div class="stat-lbl">Followers</div></div>
+          <div class="stat"><div class="stat-num">100M+</div><div class="stat-lbl">Views</div></div>
+        </div>
+
+        <div class="proof-actions">
+          <a class="btn primary" href="#work">Explore →</a>
+          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper ↗</a>
+          <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo ↗</a>
         </div>
       </div>
     </section>
 
     <!-- WORK -->
-    <section id="work" class="section" data-section="work">
+    <section id="work">
       <div class="section-head reveal">
-        <h2 class="h2">Featured work</h2>
-        <p class="sub">Three clicks to verify: paper • code • outputs.</p>
+        <h2>What I do</h2>
+        <p class="sub">Four tiles. Click one to expand. Built for employer scanning.</p>
       </div>
 
-      <div class="grid3">
-        <article class="tile reveal" data-tilt>
-          <div class="tile-top"><div class="icon">📄</div><div class="tile-title">Working Paper (SSRN)</div></div>
-          <p class="tile-text">County-level evidence on move-in rates and upward mobility. Built for reproducibility and interpretation.</p>
-          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Read on SSRN ↗</a>
-        </article>
-
-        <article class="tile reveal" data-tilt>
-          <div class="tile-top"><div class="icon">🧱</div><div class="tile-title">Reproducible Pipeline (R)</div></div>
-          <p class="tile-text">Ingest → clean → crosswalk/join → QA → outputs. Put your cleanest repo here.</p>
-          <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">View repo ↗</a>
-        </article>
-
-        <article class="tile reveal" data-tilt>
-          <div class="tile-top"><div class="icon">🗺️</div><div class="tile-title">Outputs (Maps / Briefs)</div></div>
-          <p class="tile-text">Figures and briefs designed for decision-making. Add a PDF or demo link that’s easy to skim.</p>
-          <a class="btn" href="YOUR_OUTPUTS_LINK" target="_blank" rel="noreferrer">Open outputs ↗</a>
-        </article>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section id="experience" class="section" data-section="experience">
-      <div class="section-head reveal">
-        <h2 class="h2">Experience</h2>
-        <p class="sub">Research + analytics with real stakeholders.</p>
-      </div>
-
-      <div class="timeline">
-        <div class="titem reveal">
-          <div class="tcap">
-            <div class="trole">Opportunity Insights (Harvard) — Economic Mobility Research Contributor</div>
-            <div class="tmeta">Reproducible R deliverables • tract-level geo consistency</div>
+      <div class="tiles">
+        <div class="tile reveal" data-open="research">
+          <div class="tile-top">
+            <div class="tile-title">Research</div>
+            <div class="tile-tag">Mobility / place</div>
           </div>
-          <ul class="bullets">
-            <li>Built reproducible deliverables: cleaned datasets, crosswalks, maps, model outputs.</li>
-            <li>Harmonized tract-level inputs across multiple public datasets with consistent keys.</li>
-            <li>Produced map-ready outputs + model summaries for interpretation (not just “accuracy”).</li>
-          </ul>
+          <div class="tile-text">
+            Economic mobility work with reproducible deliverables and interpretable outputs.
+          </div>
+          <div class="tile-cta">Click to expand →</div>
         </div>
 
-        <div class="titem reveal">
-          <div class="tcap">
-            <div class="trole">UT Dallas — Economic Research Assistant (Municipal/Policy)</div>
-            <div class="tmeta">N=1,000+ survey • weighting • decision-ready briefs</div>
+        <div class="tile reveal" data-open="infra">
+          <div class="tile-top">
+            <div class="tile-title">Data Infrastructure</div>
+            <div class="tile-tag">Keys / QA / joins</div>
           </div>
-          <ul class="bullets">
-            <li>Cleaned + weighted a N=1,000+ small-business survey and translated results into briefs for City stakeholders.</li>
-            <li>Built structured tables/figures highlighting subgroup differences and takeaways for non-technical readers.</li>
-          </ul>
+          <div class="tile-text">
+            Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.
+          </div>
+          <div class="tile-cta">Click to expand →</div>
         </div>
 
-        <div class="titem reveal">
-          <div class="tcap">
-            <div class="trole">St. Mark’s Economic Club — Founding Member / Student Research Lead</div>
-            <div class="tmeta">50-member community • peer instruction • competition prep</div>
+        <div class="tile reveal" data-open="business">
+          <div class="tile-top">
+            <div class="tile-title">Business</div>
+            <div class="tile-tag">Ops ownership</div>
           </div>
-          <ul class="bullets">
-            <li>Co-founded a 50-member economics community; supported student research with mentorship.</li>
-            <li>Helped teams turn open-ended prompts into structured assumptions, data sources, models, and clear write-ups.</li>
-          </ul>
+          <div class="tile-text">
+            Built a consumer product brand with measurable growth and operational ownership.
+          </div>
+          <div class="tile-cta">Click to expand →</div>
+        </div>
+
+        <div class="tile reveal" data-open="awards">
+          <div class="tile-top">
+            <div class="tile-title">Awards</div>
+            <div class="tile-tag">Competitive signal</div>
+          </div>
+          <div class="tile-text">
+            Competitive signal across economics, finance, and performance.
+          </div>
+          <div class="tile-cta">Click to expand →</div>
         </div>
       </div>
-    </section>
 
-    <!-- OPS -->
-    <section id="ops" class="section" data-section="ops">
-      <div class="section-head reveal">
-        <h2 class="h2">Entrepreneurship + operating system</h2>
-        <p class="sub">I don’t just build ideas — I build repeatable workflows.</p>
-      </div>
-
-      <div class="split">
-        <div class="glass panel reveal" data-tilt>
-          <div class="panel-title">Supreme Pickle — Founder/Owner</div>
-          <p class="panel-text">Consumer product brand: product → manufacturing → e-commerce → community growth.</p>
-          <div class="pillrow">
-            <span class="pill">$50K+ sales</span>
-            <span class="pill">40K+ followers</span>
-            <span class="pill">100M+ views</span>
-            <span class="pill">Amazon #1 Best Seller</span>
+      <!-- EXPAND PANEL -->
+      <div id="panel" class="panel" aria-live="polite">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title" id="panelTitle">Title</div>
+            <div class="panel-sub" id="panelSub">Subtitle</div>
           </div>
-          <ul class="bullets">
-            <li>Owned sourcing, vendor management, QA, inventory planning, listings, customer support, iteration loops.</li>
-            <li>Led product development: prototyping, materials, play-testing feedback loops, repeatable fulfillment workflows.</li>
-          </ul>
+          <button class="close" id="closeBtn" type="button">Close</button>
         </div>
 
-        <div class="glass panel reveal" data-tilt>
-          <div class="panel-title">How I work</div>
-          <div class="workstyle">
-            <div class="ws"><div class="ws-k">01</div><div class="ws-v">Define the question in terms of decisions.</div></div>
-            <div class="ws"><div class="ws-k">02</div><div class="ws-v">Build stable keys + QA checks so joins don’t lie.</div></div>
-            <div class="ws"><div class="ws-k">03</div><div class="ws-v">Ship interpretable outputs (maps/tables/briefs).</div></div>
-            <div class="ws"><div class="ws-k">04</div><div class="ws-v">Iterate based on failure modes, not vibes.</div></div>
+        <div class="panel-grid">
+          <div class="block">
+            <h3>What I shipped</h3>
+            <ul class="bullets" id="panelBullets"></ul>
+          </div>
+
+          <div class="block">
+            <h3>Proof links</h3>
+            <div class="links" id="panelLinks"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- AWARDS -->
-    <section id="awards" class="section" data-section="awards">
+    <!-- Focus section (optional but feels employer-friendly) -->
+    <section id="focus">
       <div class="section-head reveal">
-        <h2 class="h2">Honors & awards</h2>
-        <p class="sub">Competitive signal + execution signal.</p>
+        <h2>Where I’m most useful</h2>
+        <p class="sub">Work that rewards correctness + shipping.</p>
       </div>
 
-      <div class="awardgrid">
-        <div class="award reveal">World Economics Cup — Individual Top-10; Team 4th (World Finals)</div>
-        <div class="award reveal">Northwestern Economics Tournament — 2nd Place</div>
-        <div class="award reveal">Harvard Pre-Collegiate Economics Challenge — 3rd Place (Team); Individual High Distinction</div>
-        <div class="award reveal">St. Mark’s Economic Student Award — Top economics student (11th grade)</div>
-        <div class="award reveal">National Finance Challenge (Texas) — Perfect Score (1 of 56)</div>
-        <div class="award reveal">National Economics Challenge (Texas) — Top Score (Top &lt; 10%)</div>
-        <div class="award reveal">TPSMEA All-Region / Texas All-State Choir — Top 20 in Texas (3 years)</div>
-        <div class="award reveal">National Latin Exam — Gold, Silver</div>
+      <div class="tiles">
+        <div class="tile reveal" style="cursor:default;">
+          <div class="tile-top"><div class="tile-title">Messy data → stable assets</div><div class="tile-tag">Pipeline</div></div>
+          <div class="tile-text">Turn multi-source chaos into documented, rerunnable deliverables with QA guardrails.</div>
+        </div>
+        <div class="tile reveal" style="cursor:default;">
+          <div class="tile-top"><div class="tile-title">Interpretability</div><div class="tile-tag">Decision-ready</div></div>
+          <div class="tile-text">Outputs designed for decisions: clear maps/tables/briefs that survive stakeholder questions.</div>
+        </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="section contact" data-section="contact">
-      <div class="contact-card reveal" data-tilt>
-        <div class="contact-title">Portfolio link for applications</div>
-        <p class="contact-text">Use: <span class="mono">https://kfoshee.github.io/portfolio/</span></p>
-
-        <div class="contact-actions">
-          <a class="btn primary" href="https://kfoshee.github.io/portfolio/?v=5" target="_blank" rel="noreferrer">Open live site ↗</a>
-          <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
+    <section id="contact">
+      <div class="contact reveal">
+        <div>
+          <strong>Contact</strong>
+          <div class="muted">Portfolio URL: <span class="mono">https://kfoshee.github.io/portfolio/</span></div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" href="mailto:KianFoshee@gmail.com">Email</a>
+          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper ↗</a>
+          <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub ↗</a>
           <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn ↗</a>
         </div>
+      </div>
 
-        <div class="contact-foot">
-          <span class="muted">Last updated:</span> <span id="lastUpdated" class="mono"></span>
-        </div>
+      <div class="footer">
+        <span>© <span id="year"></span> Kian Foshee</span>
+        <span class="muted">Research • Infrastructure • Execution</span>
       </div>
     </section>
-
-    <footer class="footer">
-      <span class="muted">© <span id="year"></span> Kian Foshee</span>
-      <span class="muted">Research • Infrastructure • Execution</span>
-    </footer>
   </main>
 
   <script>
     (() => {
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // ===== Replace these once (so employer can click proof) =====
+      // 1) YOUR_LINKEDIN in HTML
+      // 2) YOUR_BEST_REPO in HTML
 
       // Cursor spotlight
       const spot = document.querySelector(".bg-spot");
@@ -967,12 +896,10 @@
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
 
-      // Dates
+      // Year
       document.getElementById("year").textContent = String(new Date().getFullYear());
-      document.getElementById("lastUpdated").textContent =
-        new Date().toLocaleString(undefined, { year:"numeric", month:"short", day:"2-digit" });
 
-      // Reveal (smoother timing)
+      // Reveal
       const revealEls = document.querySelectorAll(".reveal");
       const io = new IntersectionObserver((entries) => {
         for (const entry of entries) {
@@ -981,76 +908,133 @@
             io.unobserve(entry.target);
           }
         }
-      }, { threshold: 0.12 });
+      }, { threshold: 0.14 });
       revealEls.forEach(el => io.observe(el));
 
-      // Counters
-      const counters = document.querySelectorAll("[data-count]");
-      const animateCount = (el) => {
-        const end = Number(el.getAttribute("data-count"));
-        const suffix = el.getAttribute("data-suffix") || "";
-        const dur = prefersReducedMotion ? 1 : 1200; // smoother
-        const t0 = performance.now();
-        const step = (t) => {
-          const p = Math.min(1, (t - t0) / dur);
-          const eased = 1 - Math.pow(1 - p, 4); // smoother ease-out
-          const val = Math.round(end * eased);
-          el.textContent = (val >= 1000 ? val.toLocaleString() : String(val)) + suffix;
-          if (p < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      };
-      const cio = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            animateCount(entry.target);
-            cio.unobserve(entry.target);
-          }
-        }
-      }, { threshold: 0.4 });
-      counters.forEach(c => cio.observe(c));
-
-      // Tilt (subtle, smoother)
-      const tilts = document.querySelectorAll("[data-tilt]");
-      tilts.forEach(el => {
-        let raf = null;
-        el.addEventListener("pointermove", (e) => {
-          if (prefersReducedMotion) return;
-          const r = el.getBoundingClientRect();
-          const px = (e.clientX - r.left) / r.width;
-          const py = (e.clientY - r.top) / r.height;
-          const rx = (py - 0.5) * -6;
-          const ry = (px - 0.5) * 8;
-          if (raf) cancelAnimationFrame(raf);
-          raf = requestAnimationFrame(() => {
-            el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
-          });
-        });
-        el.addEventListener("pointerleave", () => {
-          el.style.transform = "";
-        });
-      });
-
-      // Section spy (rail + nav active)
-      const sectionEls = document.querySelectorAll("[data-section]");
-      const railDots = document.querySelectorAll(".rail-dot");
-      const navLinks = document.querySelectorAll(".nav a[data-nav]");
-
+      // Nav active
+      const navLinks = document.querySelectorAll(".navlinks a[data-nav]");
+      const sections = [
+        { id: "work", el: document.getElementById("work") },
+        { id: "focus", el: document.getElementById("focus") },
+        { id: "contact", el: document.getElementById("contact") },
+      ];
       const setActive = (id) => {
-        railDots.forEach(d => d.classList.toggle("active", d.getAttribute("data-spy") === id));
         navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("data-nav") === id));
       };
-
       const sio = new IntersectionObserver((entries) => {
         const visible = entries
           .filter(e => e.isIntersecting)
           .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length) {
-          setActive(visible[0].target.getAttribute("data-section"));
-        }
+        if (visible.length) setActive(visible[0].target.getAttribute("data-section-id"));
       }, { threshold: [0.25, 0.45, 0.65] });
 
-      sectionEls.forEach(s => sio.observe(s));
+      sections.forEach(s => {
+        if (!s.el) return;
+        s.el.setAttribute("data-section-id", s.id);
+        sio.observe(s.el);
+      });
+
+      // Expand panel content (employer-friendly: bullets + proof links)
+      const DATA = {
+        research: {
+          title: "Research",
+          sub: "Economic mobility and place-based outcomes; outputs designed to be interpretable and reusable.",
+          bullets: [
+            "Working paper on move-in rates and the geography of upward mobility (SSRN).",
+            "Reproducible R deliverables: cleaned datasets, maps, and model outputs.",
+            "Outputs designed for interpretation (not just model performance)."
+          ],
+          links: [
+            { label: "Open the paper ↗", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" },
+            { label: "GitHub ↗", href: "https://github.com/kfoshee" }
+          ]
+        },
+        infra: {
+          title: "Data Infrastructure",
+          sub: "Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.",
+          bullets: [
+            "Standardize identifiers and definitions across datasets before modeling.",
+            "Join QA checks (coverage, duplicates, key integrity) so merges don’t silently lie.",
+            "Versioned outputs: maps/tables/briefs that can be reproduced exactly."
+          ],
+          links: [
+            { label: "Open repo ↗", href: "YOUR_BEST_REPO" },
+            { label: "GitHub profile ↗", href: "https://github.com/kfoshee" }
+          ]
+        },
+        business: {
+          title: "Business",
+          sub: "Built a consumer product brand with measurable growth and end-to-end operating ownership.",
+          bullets: [
+            "Owned sourcing, vendor management, QA, inventory planning, listings, and customer ops.",
+            "Built distribution + community flywheel: 40K+ followers, 100M+ views.",
+            "Iterated product via feedback loops; built repeatable fulfillment workflows."
+          ],
+          links: [
+            { label: "GitHub ↗", href: "https://github.com/kfoshee" },
+            { label: "Email ↗", href: "mailto:KianFoshee@gmail.com" }
+          ]
+        },
+        awards: {
+          title: "Awards",
+          sub: "Competitive signal across economics, finance, and performance.",
+          bullets: [
+            "World Economics Cup — Individual Top-10; Team 4th (World Finals).",
+            "Northwestern Economics Tournament — 2nd Place.",
+            "Harvard Pre-Collegiate Economics Challenge — 3rd Place (Team); Individual High Distinction.",
+            "National Finance Challenge (Texas) — Perfect Score (1 of 56).",
+            "National Economics Challenge (Texas) — Top Score (Top < 10%)."
+          ],
+          links: [
+            { label: "Paper ↗", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" },
+            { label: "Contact ↗", href: "#contact" }
+          ]
+        }
+      };
+
+      const panel = document.getElementById("panel");
+      const panelTitle = document.getElementById("panelTitle");
+      const panelSub = document.getElementById("panelSub");
+      const panelBullets = document.getElementById("panelBullets");
+      const panelLinks = document.getElementById("panelLinks");
+      const closeBtn = document.getElementById("closeBtn");
+
+      const openPanel = (key) => {
+        const d = DATA[key];
+        if (!d) return;
+
+        panelTitle.textContent = d.title;
+        panelSub.textContent = d.sub;
+
+        panelBullets.innerHTML = "";
+        d.bullets.forEach(b => {
+          const li = document.createElement("li");
+          li.textContent = b;
+          panelBullets.appendChild(li);
+        });
+
+        panelLinks.innerHTML = "";
+        d.links.forEach(l => {
+          const a = document.createElement("a");
+          a.className = "btn";
+          a.textContent = l.label;
+          a.href = l.href;
+          if (l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
+          panelLinks.appendChild(a);
+        });
+
+        panel.classList.add("open");
+        if (!prefersReducedMotion) {
+          panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          panel.scrollIntoView();
+        }
+      };
+
+      const tiles = document.querySelectorAll(".tile[data-open]");
+      tiles.forEach(t => t.addEventListener("click", () => openPanel(t.getAttribute("data-open"))));
+
+      closeBtn.addEventListener("click", () => panel.classList.remove("open"));
 
       // Aura canvas
       const canvas = document.getElementById("aura");
@@ -1070,10 +1054,10 @@
       resize();
 
       const blobs = [
-        { x: 0.18, y: 0.18, r: 0.32, vx: 0.00016, vy: 0.00010, hue: 210 },
-        { x: 0.82, y: 0.22, r: 0.36, vx: -0.00012, vy: 0.00010, hue: 275 },
-        { x: 0.70, y: 0.84, r: 0.40, vx: 0.00010, vy: -0.00014, hue: 165 },
-        { x: 0.22, y: 0.78, r: 0.34, vx: -0.00012, vy: -0.00010, hue: 330 }
+        { x: 0.18, y: 0.18, r: 0.34, vx: 0.00014, vy: 0.00010, hue: 210 },
+        { x: 0.82, y: 0.22, r: 0.38, vx: -0.00011, vy: 0.00010, hue: 275 },
+        { x: 0.70, y: 0.84, r: 0.42, vx: 0.00010, vy: -0.00013, hue: 165 },
+        { x: 0.22, y: 0.78, r: 0.36, vx: -0.00012, vy: -0.00010, hue: 330 }
       ];
 
       let mouse = { x: 0.5, y: 0.5 };
@@ -1090,13 +1074,15 @@
           if (!prefersReducedMotion) {
             b.x += b.vx;
             b.y += b.vy;
+
             if (b.x < 0.08 || b.x > 0.92) b.vx *= -1;
             if (b.y < 0.08 || b.y > 0.92) b.vy *= -1;
 
-            const ax = (mouse.x - b.x) * 0.00002; // subtler pull
+            const ax = (mouse.x - b.x) * 0.00002;
             const ay = (mouse.y - b.y) * 0.00002;
             b.vx += ax; b.vy += ay;
-            b.vx *= 0.985; b.vy *= 0.985; // smoother damping
+
+            b.vx *= 0.985; b.vy *= 0.985;
           }
 
           const x = b.x * W;
