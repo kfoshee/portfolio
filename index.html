@@ -7,52 +7,47 @@
   <title>Kian Foshee — Research • Data Infrastructure • Execution</title>
   <meta name="description" content="Research, data infrastructure, and execution. Reproducible pipelines and decision-ready outputs." />
 
-  <!-- Cache-bust helper -->
+  <!-- cache-bust helper -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
   <style>
     :root{
-      /* STRICTLY black background */
-      --bg: #000000;
+      /* TRUE black background */
+      --bg:#000;
 
-      --text: #F3F6FF;
-      --muted: rgba(210,220,255,.72);
-      --muted2: rgba(210,220,255,.62);
+      --text:#F5F7FF;
+      --muted:rgba(220,228,255,.70);
+      --muted2:rgba(220,228,255,.58);
 
-      --line: rgba(255,255,255,.12);
-      --line2: rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.12);
+      --line2:rgba(255,255,255,.08);
 
-      --bar0: rgba(0,0,0,.92);
-      --bar1: rgba(0,0,0,.82);
+      --panel:rgba(255,255,255,.03);
+      --panel2:rgba(255,255,255,.045);
 
-      --card0: rgba(10,10,14,.82);
-      --card1: rgba(8,8,12,.70);
+      --shadow: 0 18px 60px rgba(0,0,0,.80);
+      --shadow2: 0 10px 28px rgba(0,0,0,.65);
 
-      --shadow: 0 26px 90px rgba(0,0,0,.75);
-      --shadow2: 0 16px 50px rgba(0,0,0,.55);
-      --shadow3: 0 10px 28px rgba(0,0,0,.45);
+      --r:18px;
+      --r2:14px;
 
-      --r: 20px;
-      --r2: 16px;
+      --accent1:#7AA2FF;
+      --accent2:#B88CFF;
+      --accent3:#4FE3C1;
 
-      --grad: linear-gradient(90deg, #7AA2FF 0%, #B88CFF 48%, #4FE3C1 100%);
-      --grad2: linear-gradient(135deg, rgba(122,162,255,.20), rgba(184,140,255,.14), rgba(79,227,193,.12));
-
-      /* Nicer motion */
+      --grad: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
       --easeOut: cubic-bezier(.16, 1, .3, 1);
       --easeSoft: cubic-bezier(.2,.9,.2,1);
-      --easeInOut: cubic-bezier(.65,0,.35,1);
 
-      /* tighter spacing knobs */
-      --gap: 12px;
-      --gap2: 10px;
+      --gap:10px;      /* tighter */
+      --gap2:8px;      /* tighter */
     }
 
     *{ box-sizing:border-box; }
-    html, body { height:100%; }
-    html{ scroll-behavior:smooth; scroll-padding-top: 100px; }
+    html,body{ height:100%; }
+    html{ scroll-behavior:smooth; scroll-padding-top: 92px; }
     body{
       margin:0;
       background: var(--bg);
@@ -65,210 +60,69 @@
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
     ::selection{ background: rgba(122,162,255,.28); }
 
-    /* ===== Aura (black bg + subtle neon) ===== */
-    #aura{
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      opacity: 1;
-      /* crisp aura — not foggy */
-      filter: blur(10px) saturate(140%) contrast(115%);
-    }
-
-    .vignette{
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events:none;
-      background:
-        radial-gradient(1200px 650px at 50% 15%, rgba(255,255,255,.06), transparent 60%),
-        radial-gradient(900px 700px at 15% 20%, rgba(122,162,255,.07), transparent 60%),
-        radial-gradient(900px 700px at 85% 25%, rgba(184,140,255,.06), transparent 60%),
-        radial-gradient(900px 700px at 60% 90%, rgba(79,227,193,.05), transparent 60%),
-        radial-gradient(1200px 900px at 50% 50%, transparent 45%, rgba(0,0,0,.65) 78%, rgba(0,0,0,.88) 100%);
-    }
-
-    .noise{
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events:none;
-      opacity: .10;
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay;
-    }
-
-    .spot{
-      position: fixed;
-      inset: 0;
-      z-index: 3;
-      pointer-events:none;
-      --x: 50%;
-      --y: 22%;
-      background: radial-gradient(720px 460px at var(--x) var(--y),
-        rgba(255,255,255,.10),
-        rgba(122,162,255,.08) 25%,
-        rgba(184,140,255,.05) 46%,
-        transparent 70%);
-      mix-blend-mode: screen;
-      opacity: .65;
-    }
-
-    /* ===== Top bar (solid black) ===== */
+    /* Topbar: solid black, crisp */
     .topbar{
       position: fixed;
       inset: 0 0 auto 0;
-      z-index: 40;
-      padding: 10px 10px 0;
-      background: linear-gradient(180deg, rgba(0,0,0,.92), rgba(0,0,0,.55), rgba(0,0,0,0));
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      z-index: 50;
+      background: rgba(0,0,0,.92);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
     }
     .topbar-inner{
-      max-width: 1100px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 10px 10px;
+      padding: 12px 14px;
       display:flex;
       align-items:center;
       justify-content: space-between;
       gap: 10px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, var(--bar0), var(--bar1));
-      box-shadow: 0 14px 50px rgba(0,0,0,.62);
-      border: 1px solid rgba(255,255,255,.10);
     }
     .brand{
       display:flex;
       align-items:center;
       gap:10px;
-      padding: 8px 10px;
-      border-radius: 14px;
       font-weight: 950;
       letter-spacing: -0.02em;
       user-select:none;
     }
-    .brand-dot{
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: var(--grad);
-      box-shadow: 0 0 26px rgba(122,162,255,.55);
+    .dot{
+      width: 9px; height: 9px; border-radius: 999px;
+      background: var(--accent1);
+      box-shadow: 0 0 18px rgba(122,162,255,.45);
     }
 
-    .navlinks{
-      display:flex;
-      gap: 8px;
-      align-items:center;
+    .links{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
       font-size: 13px;
-      color: rgba(243,246,255,.88);
+      color: rgba(245,247,255,.86);
     }
-    .navlinks a{
+    .link{
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
-      transition: background .22s var(--easeOut), border-color .22s var(--easeOut), transform .22s var(--easeOut), opacity .22s var(--easeOut);
-      opacity: .90;
+      transition: transform .22s var(--easeOut), background .22s var(--easeOut), border-color .22s var(--easeOut);
     }
-    .navlinks a:hover{
-      border-color: rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
+    .link:hover{
       transform: translateY(-1px);
-      opacity: 1;
-    }
-    .navlinks a.active{
-      border-color: rgba(122,162,255,.44);
-      background: rgba(122,162,255,.10);
-      box-shadow: 0 0 26px rgba(122,162,255,.12);
-      opacity: 1;
-    }
-
-    .cta{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 9px 11px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
-      color: rgba(243,246,255,.95);
-      font-weight: 900;
-      font-size: 13px;
-      box-shadow: 0 12px 34px rgba(0,0,0,.40);
-      transition: transform .30s var(--easeSoft), background .30s var(--easeSoft), border-color .30s var(--easeSoft), box-shadow .30s var(--easeSoft);
-      will-change: transform;
-      user-select:none;
-    }
-    .btn:hover{
-      transform: translateY(-2px);
-      border-color: rgba(122,162,255,.42);
-      background: rgba(122,162,255,.10);
-      box-shadow: 0 18px 48px rgba(0,0,0,.55);
-    }
-    .btn.primary{
-      border-color: rgba(122,162,255,.68);
-      background: linear-gradient(180deg, rgba(122,162,255,.22), rgba(184,140,255,.14));
-      box-shadow: 0 22px 64px rgba(122,162,255,.16);
     }
 
-    .progress{
-      height: 3px;
-      width: 100%;
-      background: rgba(255,255,255,.06);
-      margin-top: 10px;
-    }
-    .progress-bar{
-      height: 3px;
-      width: 0%;
-      background: var(--grad);
-      box-shadow: 0 0 18px rgba(122,162,255,.35);
-      transition: width .08s linear;
-    }
-
-    /* ===== Page layout (tighter) ===== */
+    /* Layout */
     main{
-      position: relative;
-      z-index: 10;
-      max-width: 1100px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 96px 16px 50px;
+      padding: 92px 14px 50px; /* tighter */
     }
 
-    section{ scroll-margin-top: 105px; }
-
+    /* Hero */
     .hero{
-      padding: 10px 0 16px;
-      display:grid;
-      grid-template-columns: 1.25fr .95fr;
-      gap: var(--gap);
-      align-items: start;
+      padding: 18px 0 10px; /* tighter */
     }
-
-    .kicker{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      color: rgba(243,246,255,.88);
-      font-size: 13px;
-    }
-    .pill{
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(122,162,255,.28);
-      background: rgba(122,162,255,.10);
-      box-shadow: 0 0 30px rgba(122,162,255,.10);
-    }
-    .sep{ opacity:.45; }
-
     h1{
-      margin: 12px 0 0 0;
-      font-size: clamp(44px, 4.7vw, 76px);
+      margin: 0;
+      font-size: clamp(42px, 5.2vw, 74px);
       line-height: 1.02;
       letter-spacing: -0.055em;
       font-weight: 1000;
@@ -278,155 +132,100 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: 0 0 34px rgba(122,162,255,.12);
+      background-size: 200% 200%;
+      animation: titleShift 7s var(--easeSoft) infinite;
     }
-    .lead{
-      margin: 12px 0 0 0;
-      max-width: 70ch;
+    @keyframes titleShift{
+      0%,100%{ background-position: 0% 50%; }
+      50%{ background-position: 100% 50%; }
+    }
+    .sub{
+      margin-top: 10px;
+      max-width: 78ch;
       color: var(--muted);
-      line-height: 1.72;
-      font-size: 15px;
+      line-height: 1.65;
+      font-size: 14.5px;
     }
 
-    .lens{
-      margin-top: 10px;
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(10,10,14,.78), rgba(8,8,12,.66));
-      box-shadow: var(--shadow3);
-      padding: 12px;
-      position: relative;
-      overflow:hidden;
+    /* Strong “tabs/chips” (segmented control, not ugly pills) */
+    .segwrap{
+      margin-top: 12px;
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      flex-wrap: wrap;
     }
-    .lens::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: var(--grad2);
-      opacity: .14;
-      filter: blur(44px);
-      z-index:0;
-    }
-    .lens > *{ position: relative; z-index:1; }
-    .lens-title{
-      font-weight: 1000;
-      letter-spacing: -0.02em;
-      font-size: 13px;
-      color: rgba(243,246,255,.92);
-      margin-bottom: 8px;
-    }
-    .lens-grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--gap2);
-    }
-    .lens-item{
+    .seg{
+      display:inline-flex;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      padding: 11px;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 13px;
+      background: rgba(255,255,255,.03);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
     }
-    .lens-item b{ color: rgba(243,246,255,.92); }
+    .seg button{
+      appearance:none;
+      border:0;
+      background: transparent;
+      color: rgba(245,247,255,.82);
+      font-weight: 900;
+      font-size: 12.5px;
+      padding: 10px 12px;
+      cursor:pointer;
+      transition: background .22s var(--easeOut), color .22s var(--easeOut);
+      white-space: nowrap;
+    }
+    .seg button + button{
+      border-left: 1px solid rgba(255,255,255,.10);
+    }
+    .seg button:hover{
+      background: rgba(255,255,255,.04);
+      color: rgba(245,247,255,.92);
+    }
+    .seg button.active{
+      background: rgba(122,162,255,.14);
+      color: rgba(245,247,255,.98);
+      box-shadow: inset 0 0 0 1px rgba(122,162,255,.18);
+    }
 
+    /* Proof row (tight + employer-scan) */
     .proof{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: var(--gap);
+    }
+    .metric{
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(10,10,14,.82), rgba(8,8,12,.70));
-      box-shadow: var(--shadow2);
-      padding: 14px;
-      position: relative;
-      overflow: hidden;
+      background: rgba(255,255,255,.03);
+      padding: 12px;
     }
-    .proof::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: var(--grad2);
-      opacity: .16;
-      filter: blur(48px);
-      z-index:0;
-    }
-    .proof > *{ position: relative; z-index:1; }
-
-    .proof-top{
-      display:flex;
-      justify-content: space-between;
-      align-items:center;
-      margin-bottom: 8px;
-    }
-    .badge{
-      font-size: 12px;
-      font-weight: 950;
-      letter-spacing: .10em;
-      text-transform: uppercase;
-      color: rgba(243,246,255,.82);
-      padding: 6px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-    }
-    .pulse{
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(79,227,193,.92);
-      box-shadow: 0 0 18px rgba(79,227,193,.55);
-      animation: pulse 1.7s var(--easeInOut) infinite;
-    }
-    @keyframes pulse{
-      0%,100%{ transform: scale(1); opacity:.95; }
-      50%{ transform: scale(1.6); opacity:.50; }
-    }
-    .proof-title{
+    .metric .k{
       font-weight: 1000;
       letter-spacing: -0.02em;
       font-size: 14px;
-      line-height: 1.45;
-      margin-bottom: 10px;
-      color: rgba(243,246,255,.92);
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--gap2);
-    }
-    .stat{
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      padding: 11px;
-    }
-    .stat-num{
-      font-weight: 1000;
-      font-size: 17px;
-      letter-spacing: -0.02em;
       background: var(--grad);
-      -webkit-background-clip: text;
-      background-clip: text;
+      -webkit-background-clip:text;
+      background-clip:text;
       color: transparent;
     }
-    .stat-lbl{
+    .metric .v{
       margin-top: 6px;
-      font-size: 12px;
       color: var(--muted2);
+      font-size: 12.5px;
+      line-height: 1.4;
     }
-    .proof-actions{
-      margin-top: 10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-    }
+
+    /* Work tiles */
+    section{ scroll-margin-top: 92px; }
 
     .section-head{
       margin-top: 14px;
       display:flex;
-      align-items: baseline;
       justify-content: space-between;
       gap: 10px;
+      align-items: baseline;
       flex-wrap: wrap;
     }
     h2{
@@ -435,50 +234,36 @@
       letter-spacing: -0.02em;
       font-weight: 1000;
     }
-    .sub{
-      margin:0;
+    .hint{
       color: var(--muted2);
       font-size: 13px;
+      margin:0;
     }
 
     .tiles{
       margin-top: 10px;
       display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0,1fr));
       gap: var(--gap);
     }
     .tile{
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(10,10,14,.82), rgba(8,8,12,.70));
-      box-shadow: var(--shadow3);
+      background: rgba(255,255,255,.03);
       padding: 14px;
-      position: relative;
-      overflow:hidden;
-      cursor: pointer;
-      transition: transform .45s var(--easeSoft), border-color .45s var(--easeSoft), box-shadow .45s var(--easeSoft);
-      user-select: none;
+      cursor:pointer;
+      transition: transform .35s var(--easeSoft), border-color .35s var(--easeSoft), background .35s var(--easeSoft);
+      user-select:none;
     }
-    .tile::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: var(--grad2);
-      opacity: .12;
-      filter: blur(52px);
-      z-index:0;
-    }
-    .tile > *{ position: relative; z-index:1; }
     .tile:hover{
       transform: translateY(-3px);
-      border-color: rgba(122,162,255,.32);
-      box-shadow: 0 20px 58px rgba(0,0,0,.60);
+      border-color: rgba(122,162,255,.30);
+      background: rgba(255,255,255,.045);
     }
-
     .tile-top{
       display:flex;
-      align-items:center;
       justify-content: space-between;
+      align-items:center;
       gap: 10px;
     }
     .tile-title{
@@ -486,108 +271,92 @@
       letter-spacing: -0.02em;
       font-size: 15px;
     }
-    .tile-tag{
+    .tag{
       font-size: 12px;
-      color: rgba(243,246,255,.82);
+      color: rgba(245,247,255,.80);
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+      background: rgba(255,255,255,.03);
       padding: 6px 9px;
       border-radius: 999px;
+      white-space: nowrap;
     }
     .tile-text{
-      margin: 10px 0 0 0;
+      margin-top: 10px;
       color: var(--muted);
-      line-height: 1.65;
       font-size: 13.5px;
+      line-height: 1.6;
     }
     .tile-cta{
       margin-top: 10px;
-      color: rgba(122,162,255,.95);
       font-weight: 950;
       font-size: 12.5px;
-      display:inline-flex;
-      gap: 8px;
-      align-items:center;
+      color: rgba(122,162,255,.95);
     }
 
+    /* Expand panel (stronger, cleaner) */
     .panel{
       margin-top: 10px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(10,10,14,.86), rgba(8,8,12,.72));
-      box-shadow: var(--shadow2);
+      background: rgba(255,255,255,.03);
       padding: 14px;
-      position: relative;
-      overflow:hidden;
 
       opacity: 0;
-      transform: translateY(12px);
-      filter: blur(10px);
-      pointer-events: none;
+      transform: translateY(14px);
+      filter: blur(12px);
+      pointer-events:none;
       max-height: 0;
+
       transition:
-        opacity .60s var(--easeSoft),
-        transform .60s var(--easeSoft),
-        filter .60s var(--easeSoft),
-        max-height .70s var(--easeSoft),
-        padding .70s var(--easeSoft);
+        opacity .55s var(--easeSoft),
+        transform .55s var(--easeSoft),
+        filter .55s var(--easeSoft),
+        max-height .65s var(--easeSoft),
+        padding .65s var(--easeSoft);
     }
     .panel.open{
       opacity: 1;
       transform: translateY(0);
       filter: blur(0);
-      pointer-events: auto;
+      pointer-events:auto;
       max-height: 520px;
     }
-    .panel::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: var(--grad2);
-      opacity: .12;
-      filter: blur(60px);
-      z-index:0;
-    }
-    .panel > *{ position: relative; z-index:1; }
-
     .panel-head{
       display:flex;
-      align-items:flex-start;
       justify-content: space-between;
       gap: 10px;
+      align-items:flex-start;
       border-bottom: 1px solid rgba(255,255,255,.08);
       padding-bottom: 10px;
       margin-bottom: 10px;
     }
     .panel-title{
+      margin:0;
       font-weight: 1000;
       letter-spacing: -0.02em;
       font-size: 15px;
-      margin: 0;
-      color: rgba(243,246,255,.94);
     }
     .panel-sub{
-      margin: 6px 0 0 0;
+      margin-top: 6px;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.6;
+      line-height: 1.55;
       max-width: 80ch;
     }
     .close{
-      flex: none;
-      border-radius: 14px;
-      padding: 9px 11px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
+      color: rgba(245,247,255,.92);
+      border-radius: 14px;
+      padding: 9px 11px;
       font-weight: 950;
-      color: rgba(243,246,255,.90);
-      cursor: pointer;
-      transition: transform .25s var(--easeSoft), border-color .25s var(--easeSoft), background .25s var(--easeSoft);
+      cursor:pointer;
+      transition: transform .22s var(--easeOut), background .22s var(--easeOut), border-color .22s var(--easeOut);
       user-select:none;
     }
     .close:hover{
       transform: translateY(-1px);
-      border-color: rgba(122,162,255,.38);
+      border-color: rgba(122,162,255,.34);
       background: rgba(122,162,255,.10);
     }
 
@@ -595,40 +364,38 @@
       display:grid;
       grid-template-columns: 1.05fr .95fr;
       gap: var(--gap);
-      align-items:start;
     }
     .block{
-      border-radius: 14px;
+      border-radius: var(--r2);
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+      background: rgba(255,255,255,.035);
       padding: 12px;
     }
     .block h3{
       margin: 0 0 8px 0;
       font-size: 12.5px;
       font-weight: 1000;
-      letter-spacing: -0.01em;
-      color: rgba(243,246,255,.92);
+      color: rgba(245,247,255,.92);
     }
     .bullets{
       margin: 0 0 0 18px;
       color: var(--muted);
-      line-height: 1.65;
       font-size: 13px;
+      line-height: 1.6;
     }
-    .links{
+    .actions{
       display:flex;
       flex-wrap:wrap;
       gap: 8px;
       margin-top: 8px;
     }
 
+    /* Contact */
     .contact{
       margin-top: 14px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(10,10,14,.78);
-      box-shadow: var(--shadow3);
+      background: rgba(255,255,255,.03);
       padding: 14px;
       display:flex;
       justify-content: space-between;
@@ -636,10 +403,9 @@
       flex-wrap: wrap;
       align-items:center;
     }
-    .contact strong{ font-weight: 1000; }
     .footer{
       margin-top: 12px;
-      color: rgba(210,220,255,.62);
+      color: rgba(220,228,255,.55);
       font-size: 12px;
       display:flex;
       justify-content: space-between;
@@ -648,117 +414,82 @@
       padding-bottom: 10px;
     }
 
-    /* Smooth, noticeable animations */
-    .reveal{ opacity:0; transform: translateY(18px) scale(.99); filter: blur(14px); }
+    /* Stronger entrance animations */
+    .reveal{ opacity:0; transform: translateY(18px); filter: blur(14px); }
     .reveal.in{
-      opacity:1; transform: translateY(0) scale(1); filter: blur(0);
-      transition: opacity 1.05s var(--easeSoft), transform 1.05s var(--easeSoft), filter 1.05s var(--easeSoft);
+      opacity:1; transform: translateY(0); filter: blur(0);
+      transition: opacity .95s var(--easeSoft), transform .95s var(--easeSoft), filter .95s var(--easeSoft);
     }
 
     /* Responsive */
-    @media (max-width: 980px){
-      .navlinks{ display:none; }
+    @media (max-width: 900px){
       .hero{ grid-template-columns: 1fr; }
-      .lens-grid{ grid-template-columns: 1fr; }
-      .stats{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .proof{ grid-template-columns: 1fr; }
       .tiles{ grid-template-columns: 1fr; }
       .panel-grid{ grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce){
       html{ scroll-behavior:auto; }
-      .pulse{ animation:none; }
-      .btn, .tile, .close{ transition:none; }
-      .reveal, .reveal.in{ transition:none; transform:none; filter:none; }
+      .reveal, .reveal.in{ transition:none; transform:none; filter:none; opacity:1; }
       .panel{ transition:none; }
-      #aura{ filter:none; }
+      .grad{ animation:none; }
     }
   </style>
 </head>
 
 <body>
-  <canvas id="aura" aria-hidden="true"></canvas>
-  <div class="vignette" aria-hidden="true"></div>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="spot" aria-hidden="true"></div>
-
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="#top" aria-label="Home">
-        <span class="brand-dot"></span>
+        <span class="dot"></span>
         <span>Kian Foshee</span>
       </a>
 
-      <nav class="navlinks" aria-label="Sections">
-        <a href="#work" data-nav="work">Work</a>
-        <a href="#focus" data-nav="focus">Focus</a>
-        <a href="#contact" data-nav="contact">Contact</a>
-      </nav>
-
-      <div class="cta">
-        <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
-        <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a class="btn primary" href="mailto:KianFoshee@gmail.com">Email</a>
+      <div class="links">
+        <!-- replace placeholders -->
+        <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+        <a class="link" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="link" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="link" href="mailto:KianFoshee@gmail.com">Email</a>
       </div>
-    </div>
-
-    <div class="progress" aria-hidden="true">
-      <div class="progress-bar" id="progressBar"></div>
     </div>
   </header>
 
   <main id="top">
     <section class="hero">
-      <div>
-        <div class="kicker reveal">
-          <span class="pill">Opportunity Insights (Harvard)</span>
-          <span class="sep">•</span>
-          <span class="muted">Research + data infrastructure + execution</span>
-        </div>
+      <h1 class="reveal">
+        Research. <span class="grad">Data infrastructure.</span> Execution.
+      </h1>
 
-        <h1 class="reveal">
-          Research. <span class="grad">Data infrastructure.</span> Execution.
-        </h1>
+      <p class="sub reveal">
+        I build reproducible pipelines and decision-ready outputs: stable keys, join QA, map-ready deliverables,
+        and writeups designed to be interpretable. Everything here is structured for an employer to scan fast and verify.
+      </p>
 
-        <p class="lead reveal">
-          I build reproducible pipelines and decision-ready outputs: stable keys, join QA, map-ready deliverables,
-          and writeups designed to be interpretable. Everything here is structured for an employer to scan and verify.
-        </p>
-
-        <div class="lens reveal">
-          <div class="lens-title">Employer lens</div>
-          <div class="lens-grid">
-            <div class="lens-item"><b>Fast ramp.</b> I translate ambiguity into a clear pipeline and outputs.</div>
-            <div class="lens-item"><b>Correctness.</b> Joins don’t lie: stable keys and QA guardrails.</div>
-            <div class="lens-item"><b>Shipping.</b> Outputs built for decisions, not just modeling.</div>
-          </div>
+      <!-- STRONG tabs/segmented control -->
+      <div class="segwrap reveal" aria-label="Quick focus">
+        <div class="seg" role="tablist" aria-label="Focus tabs">
+          <button class="active" type="button" data-tab="overview" role="tab" aria-selected="true">Overview</button>
+          <button type="button" data-tab="research" role="tab" aria-selected="false">Opportunity Insights</button>
+          <button type="button" data-tab="infra" role="tab" aria-selected="false">R-first reproducibility</button>
+          <button type="button" data-tab="business" role="tab" aria-selected="false">Entrepreneurship</button>
+          <button type="button" data-tab="awards" role="tab" aria-selected="false">Awards</button>
         </div>
       </div>
 
-      <div class="proof reveal">
-        <div class="proof-top">
-          <span class="badge">Proof</span>
-          <span class="pulse" aria-hidden="true"></span>
+      <div class="proof reveal" id="proofRow">
+        <div class="metric">
+          <div class="k">Verify fast</div>
+          <div class="v">Paper, code, and outputs are one click away.</div>
         </div>
-
-        <div class="proof-title">
-          Click and verify: paper, code, and outputs.
+        <div class="metric">
+          <div class="k">Correctness</div>
+          <div class="v">Stable keys, join QA guardrails, rerunnable deliverables.</div>
         </div>
-
-        <div class="stats">
-          <div class="stat"><div class="stat-num">SSRN</div><div class="stat-lbl">Working paper</div></div>
-          <div class="stat"><div class="stat-num">R</div><div class="stat-lbl">Reproducibility</div></div>
-          <div class="stat"><div class="stat-num">N=1,000+</div><div class="stat-lbl">Survey analysis</div></div>
-          <div class="stat"><div class="stat-num">$50K+</div><div class="stat-lbl">Sales built</div></div>
-          <div class="stat"><div class="stat-num">40K+</div><div class="stat-lbl">Followers</div></div>
-          <div class="stat"><div class="stat-num">100M+</div><div class="stat-lbl">Views</div></div>
-        </div>
-
-        <div class="proof-actions">
-          <a class="btn primary" href="#work">Explore</a>
-          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
-          <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
+        <div class="metric">
+          <div class="k">Shipping</div>
+          <div class="v">Outputs built for decisions, not just “a model.”</div>
         </div>
       </div>
     </section>
@@ -766,51 +497,43 @@
     <section id="work">
       <div class="section-head reveal">
         <h2>What I do</h2>
-        <p class="sub">Four tiles. Click one to expand.</p>
+        <p class="hint">Four tiles. Click one to expand.</p>
       </div>
 
       <div class="tiles">
-        <div class="tile reveal" data-open="research" role="button" tabindex="0" aria-label="Open Research details">
+        <div class="tile reveal" data-open="research" role="button" tabindex="0" aria-label="Open Research">
           <div class="tile-top">
             <div class="tile-title">Research</div>
-            <div class="tile-tag">Mobility / place</div>
+            <div class="tag">Mobility / place</div>
           </div>
-          <div class="tile-text">
-            Economic mobility work with reproducible deliverables and interpretable outputs.
-          </div>
+          <div class="tile-text">Economic mobility work with reproducible deliverables and interpretable outputs.</div>
           <div class="tile-cta">Click to expand</div>
         </div>
 
-        <div class="tile reveal" data-open="infra" role="button" tabindex="0" aria-label="Open Data Infrastructure details">
+        <div class="tile reveal" data-open="infra" role="button" tabindex="0" aria-label="Open Data Infrastructure">
           <div class="tile-top">
             <div class="tile-title">Data Infrastructure</div>
-            <div class="tile-tag">Keys / QA / joins</div>
+            <div class="tag">Keys / QA / joins</div>
           </div>
-          <div class="tile-text">
-            Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.
-          </div>
+          <div class="tile-text">Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.</div>
           <div class="tile-cta">Click to expand</div>
         </div>
 
-        <div class="tile reveal" data-open="business" role="button" tabindex="0" aria-label="Open Business details">
+        <div class="tile reveal" data-open="business" role="button" tabindex="0" aria-label="Open Business">
           <div class="tile-top">
             <div class="tile-title">Business</div>
-            <div class="tile-tag">Ops ownership</div>
+            <div class="tag">Ops ownership</div>
           </div>
-          <div class="tile-text">
-            Built a consumer product brand with measurable growth and operational ownership.
-          </div>
+          <div class="tile-text">Built a consumer product brand with measurable growth and operational ownership.</div>
           <div class="tile-cta">Click to expand</div>
         </div>
 
-        <div class="tile reveal" data-open="awards" role="button" tabindex="0" aria-label="Open Awards details">
+        <div class="tile reveal" data-open="awards" role="button" tabindex="0" aria-label="Open Awards">
           <div class="tile-top">
             <div class="tile-title">Awards</div>
-            <div class="tile-tag">Competitive signal</div>
+            <div class="tag">Competitive signal</div>
           </div>
-          <div class="tile-text">
-            Competitive signal across economics, finance, and performance.
-          </div>
+          <div class="tile-text">Competitive signal across economics, finance, and performance.</div>
           <div class="tile-cta">Click to expand</div>
         </div>
       </div>
@@ -832,36 +555,7 @@
 
           <div class="block">
             <h3>Proof links</h3>
-            <div class="links" id="panelLinks"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="focus">
-      <div class="section-head reveal">
-        <h2>Where I’m most useful</h2>
-        <p class="sub">Work that rewards correctness and shipping.</p>
-      </div>
-
-      <div class="tiles">
-        <div class="tile reveal" style="cursor:default;">
-          <div class="tile-top">
-            <div class="tile-title">Messy data to stable assets</div>
-            <div class="tile-tag">Pipeline</div>
-          </div>
-          <div class="tile-text">
-            Turn multi-source inputs into documented, rerunnable deliverables with QA guardrails.
-          </div>
-        </div>
-
-        <div class="tile reveal" style="cursor:default;">
-          <div class="tile-top">
-            <div class="tile-title">Interpretability</div>
-            <div class="tile-tag">Decision-ready</div>
-          </div>
-          <div class="tile-text">
-            Outputs designed for decisions: clear maps, tables, and briefs that survive stakeholder questions.
+            <div class="actions" id="panelLinks"></div>
           </div>
         </div>
       </div>
@@ -870,14 +564,14 @@
     <section id="contact">
       <div class="contact reveal">
         <div>
-          <strong>Contact</strong>
+          <div style="font-weight:1000;">Contact</div>
           <div class="muted">Portfolio URL: <span class="mono">https://kfoshee.github.io/portfolio/</span></div>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <a class="btn primary" href="mailto:KianFoshee@gmail.com">Email</a>
-          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
-          <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="link" href="mailto:KianFoshee@gmail.com">Email</a>
+          <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+          <a class="link" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="link" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
       </div>
 
@@ -891,36 +585,9 @@
   <script>
     (() => {
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      // Update these in the HTML:
-      // - YOUR_LINKEDIN
-      // - YOUR_BEST_REPO
-
-      // Cursor spotlight
-      const spot = document.querySelector(".spot");
-      window.addEventListener("pointermove", (e) => {
-        const x = (e.clientX / window.innerWidth) * 100;
-        const y = (e.clientY / window.innerHeight) * 100;
-        spot.style.setProperty("--x", x + "%");
-        spot.style.setProperty("--y", y + "%");
-      }, { passive: true });
-
-      // Progress bar
-      const bar = document.getElementById("progressBar");
-      const onScroll = () => {
-        const doc = document.documentElement;
-        const scrollTop = doc.scrollTop || document.body.scrollTop;
-        const scrollHeight = doc.scrollHeight - doc.clientHeight;
-        const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-        bar.style.width = pct.toFixed(2) + "%";
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
-      onScroll();
-
-      // Year
       document.getElementById("year").textContent = String(new Date().getFullYear());
 
-      // Reveal (more noticeable)
+      // Reveal animations
       const revealEls = document.querySelectorAll(".reveal");
       const io = new IntersectionObserver((entries) => {
         for (const entry of entries) {
@@ -932,30 +599,55 @@
       }, { threshold: 0.14 });
       revealEls.forEach(el => io.observe(el));
 
-      // Nav active
-      const navLinks = document.querySelectorAll(".navlinks a[data-nav]");
-      const sections = [
-        { id: "work", el: document.getElementById("work") },
-        { id: "focus", el: document.getElementById("focus") },
-        { id: "contact", el: document.getElementById("contact") },
-      ];
-      const setActive = (id) => {
-        navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("data-nav") === id));
-      };
-      const sio = new IntersectionObserver((entries) => {
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length) setActive(visible[0].target.getAttribute("data-section-id"));
-      }, { threshold: [0.25, 0.45, 0.65] });
+      // Segmented control -> updates proof row text (clean + employer-sense)
+      const proofRow = document.getElementById("proofRow");
+      const segButtons = document.querySelectorAll(".seg button");
 
-      sections.forEach(s => {
-        if (!s.el) return;
-        s.el.setAttribute("data-section-id", s.id);
-        sio.observe(s.el);
+      const PROOF = {
+        overview: [
+          ["Verify fast", "Paper, code, and outputs are one click away."],
+          ["Correctness", "Stable keys, join QA guardrails, rerunnable deliverables."],
+          ["Shipping", "Outputs built for decisions, not just “a model.”"]
+        ],
+        research: [
+          ["Opportunity Insights", "Economic mobility contribution work; reproducible deliverables."],
+          ["Working paper", "Move-in rates and the geography of upward mobility (SSRN)."],
+          ["Outputs", "Maps/tables designed for interpretation and reuse."]
+        ],
+        infra: [
+          ["R-first reproducibility", "Rerunnable pipelines with versioned outputs."],
+          ["Join QA", "Coverage, duplicates, key integrity; merges don’t silently lie."],
+          ["Stable keys", "Definitions aligned before analysis, not after."]
+        ],
+        business: [
+          ["Ops ownership", "Sourcing, QA, inventory, listing, support, iteration loops."],
+          ["Growth signal", "$50K+ sales; 40K+ followers; 100M+ views."],
+          ["Systems", "Repeatable workflows, not one-off wins."]
+        ],
+        awards: [
+          ["Competitive signal", "Economics and finance competitions + performance."],
+          ["Economics", "World Economics Cup; Northwestern Econ Tournament; Harvard HPEC."],
+          ["Finance", "National Finance Challenge (TX) perfect score; NEC top score."]
+        ]
+      };
+
+      function setProof(key){
+        const data = PROOF[key] || PROOF.overview;
+        proofRow.innerHTML = data.map(([k,v]) =>
+          `<div class="metric"><div class="k">${k}</div><div class="v">${v}</div></div>`
+        ).join("");
+      }
+
+      segButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          segButtons.forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected","false"); });
+          btn.classList.add("active");
+          btn.setAttribute("aria-selected","true");
+          setProof(btn.dataset.tab);
+        });
       });
 
-      // Expand panel content (no emojis, employer readable)
+      // Expand panel content
       const DATA = {
         research: {
           title: "Research",
@@ -966,8 +658,8 @@
             "Outputs designed for interpretation, not just model performance."
           ],
           links: [
-            { label: "Open paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", external: true },
-            { label: "GitHub", href: "https://github.com/kfoshee", external: true }
+            { label: "Open paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true },
+            { label: "GitHub", href: "https://github.com/kfoshee", ext: true }
           ]
         },
         infra: {
@@ -975,25 +667,25 @@
           sub: "Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.",
           bullets: [
             "Standardize identifiers and definitions across datasets before analysis.",
-            "Join QA checks (coverage, duplicates, key integrity) so merges don’t silently fail.",
+            "Join QA checks so merges don’t silently fail (coverage, duplicates, key integrity).",
             "Versioned outputs that can be reproduced exactly."
           ],
           links: [
-            { label: "Open repo", href: "YOUR_BEST_REPO", external: true },
-            { label: "GitHub profile", href: "https://github.com/kfoshee", external: true }
+            { label: "Open repo", href: "YOUR_BEST_REPO", ext: true },
+            { label: "GitHub profile", href: "https://github.com/kfoshee", ext: true }
           ]
         },
         business: {
           title: "Business",
           sub: "Built a consumer product brand with measurable growth and end-to-end operating ownership.",
           bullets: [
-            "Owned sourcing, vendor management, QA, inventory planning, listings, and customer ops.",
+            "Owned sourcing, vendor management, QA, inventory planning, listings, and customer operations.",
             "Built distribution and community growth with measurable reach.",
             "Iterated product via feedback loops and repeatable fulfillment workflows."
           ],
           links: [
-            { label: "Email", href: "mailto:KianFoshee@gmail.com", external: false },
-            { label: "LinkedIn", href: "YOUR_LINKEDIN", external: true }
+            { label: "Email", href: "mailto:KianFoshee@gmail.com", ext: false },
+            { label: "LinkedIn", href: "YOUR_LINKEDIN", ext: true }
           ]
         },
         awards: {
@@ -1007,8 +699,8 @@
             "National Economics Challenge (Texas) — Top Score (Top < 10%)."
           ],
           links: [
-            { label: "Paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", external: true },
-            { label: "Contact", href: "#contact", external: false }
+            { label: "Paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true },
+            { label: "Contact", href: "#contact", ext: false }
           ]
         }
       };
@@ -1020,7 +712,7 @@
       const panelLinks = document.getElementById("panelLinks");
       const closeBtn = document.getElementById("closeBtn");
 
-      const openPanel = (key) => {
+      function openPanel(key){
         const d = DATA[key];
         if (!d) return;
 
@@ -1028,110 +720,39 @@
         panelSub.textContent = d.sub;
 
         panelBullets.innerHTML = "";
-        d.bullets.forEach(b => {
+        d.bullets.forEach(t => {
           const li = document.createElement("li");
-          li.textContent = b;
+          li.textContent = t;
           panelBullets.appendChild(li);
         });
 
         panelLinks.innerHTML = "";
         d.links.forEach(l => {
           const a = document.createElement("a");
-          a.className = "btn";
+          a.className = "link";
           a.textContent = l.label;
           a.href = l.href;
-          if (l.external && l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
+          if (l.ext && l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
           panelLinks.appendChild(a);
         });
 
         panel.classList.add("open");
-        if (!prefersReducedMotion) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (!prefersReducedMotion) panel.scrollIntoView({ behavior:"smooth", block:"start" });
         else panel.scrollIntoView();
-      };
+      }
 
-      const tiles = document.querySelectorAll(".tile[data-open]");
-      const openFrom = (el) => openPanel(el.getAttribute("data-open"));
-      tiles.forEach(t => {
-        t.addEventListener("click", () => openFrom(t));
-        t.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openFrom(t); }
+      document.querySelectorAll(".tile[data-open]").forEach(tile => {
+        const run = () => openPanel(tile.dataset.open);
+        tile.addEventListener("click", run);
+        tile.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); run(); }
         });
       });
 
       closeBtn.addEventListener("click", () => panel.classList.remove("open"));
 
-      // ===== Nicer aura animation: smoother flow field-like motion =====
-      const canvas = document.getElementById("aura");
-      const ctx = canvas.getContext("2d", { alpha: true });
-      let W, H, DPR;
-
-      function resize() {
-        DPR = Math.min(window.devicePixelRatio || 1, 2);
-        W = Math.floor(window.innerWidth * DPR);
-        H = Math.floor(window.innerHeight * DPR);
-        canvas.width = W;
-        canvas.height = H;
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-      }
-      window.addEventListener("resize", resize, { passive: true });
-      resize();
-
-      // Slightly more dynamic but still employer-clean
-      const blobs = [
-        { x: 0.20, y: 0.20, r: 0.38, a: 0.55, hue: 210, p: 0.0 },
-        { x: 0.82, y: 0.22, r: 0.42, a: 0.52, hue: 275, p: 1.7 },
-        { x: 0.70, y: 0.85, r: 0.46, a: 0.46, hue: 165, p: 3.2 },
-        { x: 0.22, y: 0.80, r: 0.40, a: 0.48, hue: 330, p: 4.6 }
-      ];
-
-      let mouse = { x: 0.5, y: 0.22 };
-      window.addEventListener("pointermove", (e) => {
-        mouse.x = e.clientX / window.innerWidth;
-        mouse.y = e.clientY / window.innerHeight;
-      }, { passive: true });
-
-      // helper
-      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-
-      function draw(t) {
-        ctx.clearRect(0, 0, W, H);
-        ctx.globalCompositeOperation = "lighter";
-
-        const time = (t || 0) * 0.00022;
-
-        for (const b of blobs) {
-          // Smooth orbit + slight mouse influence
-          const ox = Math.cos(time + b.p) * 0.08;
-          const oy = Math.sin(time * 1.1 + b.p) * 0.07;
-
-          // pull toward cursor but gentle
-          const mx = (mouse.x - 0.5) * 0.06;
-          const my = (mouse.y - 0.35) * 0.06;
-
-          const bx = clamp(b.x + ox + mx, 0.05, 0.95);
-          const by = clamp(b.y + oy + my, 0.05, 0.95);
-
-          const x = bx * W;
-          const y = by * H;
-          const r = b.r * Math.min(W, H);
-
-          const g = ctx.createRadialGradient(x, y, r * 0.08, x, y, r);
-          g.addColorStop(0, `hsla(${b.hue}, 95%, 62%, ${b.a})`);
-          g.addColorStop(0.35, `hsla(${b.hue}, 95%, 55%, ${b.a * 0.34})`);
-          g.addColorStop(1, `hsla(${b.hue}, 95%, 45%, 0)`);
-
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.arc(x, y, r, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        ctx.globalCompositeOperation = "source-over";
-        if (!prefersReducedMotion) requestAnimationFrame(draw);
-      }
-
-      requestAnimationFrame(draw);
+      // initialize proof row
+      setProof("overview");
     })();
   </script>
 </body>
