@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <title>Kian Foshee — Research • Data Infrastructure • Execution</title>
-  <meta name="description" content="Research + data infrastructure + execution. Reproducible pipelines, decision-ready outputs, shipped artifacts." />
+  <meta name="description" content="Research, data infrastructure, and execution. Reproducible pipelines and decision-ready outputs." />
 
   <!-- Cache-bust helper -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -14,198 +14,207 @@
 
   <style>
     :root{
-      --bg0:#050711;
-      --bg1:#070B18;
-      --bg2:#0A1020;
+      /* STRICTLY black background */
+      --bg: #000000;
 
-      --text:#EAF0FF;
-      --muted:#A9B6D8;
-      --muted2: rgba(169,182,216,.78);
+      --text: #F3F6FF;
+      --muted: rgba(210,220,255,.72);
+      --muted2: rgba(210,220,255,.62);
 
       --line: rgba(255,255,255,.12);
       --line2: rgba(255,255,255,.08);
 
-      --bar0: rgba(6,8,16,.94);
-      --bar1: rgba(10,14,28,.88);
+      --bar0: rgba(0,0,0,.92);
+      --bar1: rgba(0,0,0,.82);
 
-      --card0: rgba(10,14,28,.74);
-      --card1: rgba(12,18,36,.64);
+      --card0: rgba(10,10,14,.82);
+      --card1: rgba(8,8,12,.70);
 
-      --shadow: 0 26px 90px rgba(0,0,0,.66);
-      --shadow2: 0 16px 50px rgba(0,0,0,.48);
-      --shadow3: 0 10px 28px rgba(0,0,0,.34);
+      --shadow: 0 26px 90px rgba(0,0,0,.75);
+      --shadow2: 0 16px 50px rgba(0,0,0,.55);
+      --shadow3: 0 10px 28px rgba(0,0,0,.45);
 
-      --r: 22px;
-      --r2: 18px;
+      --r: 20px;
+      --r2: 16px;
 
-      --grad: linear-gradient(90deg, #7AA2FF 0%, #B88CFF 45%, #4FE3C1 100%);
-      --grad2: linear-gradient(135deg, rgba(122,162,255,.24), rgba(184,140,255,.18), rgba(79,227,193,.16));
+      --grad: linear-gradient(90deg, #7AA2FF 0%, #B88CFF 48%, #4FE3C1 100%);
+      --grad2: linear-gradient(135deg, rgba(122,162,255,.20), rgba(184,140,255,.14), rgba(79,227,193,.12));
 
+      /* Nicer motion */
       --easeOut: cubic-bezier(.16, 1, .3, 1);
+      --easeSoft: cubic-bezier(.2,.9,.2,1);
       --easeInOut: cubic-bezier(.65,0,.35,1);
+
+      /* tighter spacing knobs */
+      --gap: 12px;
+      --gap2: 10px;
     }
 
     *{ box-sizing:border-box; }
     html, body { height:100%; }
-    html{ scroll-behavior:smooth; scroll-padding-top: 110px; }
+    html{ scroll-behavior:smooth; scroll-padding-top: 100px; }
     body{
       margin:0;
+      background: var(--bg);
       color: var(--text);
-      background:
-        radial-gradient(1400px 900px at 15% -10%, rgba(122,162,255,.14), transparent 60%),
-        radial-gradient(1200px 900px at 90% 0%, rgba(184,140,255,.12), transparent 55%),
-        radial-gradient(1200px 900px at 60% 110%, rgba(79,227,193,.10), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg2));
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       overflow-x:hidden;
     }
     a{ color:inherit; text-decoration:none; }
     .muted{ color: var(--muted2); }
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    ::selection{ background: rgba(122,162,255,.28); }
 
-    /* ===== Aura background ===== */
+    /* ===== Aura (black bg + subtle neon) ===== */
     #aura{
       position: fixed;
       inset: 0;
       z-index: 0;
-      filter: blur(12px) saturate(132%);
-      opacity: .95;
+      opacity: 1;
+      /* crisp aura — not foggy */
+      filter: blur(10px) saturate(140%) contrast(115%);
     }
-    .bg-grid{
+
+    .vignette{
       position: fixed;
       inset: 0;
       z-index: 1;
       pointer-events:none;
-      opacity: .24;
       background:
-        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
-      background-size: 72px 72px;
-      mask-image: radial-gradient(700px 500px at 50% 30%, rgba(0,0,0,1), rgba(0,0,0,.15), transparent 75%);
+        radial-gradient(1200px 650px at 50% 15%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(900px 700px at 15% 20%, rgba(122,162,255,.07), transparent 60%),
+        radial-gradient(900px 700px at 85% 25%, rgba(184,140,255,.06), transparent 60%),
+        radial-gradient(900px 700px at 60% 90%, rgba(79,227,193,.05), transparent 60%),
+        radial-gradient(1200px 900px at 50% 50%, transparent 45%, rgba(0,0,0,.65) 78%, rgba(0,0,0,.88) 100%);
     }
-    .bg-noise{
+
+    .noise{
       position: fixed;
       inset: 0;
       z-index: 2;
-      pointer-events: none;
-      opacity: .12;
+      pointer-events:none;
+      opacity: .10;
       background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
       mix-blend-mode: overlay;
     }
-    .bg-spot{
+
+    .spot{
       position: fixed;
       inset: 0;
       z-index: 3;
-      pointer-events: none;
+      pointer-events:none;
       --x: 50%;
-      --y: 28%;
-      background: radial-gradient(820px 520px at var(--x) var(--y),
-        rgba(255,255,255,.11),
-        rgba(122,162,255,.09) 25%,
-        rgba(184,140,255,.06) 48%,
-        transparent 72%);
+      --y: 22%;
+      background: radial-gradient(720px 460px at var(--x) var(--y),
+        rgba(255,255,255,.10),
+        rgba(122,162,255,.08) 25%,
+        rgba(184,140,255,.05) 46%,
+        transparent 70%);
       mix-blend-mode: screen;
-      opacity: .72;
+      opacity: .65;
     }
 
-    /* ===== Top bar ===== */
+    /* ===== Top bar (solid black) ===== */
     .topbar{
       position: fixed;
       inset: 0 0 auto 0;
-      z-index: 30;
-      padding: 12px 12px 0;
-      background: linear-gradient(180deg, rgba(4,6,12,.94), rgba(4,6,12,.55), rgba(4,6,12,0));
+      z-index: 40;
+      padding: 10px 10px 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.92), rgba(0,0,0,.55), rgba(0,0,0,0));
       backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
     .topbar-inner{
-      position: relative;
-      max-width: 1140px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 12px 12px;
+      padding: 10px 10px;
       display:flex;
       align-items:center;
       justify-content: space-between;
-      gap: 14px;
-      border-radius: 18px;
+      gap: 10px;
+      border-radius: 16px;
       background: linear-gradient(180deg, var(--bar0), var(--bar1));
-      box-shadow: 0 16px 60px rgba(0,0,0,.55);
+      box-shadow: 0 14px 50px rgba(0,0,0,.62);
       border: 1px solid rgba(255,255,255,.10);
     }
     .brand{
       display:flex;
       align-items:center;
       gap:10px;
-      padding: 10px 12px;
+      padding: 8px 10px;
       border-radius: 14px;
       font-weight: 950;
       letter-spacing: -0.02em;
-      color: rgba(234,240,255,.96);
-      user-select: none;
+      user-select:none;
     }
     .brand-dot{
       width: 10px;
       height: 10px;
       border-radius: 999px;
       background: var(--grad);
-      box-shadow: 0 0 28px rgba(122,162,255,.55);
+      box-shadow: 0 0 26px rgba(122,162,255,.55);
     }
+
     .navlinks{
       display:flex;
-      gap: 10px;
+      gap: 8px;
       align-items:center;
       font-size: 13px;
-      color: rgba(234,240,255,.90);
+      color: rgba(243,246,255,.88);
     }
     .navlinks a{
-      padding: 10px 10px;
+      padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
-      transition: background .25s var(--easeOut), border-color .25s var(--easeOut), transform .25s var(--easeOut);
-      opacity: .92;
+      transition: background .22s var(--easeOut), border-color .22s var(--easeOut), transform .22s var(--easeOut), opacity .22s var(--easeOut);
+      opacity: .90;
     }
     .navlinks a:hover{
       border-color: rgba(255,255,255,.14);
       background: rgba(255,255,255,.05);
       transform: translateY(-1px);
+      opacity: 1;
     }
     .navlinks a.active{
-      border-color: rgba(122,162,255,.45);
+      border-color: rgba(122,162,255,.44);
       background: rgba(122,162,255,.10);
       box-shadow: 0 0 26px rgba(122,162,255,.12);
       opacity: 1;
     }
+
     .cta{
       display:flex;
-      gap: 10px;
+      gap: 8px;
       align-items:center;
     }
+
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding: 10px 12px;
+      padding: 9px 11px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
-      color: rgba(234,240,255,.95);
+      color: rgba(243,246,255,.95);
       font-weight: 900;
       font-size: 13px;
-      box-shadow: 0 14px 40px rgba(0,0,0,.32);
-      transition: transform .30s var(--easeOut), background .30s var(--easeOut), border-color .30s var(--easeOut);
+      box-shadow: 0 12px 34px rgba(0,0,0,.40);
+      transition: transform .30s var(--easeSoft), background .30s var(--easeSoft), border-color .30s var(--easeSoft), box-shadow .30s var(--easeSoft);
       will-change: transform;
-      user-select: none;
+      user-select:none;
     }
     .btn:hover{
       transform: translateY(-2px);
       border-color: rgba(122,162,255,.42);
       background: rgba(122,162,255,.10);
+      box-shadow: 0 18px 48px rgba(0,0,0,.55);
     }
     .btn.primary{
       border-color: rgba(122,162,255,.68);
-      background: linear-gradient(180deg, rgba(122,162,255,.26), rgba(184,140,255,.16));
-      box-shadow: 0 22px 70px rgba(122,162,255,.18);
+      background: linear-gradient(180deg, rgba(122,162,255,.22), rgba(184,140,255,.14));
+      box-shadow: 0 22px 64px rgba(122,162,255,.16);
     }
 
     .progress{
@@ -222,42 +231,44 @@
       transition: width .08s linear;
     }
 
-    /* ===== Page layout ===== */
+    /* ===== Page layout (tighter) ===== */
     main{
       position: relative;
       z-index: 10;
-      max-width: 1140px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 110px 18px 70px;
+      padding: 96px 16px 50px;
     }
 
-    section{ scroll-margin-top: 115px; }
+    section{ scroll-margin-top: 105px; }
+
     .hero{
-      padding: 18px 0 26px;
+      padding: 10px 0 16px;
       display:grid;
       grid-template-columns: 1.25fr .95fr;
-      gap: 18px;
+      gap: var(--gap);
       align-items: start;
     }
 
     .kicker{
       display:flex;
       align-items:center;
-      gap:10px;
-      color: rgba(234,240,255,.90);
+      gap: 10px;
+      color: rgba(243,246,255,.88);
       font-size: 13px;
     }
     .pill{
       padding: 7px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(122,162,255,.30);
+      border: 1px solid rgba(122,162,255,.28);
       background: rgba(122,162,255,.10);
-      box-shadow: 0 0 32px rgba(122,162,255,.12);
+      box-shadow: 0 0 30px rgba(122,162,255,.10);
     }
     .sep{ opacity:.45; }
+
     h1{
-      margin: 14px 0 0 0;
-      font-size: clamp(46px, 4.8vw, 78px);
+      margin: 12px 0 0 0;
+      font-size: clamp(44px, 4.7vw, 76px);
       line-height: 1.02;
       letter-spacing: -0.055em;
       font-weight: 1000;
@@ -270,21 +281,20 @@
       text-shadow: 0 0 34px rgba(122,162,255,.12);
     }
     .lead{
-      margin: 14px 0 0 0;
-      max-width: 68ch;
-      color: rgba(169,182,216,.95);
+      margin: 12px 0 0 0;
+      max-width: 70ch;
+      color: var(--muted);
       line-height: 1.72;
       font-size: 15px;
     }
 
-    /* Employer lens strip */
     .lens{
-      margin-top: 14px;
+      margin-top: 10px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(10,14,28,.66), rgba(12,18,36,.56));
+      background: linear-gradient(180deg, rgba(10,10,14,.78), rgba(8,8,12,.66));
       box-shadow: var(--shadow3);
-      padding: 14px;
+      padding: 12px;
       position: relative;
       overflow:hidden;
     }
@@ -293,41 +303,40 @@
       position:absolute;
       inset:-2px;
       background: var(--grad2);
-      opacity: .18;
-      filter: blur(40px);
+      opacity: .14;
+      filter: blur(44px);
       z-index:0;
     }
     .lens > *{ position: relative; z-index:1; }
     .lens-title{
       font-weight: 1000;
       letter-spacing: -0.02em;
-      font-size: 14px;
-      color: rgba(234,240,255,.92);
-      margin-bottom: 10px;
+      font-size: 13px;
+      color: rgba(243,246,255,.92);
+      margin-bottom: 8px;
     }
     .lens-grid{
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
+      gap: var(--gap2);
     }
     .lens-item{
-      border-radius: 16px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
-      padding: 12px;
-      color: rgba(169,182,216,.94);
+      padding: 11px;
+      color: var(--muted);
       line-height: 1.55;
       font-size: 13px;
     }
-    .lens-item b{ color: rgba(234,240,255,.92); }
+    .lens-item b{ color: rgba(243,246,255,.92); }
 
-    /* Right proof card */
     .proof{
       border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, var(--card0), var(--card1));
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(10,10,14,.82), rgba(8,8,12,.70));
       box-shadow: var(--shadow2);
-      padding: 16px;
+      padding: 14px;
       position: relative;
       overflow: hidden;
     }
@@ -336,8 +345,8 @@
       position:absolute;
       inset:-2px;
       background: var(--grad2);
-      opacity: .22;
-      filter: blur(40px);
+      opacity: .16;
+      filter: blur(48px);
       z-index:0;
     }
     .proof > *{ position: relative; z-index:1; }
@@ -346,15 +355,15 @@
       display:flex;
       justify-content: space-between;
       align-items:center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .badge{
       font-size: 12px;
       font-weight: 950;
       letter-spacing: .10em;
       text-transform: uppercase;
-      color: rgba(234,240,255,.80);
-      padding: 7px 10px;
+      color: rgba(243,246,255,.82);
+      padding: 6px 9px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
@@ -365,33 +374,35 @@
       border-radius: 999px;
       background: rgba(79,227,193,.92);
       box-shadow: 0 0 18px rgba(79,227,193,.55);
-      animation: pulse 1.8s var(--easeInOut) infinite;
+      animation: pulse 1.7s var(--easeInOut) infinite;
     }
     @keyframes pulse{
       0%,100%{ transform: scale(1); opacity:.95; }
-      50%{ transform: scale(1.6); opacity:.55; }
+      50%{ transform: scale(1.6); opacity:.50; }
     }
     .proof-title{
       font-weight: 1000;
       letter-spacing: -0.02em;
-      font-size: 15px;
-      line-height: 1.4;
-      margin-bottom: 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      margin-bottom: 10px;
+      color: rgba(243,246,255,.92);
     }
+
     .stats{
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
+      gap: var(--gap2);
     }
     .stat{
-      border-radius: 16px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
-      padding: 12px;
+      padding: 11px;
     }
     .stat-num{
       font-weight: 1000;
-      font-size: 18px;
+      font-size: 17px;
       letter-spacing: -0.02em;
       background: var(--grad);
       -webkit-background-clip: text;
@@ -401,49 +412,51 @@
     .stat-lbl{
       margin-top: 6px;
       font-size: 12px;
-      color: rgba(169,182,216,.92);
+      color: var(--muted2);
     }
     .proof-actions{
-      margin-top: 12px;
+      margin-top: 10px;
       display:flex;
       flex-wrap:wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
-    /* Section head */
     .section-head{
-      margin-top: 18px;
+      margin-top: 14px;
       display:flex;
       align-items: baseline;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
     h2{
       margin:0;
-      font-size: 20px;
+      font-size: 18px;
       letter-spacing: -0.02em;
       font-weight: 1000;
     }
-    .sub{ margin:0; color: rgba(169,182,216,.90); font-size: 14px; }
+    .sub{
+      margin:0;
+      color: var(--muted2);
+      font-size: 13px;
+    }
 
-    /* Tiles grid */
     .tiles{
-      margin-top: 14px;
+      margin-top: 10px;
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: var(--gap);
     }
     .tile{
       border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(10,14,28,.74), rgba(12,18,36,.62));
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(10,10,14,.82), rgba(8,8,12,.70));
       box-shadow: var(--shadow3);
-      padding: 16px;
+      padding: 14px;
       position: relative;
       overflow:hidden;
       cursor: pointer;
-      transition: transform .45s var(--easeOut), border-color .45s var(--easeOut), box-shadow .45s var(--easeOut);
+      transition: transform .45s var(--easeSoft), border-color .45s var(--easeSoft), box-shadow .45s var(--easeSoft);
       user-select: none;
     }
     .tile::after{
@@ -451,89 +464,88 @@
       position:absolute;
       inset:-2px;
       background: var(--grad2);
-      opacity: .16;
-      filter: blur(44px);
+      opacity: .12;
+      filter: blur(52px);
       z-index:0;
     }
     .tile > *{ position: relative; z-index:1; }
     .tile:hover{
-      transform: translateY(-4px);
-      border-color: rgba(122,162,255,.36);
-      box-shadow: 0 22px 70px rgba(0,0,0,.52);
+      transform: translateY(-3px);
+      border-color: rgba(122,162,255,.32);
+      box-shadow: 0 20px 58px rgba(0,0,0,.60);
     }
+
     .tile-top{
       display:flex;
       align-items:center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
     .tile-title{
       font-weight: 1000;
       letter-spacing: -0.02em;
-      font-size: 16px;
+      font-size: 15px;
     }
     .tile-tag{
       font-size: 12px;
-      color: rgba(234,240,255,.82);
+      color: rgba(243,246,255,.82);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
-      padding: 6px 10px;
+      padding: 6px 9px;
       border-radius: 999px;
     }
     .tile-text{
       margin: 10px 0 0 0;
-      color: rgba(169,182,216,.94);
+      color: var(--muted);
       line-height: 1.65;
-      font-size: 14px;
-      max-width: 70ch;
+      font-size: 13.5px;
     }
     .tile-cta{
-      margin-top: 12px;
+      margin-top: 10px;
       color: rgba(122,162,255,.95);
       font-weight: 950;
-      font-size: 13px;
+      font-size: 12.5px;
       display:inline-flex;
       gap: 8px;
       align-items:center;
     }
 
-    /* Expanded panel */
     .panel{
-      margin-top: 14px;
+      margin-top: 10px;
       border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(10,14,28,.78), rgba(12,18,36,.64));
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(10,10,14,.86), rgba(8,8,12,.72));
       box-shadow: var(--shadow2);
-      padding: 18px;
+      padding: 14px;
       position: relative;
       overflow:hidden;
 
       opacity: 0;
-      transform: translateY(10px);
-      filter: blur(6px);
+      transform: translateY(12px);
+      filter: blur(10px);
       pointer-events: none;
       max-height: 0;
       transition:
-        opacity .55s var(--easeOut),
-        transform .55s var(--easeOut),
-        filter .55s var(--easeOut),
-        max-height .60s var(--easeOut),
-        padding .60s var(--easeOut);
+        opacity .60s var(--easeSoft),
+        transform .60s var(--easeSoft),
+        filter .60s var(--easeSoft),
+        max-height .70s var(--easeSoft),
+        padding .70s var(--easeSoft);
     }
     .panel.open{
       opacity: 1;
       transform: translateY(0);
       filter: blur(0);
       pointer-events: auto;
-      max-height: 560px;
+      max-height: 520px;
     }
     .panel::after{
       content:"";
       position:absolute;
       inset:-2px;
       background: var(--grad2);
-      opacity: .14;
-      filter: blur(54px);
+      opacity: .12;
+      filter: blur(60px);
       z-index:0;
     }
     .panel > *{ position: relative; z-index:1; }
@@ -542,20 +554,21 @@
       display:flex;
       align-items:flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       border-bottom: 1px solid rgba(255,255,255,.08);
-      padding-bottom: 12px;
-      margin-bottom: 12px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
     }
     .panel-title{
       font-weight: 1000;
       letter-spacing: -0.02em;
-      font-size: 16px;
+      font-size: 15px;
       margin: 0;
+      color: rgba(243,246,255,.94);
     }
     .panel-sub{
       margin: 6px 0 0 0;
-      color: rgba(169,182,216,.92);
+      color: var(--muted);
       font-size: 13px;
       line-height: 1.6;
       max-width: 80ch;
@@ -563,13 +576,14 @@
     .close{
       flex: none;
       border-radius: 14px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
       font-weight: 950;
-      color: rgba(234,240,255,.90);
+      color: rgba(243,246,255,.90);
       cursor: pointer;
-      transition: transform .25s var(--easeOut), border-color .25s var(--easeOut), background .25s var(--easeOut);
+      transition: transform .25s var(--easeSoft), border-color .25s var(--easeSoft), background .25s var(--easeSoft);
+      user-select:none;
     }
     .close:hover{
       transform: translateY(-1px);
@@ -579,67 +593,66 @@
 
     .panel-grid{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 14px;
+      grid-template-columns: 1.05fr .95fr;
+      gap: var(--gap);
       align-items:start;
     }
     .block{
-      border-radius: 16px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
       padding: 12px;
     }
     .block h3{
       margin: 0 0 8px 0;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 1000;
       letter-spacing: -0.01em;
-      color: rgba(234,240,255,.92);
+      color: rgba(243,246,255,.92);
     }
     .bullets{
       margin: 0 0 0 18px;
-      color: rgba(169,182,216,.94);
+      color: var(--muted);
       line-height: 1.65;
       font-size: 13px;
     }
     .links{
       display:flex;
       flex-wrap:wrap;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 8px;
+      margin-top: 8px;
     }
 
-    /* Contact footer */
     .contact{
-      margin-top: 26px;
+      margin-top: 14px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(10,14,28,.60);
+      background: rgba(10,10,14,.78);
       box-shadow: var(--shadow3);
-      padding: 16px;
+      padding: 14px;
       display:flex;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       align-items:center;
     }
     .contact strong{ font-weight: 1000; }
     .footer{
-      margin-top: 20px;
-      color: rgba(169,182,216,.70);
+      margin-top: 12px;
+      color: rgba(210,220,255,.62);
       font-size: 12px;
       display:flex;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       padding-bottom: 10px;
     }
 
-    /* Reveal */
-    .reveal{ opacity:0; transform: translateY(14px); filter: blur(10px); }
+    /* Smooth, noticeable animations */
+    .reveal{ opacity:0; transform: translateY(18px) scale(.99); filter: blur(14px); }
     .reveal.in{
-      opacity:1; transform: translateY(0); filter: blur(0);
-      transition: opacity .95s var(--easeOut), transform .95s var(--easeOut), filter .95s var(--easeOut);
+      opacity:1; transform: translateY(0) scale(1); filter: blur(0);
+      transition: opacity 1.05s var(--easeSoft), transform 1.05s var(--easeSoft), filter 1.05s var(--easeSoft);
     }
 
     /* Responsive */
@@ -653,19 +666,21 @@
     }
 
     @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
       .pulse{ animation:none; }
       .btn, .tile, .close{ transition:none; }
       .reveal, .reveal.in{ transition:none; transform:none; filter:none; }
       .panel{ transition:none; }
+      #aura{ filter:none; }
     }
   </style>
 </head>
 
 <body>
   <canvas id="aura" aria-hidden="true"></canvas>
-  <div class="bg-grid" aria-hidden="true"></div>
-  <div class="bg-noise" aria-hidden="true"></div>
-  <div class="bg-spot" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="spot" aria-hidden="true"></div>
 
   <header class="topbar">
     <div class="topbar-inner">
@@ -681,10 +696,9 @@
       </nav>
 
       <div class="cta">
-        <!-- Replace these three with your actual destinations -->
-        <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper ↗</a>
-        <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub ↗</a>
-        <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+        <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
         <a class="btn primary" href="mailto:KianFoshee@gmail.com">Email</a>
       </div>
     </div>
@@ -695,13 +709,12 @@
   </header>
 
   <main id="top">
-    <!-- HERO -->
     <section class="hero">
       <div>
         <div class="kicker reveal">
           <span class="pill">Opportunity Insights (Harvard)</span>
           <span class="sep">•</span>
-          <span class="muted">Research + data infrastructure (R) + execution</span>
+          <span class="muted">Research + data infrastructure + execution</span>
         </div>
 
         <h1 class="reveal">
@@ -709,16 +722,16 @@
         </h1>
 
         <p class="lead reveal">
-          I build reproducible pipelines and decision-ready outputs—clean joins, QA checks, map-ready deliverables,
-          and writeups designed to be interpretable. Employers: you can verify everything in one click.
+          I build reproducible pipelines and decision-ready outputs: stable keys, join QA, map-ready deliverables,
+          and writeups designed to be interpretable. Everything here is structured for an employer to scan and verify.
         </p>
 
         <div class="lens reveal">
-          <div class="lens-title">Employer lens — what you get</div>
+          <div class="lens-title">Employer lens</div>
           <div class="lens-grid">
-            <div class="lens-item"><b>Fast ramp.</b> I translate ambiguity into a clear pipeline + outputs.</div>
-            <div class="lens-item"><b>Correctness.</b> Stable keys, join QA, reproducibility, and versioned artifacts.</div>
-            <div class="lens-item"><b>Shipping.</b> Outputs designed for decisions (not just “a model”).</div>
+            <div class="lens-item"><b>Fast ramp.</b> I translate ambiguity into a clear pipeline and outputs.</div>
+            <div class="lens-item"><b>Correctness.</b> Joins don’t lie: stable keys and QA guardrails.</div>
+            <div class="lens-item"><b>Shipping.</b> Outputs built for decisions, not just modeling.</div>
           </div>
         </div>
       </div>
@@ -728,8 +741,9 @@
           <span class="badge">Proof</span>
           <span class="pulse" aria-hidden="true"></span>
         </div>
+
         <div class="proof-title">
-          Click → verify. No fluff. Paper + code + outputs.
+          Click and verify: paper, code, and outputs.
         </div>
 
         <div class="stats">
@@ -742,22 +756,21 @@
         </div>
 
         <div class="proof-actions">
-          <a class="btn primary" href="#work">Explore →</a>
-          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper ↗</a>
-          <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo ↗</a>
+          <a class="btn primary" href="#work">Explore</a>
+          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
+          <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
         </div>
       </div>
     </section>
 
-    <!-- WORK -->
     <section id="work">
       <div class="section-head reveal">
         <h2>What I do</h2>
-        <p class="sub">Four tiles. Click one to expand. Built for employer scanning.</p>
+        <p class="sub">Four tiles. Click one to expand.</p>
       </div>
 
       <div class="tiles">
-        <div class="tile reveal" data-open="research">
+        <div class="tile reveal" data-open="research" role="button" tabindex="0" aria-label="Open Research details">
           <div class="tile-top">
             <div class="tile-title">Research</div>
             <div class="tile-tag">Mobility / place</div>
@@ -765,10 +778,10 @@
           <div class="tile-text">
             Economic mobility work with reproducible deliverables and interpretable outputs.
           </div>
-          <div class="tile-cta">Click to expand →</div>
+          <div class="tile-cta">Click to expand</div>
         </div>
 
-        <div class="tile reveal" data-open="infra">
+        <div class="tile reveal" data-open="infra" role="button" tabindex="0" aria-label="Open Data Infrastructure details">
           <div class="tile-top">
             <div class="tile-title">Data Infrastructure</div>
             <div class="tile-tag">Keys / QA / joins</div>
@@ -776,10 +789,10 @@
           <div class="tile-text">
             Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.
           </div>
-          <div class="tile-cta">Click to expand →</div>
+          <div class="tile-cta">Click to expand</div>
         </div>
 
-        <div class="tile reveal" data-open="business">
+        <div class="tile reveal" data-open="business" role="button" tabindex="0" aria-label="Open Business details">
           <div class="tile-top">
             <div class="tile-title">Business</div>
             <div class="tile-tag">Ops ownership</div>
@@ -787,10 +800,10 @@
           <div class="tile-text">
             Built a consumer product brand with measurable growth and operational ownership.
           </div>
-          <div class="tile-cta">Click to expand →</div>
+          <div class="tile-cta">Click to expand</div>
         </div>
 
-        <div class="tile reveal" data-open="awards">
+        <div class="tile reveal" data-open="awards" role="button" tabindex="0" aria-label="Open Awards details">
           <div class="tile-top">
             <div class="tile-title">Awards</div>
             <div class="tile-tag">Competitive signal</div>
@@ -798,11 +811,10 @@
           <div class="tile-text">
             Competitive signal across economics, finance, and performance.
           </div>
-          <div class="tile-cta">Click to expand →</div>
+          <div class="tile-cta">Click to expand</div>
         </div>
       </div>
 
-      <!-- EXPAND PANEL -->
       <div id="panel" class="panel" aria-live="polite">
         <div class="panel-head">
           <div>
@@ -826,37 +838,46 @@
       </div>
     </section>
 
-    <!-- Focus section (optional but feels employer-friendly) -->
     <section id="focus">
       <div class="section-head reveal">
         <h2>Where I’m most useful</h2>
-        <p class="sub">Work that rewards correctness + shipping.</p>
+        <p class="sub">Work that rewards correctness and shipping.</p>
       </div>
 
       <div class="tiles">
         <div class="tile reveal" style="cursor:default;">
-          <div class="tile-top"><div class="tile-title">Messy data → stable assets</div><div class="tile-tag">Pipeline</div></div>
-          <div class="tile-text">Turn multi-source chaos into documented, rerunnable deliverables with QA guardrails.</div>
+          <div class="tile-top">
+            <div class="tile-title">Messy data to stable assets</div>
+            <div class="tile-tag">Pipeline</div>
+          </div>
+          <div class="tile-text">
+            Turn multi-source inputs into documented, rerunnable deliverables with QA guardrails.
+          </div>
         </div>
+
         <div class="tile reveal" style="cursor:default;">
-          <div class="tile-top"><div class="tile-title">Interpretability</div><div class="tile-tag">Decision-ready</div></div>
-          <div class="tile-text">Outputs designed for decisions: clear maps/tables/briefs that survive stakeholder questions.</div>
+          <div class="tile-top">
+            <div class="tile-title">Interpretability</div>
+            <div class="tile-tag">Decision-ready</div>
+          </div>
+          <div class="tile-text">
+            Outputs designed for decisions: clear maps, tables, and briefs that survive stakeholder questions.
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
     <section id="contact">
       <div class="contact reveal">
         <div>
           <strong>Contact</strong>
           <div class="muted">Portfolio URL: <span class="mono">https://kfoshee.github.io/portfolio/</span></div>
         </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <a class="btn primary" href="mailto:KianFoshee@gmail.com">Email</a>
-          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper ↗</a>
-          <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub ↗</a>
-          <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+          <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
       </div>
 
@@ -871,12 +892,12 @@
     (() => {
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      // ===== Replace these once (so employer can click proof) =====
-      // 1) YOUR_LINKEDIN in HTML
-      // 2) YOUR_BEST_REPO in HTML
+      // Update these in the HTML:
+      // - YOUR_LINKEDIN
+      // - YOUR_BEST_REPO
 
       // Cursor spotlight
-      const spot = document.querySelector(".bg-spot");
+      const spot = document.querySelector(".spot");
       window.addEventListener("pointermove", (e) => {
         const x = (e.clientX / window.innerWidth) * 100;
         const y = (e.clientY / window.innerHeight) * 100;
@@ -899,7 +920,7 @@
       // Year
       document.getElementById("year").textContent = String(new Date().getFullYear());
 
-      // Reveal
+      // Reveal (more noticeable)
       const revealEls = document.querySelectorAll(".reveal");
       const io = new IntersectionObserver((entries) => {
         for (const entry of entries) {
@@ -934,7 +955,7 @@
         sio.observe(s.el);
       });
 
-      // Expand panel content (employer-friendly: bullets + proof links)
+      // Expand panel content (no emojis, employer readable)
       const DATA = {
         research: {
           title: "Research",
@@ -942,24 +963,24 @@
           bullets: [
             "Working paper on move-in rates and the geography of upward mobility (SSRN).",
             "Reproducible R deliverables: cleaned datasets, maps, and model outputs.",
-            "Outputs designed for interpretation (not just model performance)."
+            "Outputs designed for interpretation, not just model performance."
           ],
           links: [
-            { label: "Open the paper ↗", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" },
-            { label: "GitHub ↗", href: "https://github.com/kfoshee" }
+            { label: "Open paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", external: true },
+            { label: "GitHub", href: "https://github.com/kfoshee", external: true }
           ]
         },
         infra: {
           title: "Data Infrastructure",
           sub: "Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.",
           bullets: [
-            "Standardize identifiers and definitions across datasets before modeling.",
-            "Join QA checks (coverage, duplicates, key integrity) so merges don’t silently lie.",
-            "Versioned outputs: maps/tables/briefs that can be reproduced exactly."
+            "Standardize identifiers and definitions across datasets before analysis.",
+            "Join QA checks (coverage, duplicates, key integrity) so merges don’t silently fail.",
+            "Versioned outputs that can be reproduced exactly."
           ],
           links: [
-            { label: "Open repo ↗", href: "YOUR_BEST_REPO" },
-            { label: "GitHub profile ↗", href: "https://github.com/kfoshee" }
+            { label: "Open repo", href: "YOUR_BEST_REPO", external: true },
+            { label: "GitHub profile", href: "https://github.com/kfoshee", external: true }
           ]
         },
         business: {
@@ -967,12 +988,12 @@
           sub: "Built a consumer product brand with measurable growth and end-to-end operating ownership.",
           bullets: [
             "Owned sourcing, vendor management, QA, inventory planning, listings, and customer ops.",
-            "Built distribution + community flywheel: 40K+ followers, 100M+ views.",
-            "Iterated product via feedback loops; built repeatable fulfillment workflows."
+            "Built distribution and community growth with measurable reach.",
+            "Iterated product via feedback loops and repeatable fulfillment workflows."
           ],
           links: [
-            { label: "GitHub ↗", href: "https://github.com/kfoshee" },
-            { label: "Email ↗", href: "mailto:KianFoshee@gmail.com" }
+            { label: "Email", href: "mailto:KianFoshee@gmail.com", external: false },
+            { label: "LinkedIn", href: "YOUR_LINKEDIN", external: true }
           ]
         },
         awards: {
@@ -986,8 +1007,8 @@
             "National Economics Challenge (Texas) — Top Score (Top < 10%)."
           ],
           links: [
-            { label: "Paper ↗", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" },
-            { label: "Contact ↗", href: "#contact" }
+            { label: "Paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", external: true },
+            { label: "Contact", href: "#contact", external: false }
           ]
         }
       };
@@ -1019,24 +1040,27 @@
           a.className = "btn";
           a.textContent = l.label;
           a.href = l.href;
-          if (l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
+          if (l.external && l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
           panelLinks.appendChild(a);
         });
 
         panel.classList.add("open");
-        if (!prefersReducedMotion) {
-          panel.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          panel.scrollIntoView();
-        }
+        if (!prefersReducedMotion) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        else panel.scrollIntoView();
       };
 
       const tiles = document.querySelectorAll(".tile[data-open]");
-      tiles.forEach(t => t.addEventListener("click", () => openPanel(t.getAttribute("data-open"))));
+      const openFrom = (el) => openPanel(el.getAttribute("data-open"));
+      tiles.forEach(t => {
+        t.addEventListener("click", () => openFrom(t));
+        t.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openFrom(t); }
+        });
+      });
 
       closeBtn.addEventListener("click", () => panel.classList.remove("open"));
 
-      // Aura canvas
+      // ===== Nicer aura animation: smoother flow field-like motion =====
       const canvas = document.getElementById("aura");
       const ctx = canvas.getContext("2d", { alpha: true });
       let W, H, DPR;
@@ -1053,46 +1077,49 @@
       window.addEventListener("resize", resize, { passive: true });
       resize();
 
+      // Slightly more dynamic but still employer-clean
       const blobs = [
-        { x: 0.18, y: 0.18, r: 0.34, vx: 0.00014, vy: 0.00010, hue: 210 },
-        { x: 0.82, y: 0.22, r: 0.38, vx: -0.00011, vy: 0.00010, hue: 275 },
-        { x: 0.70, y: 0.84, r: 0.42, vx: 0.00010, vy: -0.00013, hue: 165 },
-        { x: 0.22, y: 0.78, r: 0.36, vx: -0.00012, vy: -0.00010, hue: 330 }
+        { x: 0.20, y: 0.20, r: 0.38, a: 0.55, hue: 210, p: 0.0 },
+        { x: 0.82, y: 0.22, r: 0.42, a: 0.52, hue: 275, p: 1.7 },
+        { x: 0.70, y: 0.85, r: 0.46, a: 0.46, hue: 165, p: 3.2 },
+        { x: 0.22, y: 0.80, r: 0.40, a: 0.48, hue: 330, p: 4.6 }
       ];
 
-      let mouse = { x: 0.5, y: 0.5 };
+      let mouse = { x: 0.5, y: 0.22 };
       window.addEventListener("pointermove", (e) => {
         mouse.x = e.clientX / window.innerWidth;
         mouse.y = e.clientY / window.innerHeight;
       }, { passive: true });
 
-      function draw() {
+      // helper
+      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+      function draw(t) {
         ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
 
+        const time = (t || 0) * 0.00022;
+
         for (const b of blobs) {
-          if (!prefersReducedMotion) {
-            b.x += b.vx;
-            b.y += b.vy;
+          // Smooth orbit + slight mouse influence
+          const ox = Math.cos(time + b.p) * 0.08;
+          const oy = Math.sin(time * 1.1 + b.p) * 0.07;
 
-            if (b.x < 0.08 || b.x > 0.92) b.vx *= -1;
-            if (b.y < 0.08 || b.y > 0.92) b.vy *= -1;
+          // pull toward cursor but gentle
+          const mx = (mouse.x - 0.5) * 0.06;
+          const my = (mouse.y - 0.35) * 0.06;
 
-            const ax = (mouse.x - b.x) * 0.00002;
-            const ay = (mouse.y - b.y) * 0.00002;
-            b.vx += ax; b.vy += ay;
+          const bx = clamp(b.x + ox + mx, 0.05, 0.95);
+          const by = clamp(b.y + oy + my, 0.05, 0.95);
 
-            b.vx *= 0.985; b.vy *= 0.985;
-          }
-
-          const x = b.x * W;
-          const y = b.y * H;
+          const x = bx * W;
+          const y = by * H;
           const r = b.r * Math.min(W, H);
 
-          const g = ctx.createRadialGradient(x, y, r * 0.10, x, y, r);
-          g.addColorStop(0, `hsla(${b.hue}, 95%, 62%, 0.56)`);
-          g.addColorStop(0.35, `hsla(${b.hue}, 95%, 55%, 0.18)`);
-          g.addColorStop(1, `hsla(${b.hue}, 95%, 45%, 0.0)`);
+          const g = ctx.createRadialGradient(x, y, r * 0.08, x, y, r);
+          g.addColorStop(0, `hsla(${b.hue}, 95%, 62%, ${b.a})`);
+          g.addColorStop(0.35, `hsla(${b.hue}, 95%, 55%, ${b.a * 0.34})`);
+          g.addColorStop(1, `hsla(${b.hue}, 95%, 45%, 0)`);
 
           ctx.fillStyle = g;
           ctx.beginPath();
@@ -1101,9 +1128,10 @@
         }
 
         ctx.globalCompositeOperation = "source-over";
-        requestAnimationFrame(draw);
+        if (!prefersReducedMotion) requestAnimationFrame(draw);
       }
-      draw();
+
+      requestAnimationFrame(draw);
     })();
   </script>
 </body>
