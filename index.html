@@ -2,398 +2,1109 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kian Foshee | Portfolio</title>
-  <meta name="description" content="Opportunity Insights (Harvard) contributor. R-first data infrastructure, economic mobility research, and end-to-end execution." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <link rel="stylesheet" href="styles.css" />
+  <title>Kian Foshee — Research Infrastructure • Execution</title>
+  <meta name="description" content="Opportunity Insights (Harvard) contributor. R-first data infrastructure, economic mobility research, and end-to-end execution." />
+
+  <!-- Cache-bust so GitHub Pages actually updates -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0A1020;
+      --text:#EAF0FF;
+      --muted:#A9B6D8;
+      --line:rgba(255,255,255,.11);
+      --glass:rgba(12,18,34,.55);
+      --glass2:rgba(8,12,22,.55);
+      --shadow: 0 22px 80px rgba(0,0,0,.55);
+      --shadow2: 0 12px 40px rgba(0,0,0,.40);
+      --r:22px;
+      --grad: linear-gradient(90deg, #7AA2FF 0%, #B88CFF 45%, #4FE3C1 100%);
+      --grad2: linear-gradient(135deg, rgba(122,162,255,.26), rgba(184,140,255,.20), rgba(79,227,193,.18));
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; scroll-behavior:smooth; }
+    body{
+      margin:0;
+      color: var(--text);
+      background:
+        radial-gradient(1400px 900px at 15% -10%, rgba(122,162,255,.12), transparent 60%),
+        radial-gradient(1200px 900px at 90% 0%, rgba(184,140,255,.10), transparent 55%),
+        radial-gradient(1200px 900px at 60% 110%, rgba(79,227,193,.08), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      overflow-x:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .muted{ color: rgba(169,182,216,.82); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+
+    /* Aura */
+    #aura{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      filter: blur(12px) saturate(125%);
+      opacity: .95;
+    }
+    .bg-noise{
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .14;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+    .bg-spot{
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      --x: 50%;
+      --y: 25%;
+      background: radial-gradient(760px 480px at var(--x) var(--y),
+        rgba(255,255,255,.10),
+        rgba(122,162,255,.08) 25%,
+        rgba(184,140,255,.05) 48%,
+        transparent 72%);
+      mix-blend-mode: screen;
+      opacity: .75;
+    }
+
+    /* Topbar */
+    .topbar{
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 10;
+      padding: 12px 12px 0;
+      background: linear-gradient(180deg, rgba(7,10,18,.72), rgba(7,10,18,.15));
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .topbar-inner{
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 10px 10px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 14px;
+      border-radius: 18px;
+      background: rgba(10,14,25,.30);
+      box-shadow: 0 10px 45px rgba(0,0,0,.35);
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+    }
+    .logo-dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--grad);
+      box-shadow: 0 0 26px rgba(122,162,255,.55);
+    }
+    .logo-text{ font-weight: 900; letter-spacing: -0.02em; }
+
+    .nav{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+      font-size: 13px;
+      color: rgba(234,240,255,.85);
+    }
+    .nav a{
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .nav a:hover{
+      border-color: rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .topbar-cta{ display:flex; gap:10px; align-items:center; }
+
+    .progress{
+      height: 3px;
+      width: 100%;
+      background: rgba(255,255,255,.05);
+      margin-top: 10px;
+    }
+    .progress-bar{
+      height: 3px;
+      width: 0%;
+      background: var(--grad);
+      box-shadow: 0 0 18px rgba(122,162,255,.35);
+    }
+
+    /* Rail */
+    .rail{
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 18px;
+      z-index: 9;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .rail-dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+    .rail-dot.active{
+      background: linear-gradient(180deg, rgba(122,162,255,.75), rgba(184,140,255,.55));
+      border-color: rgba(122,162,255,.65);
+      box-shadow: 0 0 22px rgba(122,162,255,.35);
+    }
+
+    /* Layout */
+    .wrap{
+      position: relative;
+      z-index: 3;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 105px 18px 70px;
+    }
+    .section{
+      min-height: 92vh;
+      padding: 24px 0 32px;
+      scroll-margin-top: 120px;
+    }
+    .section-head{
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .h1{
+      margin: 14px 0 0 0;
+      font-size: clamp(42px, 4.4vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+      font-weight: 950;
+    }
+    .h2{
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .sub{
+      margin:0;
+      color: rgba(169,182,216,.88);
+      font-size: 14px;
+    }
+
+    /* Hero */
+    .hero{ padding-top: 18px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr .95fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .eyebrow{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color: rgba(234,240,255,.85);
+      font-size: 13px;
+    }
+    .pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(122,162,255,.30);
+      background: rgba(122,162,255,.10);
+      box-shadow: 0 0 28px rgba(122,162,255,.12);
+    }
+    .sep{ opacity: .45; }
+    .grad{
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .grad2{
+      background: linear-gradient(90deg, #4FE3C1, #B88CFF, #7AA2FF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .lead{
+      margin: 16px 0 0 0;
+      max-width: 64ch;
+      color: rgba(169,182,216,.92);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+    .hero-actions{
+      margin-top: 18px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,240,255,.92);
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: 0 12px 36px rgba(0,0,0,.25);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(122,162,255,.35);
+      background: rgba(122,162,255,.08);
+    }
+    .btn.primary{
+      border-color: rgba(122,162,255,.55);
+      background: linear-gradient(180deg, rgba(122,162,255,.22), rgba(184,140,255,.14));
+      box-shadow: 0 18px 60px rgba(122,162,255,.18);
+    }
+    .btn.primary:hover{
+      background: linear-gradient(180deg, rgba(122,162,255,.28), rgba(184,140,255,.18));
+    }
+    .btn.ghost{ background: rgba(255,255,255,.03); }
+
+    .chips{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(12,18,34,.40);
+      color: rgba(234,240,255,.78);
+      font-size: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Glass cards */
+    .glass{
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(12,18,34,.56), rgba(10,14,25,.48));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow2);
+      position: relative;
+      overflow: hidden;
+    }
+    .glass::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: var(--grad2);
+      opacity: .28;
+      filter: blur(28px);
+      z-index:0;
+    }
+    .glass > *{ position: relative; z-index:1; }
+
+    .card{ padding: 18px; }
+    .card-head{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .badge{
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(234,240,255,.78);
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .pulse{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(79,227,193,.92);
+      box-shadow: 0 0 18px rgba(79,227,193,.55);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity:.9; }
+      50%{ transform: scale(1.55); opacity:.55; }
+    }
+    .card-title{
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+    .metrics{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .metric{
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .metric-num{
+      font-weight: 950;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .metric-label{
+      margin-top: 6px;
+      font-size: 12px;
+      color: rgba(169,182,216,.88);
+    }
+    .card-links{
+      margin-top: 14px;
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mini{ padding: 16px 18px; margin-top: 12px; }
+    .mini-title{ font-weight: 950; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .mini-row{ display:flex; gap: 10px; align-items:flex-start; color: rgba(169,182,216,.92); font-size: 13px; line-height: 1.45; }
+    .mini-dot{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: rgba(184,140,255,.90);
+      box-shadow: 0 0 18px rgba(184,140,255,.45);
+      margin-top: 4px;
+    }
+
+    /* Scroll hint */
+    .scrollhint{
+      margin-top: 18px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      opacity:.75;
+    }
+    .scrollhint-line{
+      width: 46px;
+      height: 2px;
+      background: var(--grad);
+      border-radius: 999px;
+      animation: shimmer 1.6s ease-in-out infinite;
+    }
+    @keyframes shimmer{
+      0%,100%{ opacity:.5; transform: translateX(0); }
+      50%{ opacity:1; transform: translateX(10px); }
+    }
+    .scrollhint-text{ font-size: 12px; color: rgba(169,182,216,.85); }
+
+    /* Grids */
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .split{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+    }
+    .tile{
+      padding: 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(12,18,34,.52), rgba(10,14,25,.44));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow2);
+      position: relative;
+      overflow: hidden;
+    }
+    .tile::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: var(--grad2);
+      opacity: .22;
+      filter: blur(32px);
+      z-index:0;
+    }
+    .tile > *{ position: relative; z-index:1; }
+    .tile-top{ display:flex; gap: 10px; align-items:center; margin-bottom: 8px; }
+    .icon{ font-size: 20px; }
+    .tile-title{ font-weight: 950; letter-spacing: -0.01em; }
+    .tile-text{ margin: 0 0 12px 0; color: rgba(169,182,216,.92); line-height: 1.6; font-size: 14px; }
+
+    .timeline{ display:grid; gap: 14px; }
+    .titem{
+      padding: 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(12,18,34,.46);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow2);
+    }
+    .tcap{ margin-bottom: 10px; }
+    .trole{ font-weight: 950; letter-spacing: -0.01em; }
+    .tmeta{ margin-top: 6px; color: rgba(169,182,216,.88); font-size: 13px; }
+
+    .panel{ padding: 18px; }
+    .panel-title{ font-weight: 950; letter-spacing: -0.01em; }
+    .panel-text{ margin: 10px 0 0 0; color: rgba(169,182,216,.92); line-height: 1.65; font-size: 14px; }
+    .pillrow{ display:flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+
+    .bullets{
+      margin: 12px 0 0 18px;
+      color: rgba(169,182,216,.92);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    .workstyle{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .ws{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .ws-k{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(122,162,255,.12);
+      border: 1px solid rgba(122,162,255,.22);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 950;
+    }
+    .ws-v{ color: rgba(169,182,216,.92); line-height: 1.5; font-size: 14px; }
+
+    /* Awards */
+    .awardgrid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .award{
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(169,182,216,.92);
+      line-height: 1.45;
+      box-shadow: 0 10px 30px rgba(0,0,0,.30);
+    }
+
+    /* Contact */
+    .contact{ min-height: 70vh; display:flex; align-items:center; }
+    .contact-card{
+      width: 100%;
+      padding: 22px;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(12,18,34,.60), rgba(10,14,25,.52));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow:hidden;
+    }
+    .contact-card::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background: var(--grad2);
+      opacity:.30;
+      filter: blur(40px);
+      z-index:0;
+    }
+    .contact-card > *{ position: relative; z-index: 1; }
+    .contact-title{ font-weight: 950; letter-spacing: -0.02em; font-size: 20px; }
+    .contact-text{ margin: 10px 0 0 0; color: rgba(169,182,216,.92); line-height: 1.6; }
+    .contact-actions{ margin-top: 16px; display:flex; flex-wrap:wrap; gap:10px; }
+    .contact-foot{ margin-top: 16px; color: rgba(169,182,216,.78); font-size: 12px; }
+
+    .footer{
+      margin-top: 26px;
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: rgba(169,182,216,.72);
+      font-size: 12px;
+      padding-bottom: 10px;
+    }
+
+    /* Reveal + tilt */
+    .reveal{ opacity: 0; transform: translateY(10px); filter: blur(3px); }
+    .reveal.in{ opacity: 1; transform: translateY(0); filter: blur(0); transition: opacity .55s ease, transform .55s ease, filter .55s ease; }
+    .tilt{ transform: translateZ(0); transition: transform .18s ease; will-change: transform; }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .nav{ display:none; }
+      .rail{ display:none; }
+      .hero-grid{ grid-template-columns: 1fr; }
+      .metrics{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid3{ grid-template-columns: 1fr; }
+      .split{ grid-template-columns: 1fr; }
+      .awardgrid{ grid-template-columns: 1fr; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .pulse{ animation: none; }
+      .btn{ transition:none; }
+      .reveal, .reveal.in{ transition:none; }
+      html,body{ scroll-behavior:auto; }
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Animated aura background -->
+  <!-- Aura layers -->
   <canvas id="aura" aria-hidden="true"></canvas>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="spotlight" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="bg-spot" aria-hidden="true"></div>
 
-  <!-- Top nav -->
-  <header class="nav">
-    <div class="nav-inner">
-      <a class="brand" href="#top" aria-label="Home">
-        <span class="brand-dot"></span>
-        <span class="brand-text">Kian Foshee</span>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="#top" aria-label="Home">
+        <span class="logo-dot"></span>
+        <span class="logo-text">Kian Foshee</span>
       </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#proof">Proof</a>
+      <nav class="nav" aria-label="Sections">
         <a href="#work">Work</a>
-        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#ops">Ops</a>
         <a href="#awards">Awards</a>
+        <a href="#contact">Contact</a>
       </nav>
 
-      <div class="nav-cta">
-        <!-- Replace with your real links -->
+      <div class="topbar-cta">
+        <!-- Replace placeholders -->
         <a class="btn ghost" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Read the Paper</a>
+        <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">
+          SSRN ↗
+        </a>
       </div>
+    </div>
+
+    <div class="progress" aria-hidden="true">
+      <div class="progress-bar" id="progressBar"></div>
     </div>
   </header>
 
-  <main id="top" class="container">
+  <!-- Side rail -->
+  <aside class="rail" aria-label="Quick nav">
+    <a class="rail-dot" href="#top" data-spy="top" title="Top"></a>
+    <a class="rail-dot" href="#work" data-spy="work" title="Work"></a>
+    <a class="rail-dot" href="#experience" data-spy="experience" title="Experience"></a>
+    <a class="rail-dot" href="#ops" data-spy="ops" title="Ops"></a>
+    <a class="rail-dot" href="#awards" data-spy="awards" title="Awards"></a>
+    <a class="rail-dot" href="#contact" data-spy="contact" title="Contact"></a>
+  </aside>
+
+  <main id="top" class="wrap">
+
     <!-- HERO -->
-    <section class="hero">
-      <div class="hero-left">
-        <p class="kicker reveal">
-          <span class="kicker-pill">Opportunity Insights (Harvard)</span>
-          <span class="kicker-sep">•</span>
-          <span class="kicker-sub">Economic mobility + data infrastructure (R)</span>
-        </p>
+    <section class="section hero" data-section="top">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="eyebrow reveal">
+            <span class="pill">Opportunity Insights (Harvard)</span>
+            <span class="sep">•</span>
+            <span class="muted">Economic mobility + data infrastructure (R)</span>
+          </div>
 
-        <h1 class="title reveal">
-          I build <span class="grad">decision-ready</span> data systems
-          <span class="title-break">that make hidden patterns visible.</span>
-        </h1>
+          <h1 class="h1 reveal">
+            I build <span class="grad">systems</span> that turn messy data into
+            <span class="grad2">decision-ready proof.</span>
+          </h1>
 
-        <p class="subtitle reveal">
-          Reproducible pipelines. Crosswalk-grade joins. Maps + briefs that people actually use.
-          End-to-end ownership—from ambiguous question → clean data → interpretable output → shipped artifact.
-        </p>
+          <p class="lead reveal">
+            Reproducible pipelines. Crosswalk-grade joins. Maps + briefs that survive reality.
+            I like ambiguous problems and I ship end-to-end: question → data → QA → output → artifact.
+          </p>
 
-        <div class="hero-actions reveal">
-          <!-- Replace YOUR_LINKEDIN and YOUR_EMAIL -->
-          <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">
-            SSRN Paper <span class="arrow">↗</span>
-          </a>
-          <a class="btn ghost" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">
-            GitHub <span class="arrow">↗</span>
-          </a>
-          <a class="btn ghost" href="mailto:KianFoshee@gmail.com">
-            Email
-          </a>
-          <a class="btn ghost" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">
-            LinkedIn <span class="arrow">↗</span>
-          </a>
+          <div class="hero-actions reveal">
+            <!-- Replace YOUR_LINKEDIN if you want -->
+            <a class="btn primary" href="#work">Scroll the work ↓</a>
+            <a class="btn ghost" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Read paper ↗</a>
+            <a class="btn ghost" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub ↗</a>
+            <a class="btn ghost" href="mailto:KianFoshee@gmail.com">Email</a>
+            <a class="btn ghost" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+          </div>
+
+          <div class="chips reveal">
+            <span class="chip">R-first reproducible pipelines</span>
+            <span class="chip">Geo consistency + stable keys</span>
+            <span class="chip">QA + versioned outputs</span>
+            <span class="chip">Interpretability > vibes</span>
+            <span class="chip">Ops execution</span>
+          </div>
         </div>
 
-        <div id="proof" class="chips reveal">
-          <span class="chip">R-first reproducible pipelines</span>
-          <span class="chip">Tract-level geo consistency</span>
-          <span class="chip">QA + versioned deliverables</span>
-          <span class="chip">Maps • tables • briefs</span>
-          <span class="chip">Ops execution at scale</span>
-        </div>
-      </div>
-
-      <div class="hero-right">
-        <!-- Proof stack -->
-        <div class="stack">
-          <div class="card big reveal tilt" data-tilt>
-            <div class="card-top">
-              <div class="badge">Proof</div>
-              <div class="pulse"></div>
+        <div class="hero-right">
+          <div class="glass card reveal tilt" data-tilt>
+            <div class="card-head">
+              <span class="badge">Live signal</span>
+              <span class="pulse" aria-hidden="true"></span>
             </div>
-            <h2 class="card-title">Signal, not vibes.</h2>
-            <p class="card-text">
-              Research infrastructure + entrepreneurship + operations. I care about correctness,
-              reproducibility, and outputs that survive contact with the real world.
-            </p>
 
-            <div class="metric-grid">
+            <div class="card-title">
+              Builder energy: research + infrastructure + execution.
+            </div>
+
+            <div class="metrics">
               <div class="metric">
-                <div class="metric-num">$50K+</div>
+                <div class="metric-num" data-count="50" data-suffix="K+">0</div>
                 <div class="metric-label">Sales built</div>
               </div>
               <div class="metric">
-                <div class="metric-num">40K+</div>
+                <div class="metric-num" data-count="40" data-suffix="K+">0</div>
                 <div class="metric-label">Followers</div>
               </div>
               <div class="metric">
-                <div class="metric-num">100M+</div>
+                <div class="metric-num" data-count="100" data-suffix="M+">0</div>
                 <div class="metric-label">Views</div>
               </div>
               <div class="metric">
-                <div class="metric-num">2,888</div>
-                <div class="metric-label">Service items delivered</div>
-              </div>
-              <div class="metric">
-                <div class="metric-num">1,000+</div>
+                <div class="metric-num" data-count="1000" data-suffix="+">0</div>
                 <div class="metric-label">Survey N analyzed</div>
               </div>
               <div class="metric">
                 <div class="metric-num">SSRN</div>
                 <div class="metric-label">Working paper</div>
               </div>
+              <div class="metric">
+                <div class="metric-num">R</div>
+                <div class="metric-label">Reproducibility</div>
+              </div>
             </div>
 
-            <div class="card-actions">
+            <div class="card-links">
               <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">
-                Read the working paper <span class="arrow">↗</span>
+                Verify: SSRN ↗
               </a>
-              <a class="link" href="#work">
-                See featured work <span class="arrow">→</span>
-              </a>
+              <a class="link" href="#awards">Signals: awards →</a>
             </div>
           </div>
 
-          <div class="card small reveal tilt" data-tilt>
-            <div class="small-title">My edge</div>
-            <ul class="list">
-              <li><span class="dot"></span>Turn messy data into stable, documented assets.</li>
-              <li><span class="dot"></span>Make outputs interpretable (not just “accurate”).</li>
-              <li><span class="dot"></span>Own end-to-end execution with real constraints.</li>
-            </ul>
+          <div class="glass mini reveal">
+            <div class="mini-title">My default mode</div>
+            <div class="mini-row">
+              <span class="mini-dot"></span>
+              <span>Turn chaos into a pipeline that reruns clean.</span>
+            </div>
+            <div class="mini-row">
+              <span class="mini-dot"></span>
+              <span>Ship outputs people can actually use.</span>
+            </div>
+            <div class="mini-row">
+              <span class="mini-dot"></span>
+              <span>Own the work end-to-end, no handoffs.</span>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div class="scrollhint" aria-hidden="true">
+        <div class="scrollhint-line"></div>
+        <div class="scrollhint-text">Scroll</div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" class="section" data-section="work">
+      <div class="section-head reveal">
+        <h2 class="h2">Featured work</h2>
+        <p class="sub">Three clicks to verify: paper • code • outputs.</p>
+      </div>
+
+      <div class="grid3">
+        <article class="tile reveal tilt" data-tilt>
+          <div class="tile-top">
+            <div class="icon">📄</div>
+            <div class="tile-title">Working Paper (SSRN)</div>
+          </div>
+          <p class="tile-text">
+            County-level evidence on move-in rates and upward mobility. Built for reproducibility and interpretation.
+          </p>
+          <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Read on SSRN ↗</a>
+        </article>
+
+        <article class="tile reveal tilt" data-tilt>
+          <div class="tile-top">
+            <div class="icon">🧱</div>
+            <div class="tile-title">Reproducible Pipeline (R)</div>
+          </div>
+          <p class="tile-text">
+            Ingest → clean → crosswalk/join → QA → outputs. Put your cleanest repo here.
+          </p>
+          <a class="link" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">View repo ↗</a>
+        </article>
+
+        <article class="tile reveal tilt" data-tilt>
+          <div class="tile-top">
+            <div class="icon">🗺️</div>
+            <div class="tile-title">Outputs (Maps / Briefs)</div>
+          </div>
+          <p class="tile-text">
+            Figures and briefs designed for decision-making. Add a PDF or demo link that’s easy to skim.
+          </p>
+          <a class="link" href="YOUR_OUTPUTS_LINK" target="_blank" rel="noreferrer">Open outputs ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section" data-section="experience">
+      <div class="section-head reveal">
+        <h2 class="h2">Experience</h2>
+        <p class="sub">Research + analytics with real stakeholders.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="titem reveal">
+          <div class="tcap">
+            <div class="trole">Opportunity Insights (Harvard) — Economic Mobility Research Contributor</div>
+            <div class="tmeta">Reproducible R deliverables • tract-level geo consistency</div>
+          </div>
+          <ul class="bullets">
+            <li>Built reproducible deliverables: cleaned datasets, crosswalks, maps, model outputs.</li>
+            <li>Harmonized tract-level inputs across multiple public datasets with consistent keys.</li>
+            <li>Produced map-ready outputs + model summaries for interpretation (not just “accuracy”).</li>
+          </ul>
+          <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper ↗</a>
+        </div>
+
+        <div class="titem reveal">
+          <div class="tcap">
+            <div class="trole">UT Dallas — Economic Research Assistant (Municipal/Policy)</div>
+            <div class="tmeta">N=1,000+ survey • weighting • decision-ready briefs</div>
+          </div>
+          <ul class="bullets">
+            <li>Cleaned + weighted a N=1,000+ small-business survey and translated results into briefs for City stakeholders.</li>
+            <li>Built structured tables/figures highlighting subgroup differences and takeaways for non-technical readers.</li>
+          </ul>
+        </div>
+
+        <div class="titem reveal">
+          <div class="tcap">
+            <div class="trole">St. Mark’s Economic Club — Founding Member / Student Research Lead</div>
+            <div class="tmeta">50-member community • peer instruction • competition prep</div>
+          </div>
+          <ul class="bullets">
+            <li>Co-founded a 50-member economics community; supported student research with mentorship.</li>
+            <li>Helped teams turn open-ended prompts into structured assumptions, data sources, models, and clear write-ups.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- FEATURED WORK -->
-    <section id="work" class="section">
+    <!-- OPS -->
+    <section id="ops" class="section" data-section="ops">
       <div class="section-head reveal">
-        <h2 class="section-title">Featured work</h2>
-        <p class="section-sub">
-          Three clicks to verify the work: paper, code, and outputs.
-        </p>
+        <h2 class="h2">Entrepreneurship + operating system</h2>
+        <p class="sub">I don’t just build ideas — I build repeatable workflows.</p>
       </div>
 
-      <div class="grid">
-        <article class="tile reveal tilt" data-tilt>
-          <div class="tile-icon">📄</div>
-          <h3>Working Paper (SSRN)</h3>
-          <p>
-            County-level evidence on move-in rates and upward mobility.
-            Built to be understandable, reproducible, and map-ready.
-          </p>
-          <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">
-            Read on SSRN <span class="arrow">↗</span>
-          </a>
-        </article>
-
-        <article class="tile reveal tilt" data-tilt>
-          <div class="tile-icon">🧱</div>
-          <h3>Reproducible Pipeline (R)</h3>
-          <p>
-            Ingest → clean → crosswalk/join → QA → outputs. One-command reruns.
-            (Link your cleanest repo here.)
-          </p>
-          <a class="link" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">
-            View repo <span class="arrow">↗</span>
-          </a>
-        </article>
-
-        <article class="tile reveal tilt" data-tilt>
-          <div class="tile-icon">🗺️</div>
-          <h3>Outputs (Maps / Briefs)</h3>
-          <p>
-            Figures and maps designed for interpretation and decision-making.
-            Add a PDF or a demo link that’s easy to skim.
-          </p>
-          <a class="link" href="YOUR_OUTPUTS_LINK" target="_blank" rel="noreferrer">
-            Open outputs <span class="arrow">↗</span>
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="section">
-      <div class="section-head reveal">
-        <h2 class="section-title">What I do</h2>
-        <p class="section-sub">
-          I’m not just “interested in economics.” I build infrastructure so the economics becomes usable.
-        </p>
-      </div>
-
-      <div class="two-col">
-        <div class="panel reveal">
-          <h3 class="panel-title">Research infrastructure</h3>
+      <div class="split">
+        <div class="glass panel reveal tilt" data-tilt>
+          <div class="panel-title">Supreme Pickle — Founder/Owner</div>
           <p class="panel-text">
-            I build reproducible deliverables (datasets, crosswalks, maps, model outputs) designed to re-run
-            consistently across versions—and to support interpretation, not just accuracy.
+            Consumer product brand: product → manufacturing → e-commerce → community growth.
           </p>
-          <div class="panel-tags">
-            <span class="pill">R</span>
-            <span class="pill">QA</span>
-            <span class="pill">Geo keys</span>
-            <span class="pill">Crosswalk joins</span>
-            <span class="pill">Maps</span>
-            <span class="pill">Briefs</span>
+
+          <div class="pillrow">
+            <span class="pill">$50K+ sales</span>
+            <span class="pill">40K+ followers</span>
+            <span class="pill">100M+ views</span>
+            <span class="pill">Amazon #1 Best Seller</span>
           </div>
+
+          <ul class="bullets">
+            <li>Owned sourcing, vendor management, QA, inventory planning, listings, customer support, iteration loops.</li>
+            <li>Led product development: prototyping, materials, play-testing feedback loops, repeatable fulfillment workflows.</li>
+          </ul>
         </div>
 
-        <div class="panel reveal">
-          <h3 class="panel-title">Execution + scale</h3>
-          <p class="panel-text">
-            I’ve repeatedly owned end-to-end systems: building a consumer brand operations stack,
-            coordinating volunteers and logistics, and translating surveys into decision-ready briefs.
-          </p>
-          <div class="panel-tags">
-            <span class="pill">Ops ownership</span>
-            <span class="pill">Measurement</span>
-            <span class="pill">Stakeholders</span>
-            <span class="pill">Iteration loops</span>
+        <div class="glass panel reveal tilt" data-tilt>
+          <div class="panel-title">How I work</div>
+          <div class="workstyle">
+            <div class="ws">
+              <div class="ws-k">01</div>
+              <div class="ws-v">Define the question in terms of decisions.</div>
+            </div>
+            <div class="ws">
+              <div class="ws-k">02</div>
+              <div class="ws-v">Build stable keys + QA checks so joins don’t lie.</div>
+            </div>
+            <div class="ws">
+              <div class="ws-k">03</div>
+              <div class="ws-v">Ship interpretable outputs (maps/tables/briefs).</div>
+            </div>
+            <div class="ws">
+              <div class="ws-k">04</div>
+              <div class="ws-v">Iterate based on failure modes, not vibes.</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- AWARDS -->
-    <section id="awards" class="section">
+    <section id="awards" class="section" data-section="awards">
       <div class="section-head reveal">
-        <h2 class="section-title">Selected awards</h2>
-        <p class="section-sub">Signals that I can compete—and still ship.</p>
+        <h2 class="h2">Honors & awards</h2>
+        <p class="sub">Competitive signal + execution signal.</p>
       </div>
 
-      <div class="awards reveal">
-        <div class="award">World Economics Cup — Individual Top-10; Team 4th (World Finals)</div>
-        <div class="award">Northwestern Economics Tournament — 2nd Place</div>
-        <div class="award">Harvard HPEC — 3rd Place (Team); Individual High Distinction</div>
-        <div class="award">National Finance Challenge (TX) — Perfect Score (1 of 56)</div>
-        <div class="award">National Economics Challenge (TX) — Top Score (Top &lt; 10%)</div>
+      <div class="awardgrid">
+        <div class="award reveal">World Economics Cup — Individual Top-10; Team 4th (World Finals)</div>
+        <div class="award reveal">Northwestern Economics Tournament — 2nd Place</div>
+        <div class="award reveal">Harvard Pre-Collegiate Economics Challenge — 3rd Place (Team); Individual High Distinction</div>
+        <div class="award reveal">St. Mark’s Economic Student Award — Top economics student (11th grade)</div>
+        <div class="award reveal">National Finance Challenge (Texas) — Perfect Score (1 of 56)</div>
+        <div class="award reveal">National Economics Challenge (Texas) — Top Score (Top &lt; 10%)</div>
+        <div class="award reveal">TPSMEA All-Region / Texas All-State Choir — Top 20 in Texas (3 years)</div>
+        <div class="award reveal">National Latin Exam — Gold, Silver</div>
       </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer reveal">
-      <div class="footer-left">
-        <div class="footer-title">Kian Foshee</div>
-        <div class="footer-sub">Research • Infrastructure • Execution</div>
-      </div>
+    <!-- CONTACT -->
+    <section id="contact" class="section contact" data-section="contact">
+      <div class="contact-card reveal tilt" data-tilt>
+        <div class="contact-title">Portfolio link for applications</div>
+        <p class="contact-text">
+          Use: <span class="mono">https://kfoshee.github.io/portfolio/</span>
+        </p>
 
-      <div class="footer-right">
-        <a class="footer-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">SSRN</a>
-        <a class="footer-link" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="footer-link" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a class="footer-link" href="mailto:KianFoshee@gmail.com">Email</a>
-      </div>
+        <div class="contact-actions">
+          <a class="btn primary" href="https://kfoshee.github.io/portfolio/?v=4" target="_blank" rel="noreferrer">Open live site ↗</a>
+          <a class="btn ghost" href="mailto:KianFoshee@gmail.com">Email</a>
+          <a class="btn ghost" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        </div>
 
-      <div class="footer-bottom">
-        <span>Last updated: <span id="date"></span></span>
+        <div class="contact-foot">
+          <span class="muted">Last updated:</span> <span id="lastUpdated" class="mono"></span>
+        </div>
       </div>
+    </section>
+
+    <footer class="footer">
+      <span class="muted">© <span id="year"></span> Kian Foshee</span>
+      <span class="muted">Research • Infrastructure • Execution</span>
     </footer>
+
   </main>
 
   <script>
-    // ========== Utilities ==========
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    (() => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Date
-    const d = new Date();
-    document.getElementById("date").textContent = d.toLocaleDateString(undefined, { year: "numeric", month: "short" });
+      // Spotlight cursor
+      const spot = document.querySelector(".bg-spot");
+      window.addEventListener("pointermove", (e) => {
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = (e.clientY / window.innerHeight) * 100;
+        spot.style.setProperty("--x", x + "%");
+        spot.style.setProperty("--y", y + "%");
+      }, { passive: true });
 
-    // Cursor spotlight
-    const spotlight = document.querySelector(".spotlight");
-    window.addEventListener("pointermove", (e) => {
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      spotlight.style.setProperty("--x", x + "%");
-      spotlight.style.setProperty("--y", y + "%");
-    });
+      // Progress bar
+      const bar = document.getElementById("progressBar");
+      const onScroll = () => {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const scrollHeight = doc.scrollHeight - doc.clientHeight;
+        const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        bar.style.width = pct.toFixed(2) + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
 
-    // Scroll reveal
-    const revealEls = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
+      // Dates
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+      document.getElementById("lastUpdated").textContent =
+        new Date().toLocaleString(undefined, { year:"numeric", month:"short", day:"2-digit" });
+
+      // Scroll reveal
+      const revealEls = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          }
         }
-      }
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
+      }, { threshold: 0.12 });
+      revealEls.forEach(el => io.observe(el));
 
-    // 3D tilt (subtle)
-    const tilts = document.querySelectorAll("[data-tilt]");
-    tilts.forEach(el => {
-      let raf = null;
-      el.addEventListener("pointermove", (e) => {
-        if (prefersReducedMotion) return;
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        const rx = (py - 0.5) * -8;
-        const ry = (px - 0.5) * 10;
-        if (raf) cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(() => {
-          el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+      // Counters
+      const counters = document.querySelectorAll("[data-count]");
+      const animateCount = (el) => {
+        const end = Number(el.getAttribute("data-count"));
+        const suffix = el.getAttribute("data-suffix") || "";
+        const dur = prefersReducedMotion ? 1 : 900;
+        const t0 = performance.now();
+        const step = (t) => {
+          const p = Math.min(1, (t - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const val = Math.round(end * eased);
+          el.textContent = (val >= 1000 ? val.toLocaleString() : String(val)) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      const cio = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            cio.unobserve(entry.target);
+          }
+        }
+      }, { threshold: 0.35 });
+      counters.forEach(c => cio.observe(c));
+
+      // Tilt
+      const tilts = document.querySelectorAll("[data-tilt]");
+      tilts.forEach(el => {
+        let raf = null;
+        el.addEventListener("pointermove", (e) => {
+          if (prefersReducedMotion) return;
+          const r = el.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width;
+          const py = (e.clientY - r.top) / r.height;
+          const rx = (py - 0.5) * -8;
+          const ry = (px - 0.5) * 10;
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+          });
+        });
+        el.addEventListener("pointerleave", () => {
+          el.style.transform = "";
         });
       });
-      el.addEventListener("pointerleave", () => {
-        el.style.transform = "";
-      });
-    });
 
-    // ========== Aura canvas ==========
-    const canvas = document.getElementById("aura");
-    const ctx = canvas.getContext("2d", { alpha: true });
-    let W, H, DPR;
+      // Section spy for rail
+      const sectionEls = document.querySelectorAll("[data-section]");
+      const railDots = document.querySelectorAll(".rail-dot");
+      const setActive = (id) => {
+        railDots.forEach(d => d.classList.toggle("active", d.getAttribute("data-spy") === id));
+      };
+      const sio = new IntersectionObserver((entries) => {
+        const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length) {
+          const id = visible[0].target.getAttribute("data-section");
+          setActive(id);
+        }
+      }, { threshold: [0.2, 0.35, 0.5, 0.7] });
+      sectionEls.forEach(s => sio.observe(s));
 
-    function resize() {
-      DPR = Math.min(window.devicePixelRatio || 1, 2);
-      W = Math.floor(window.innerWidth * DPR);
-      H = Math.floor(window.innerHeight * DPR);
-      canvas.width = W;
-      canvas.height = H;
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
-    }
-    window.addEventListener("resize", resize, { passive: true });
-    resize();
+      // Aura canvas
+      const canvas = document.getElementById("aura");
+      const ctx = canvas.getContext("2d", { alpha: true });
+      let W, H, DPR;
 
-    // Gradient “aura blobs”
-    const blobs = [
-      { x: 0.20, y: 0.18, r: 0.28, vx: 0.00018, vy: 0.00012, hue: 210 },
-      { x: 0.78, y: 0.22, r: 0.32, vx: -0.00014, vy: 0.00010, hue: 275 },
-      { x: 0.65, y: 0.80, r: 0.36, vx: 0.00010, vy: -0.00016, hue: 165 },
-      { x: 0.25, y: 0.78, r: 0.30, vx: -0.00012, vy: -0.00010, hue: 330 }
-    ];
+      function resize() {
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = Math.floor(window.innerWidth * DPR);
+        H = Math.floor(window.innerHeight * DPR);
+        canvas.width = W;
+        canvas.height = H;
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+      }
+      window.addEventListener("resize", resize, { passive: true });
+      resize();
 
-    let mouse = { x: 0.5, y: 0.5 };
-    window.addEventListener("pointermove", (e) => {
-      mouse.x = e.clientX / window.innerWidth;
-      mouse.y = e.clientY / window.innerHeight;
-    }, { passive: true });
+      const blobs = [
+        { x: 0.20, y: 0.18, r: 0.30, vx: 0.00018, vy: 0.00012, hue: 210 },
+        { x: 0.80, y: 0.22, r: 0.34, vx: -0.00014, vy: 0.00010, hue: 275 },
+        { x: 0.68, y: 0.82, r: 0.38, vx: 0.00010, vy: -0.00016, hue: 165 },
+        { x: 0.22, y: 0.78, r: 0.32, vx: -0.00012, vy: -0.00010, hue: 330 }
+      ];
 
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-      ctx.globalCompositeOperation = "lighter";
+      let mouse = { x: 0.5, y: 0.5 };
+      window.addEventListener("pointermove", (e) => {
+        mouse.x = e.clientX / window.innerWidth;
+        mouse.y = e.clientY / window.innerHeight;
+      }, { passive: true });
 
-      for (const b of blobs) {
-        if (!prefersReducedMotion) {
-          b.x += b.vx;
-          b.y += b.vy;
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "lighter";
 
-          // bounce
-          if (b.x < 0.08 || b.x > 0.92) b.vx *= -1;
-          if (b.y < 0.08 || b.y > 0.92) b.vy *= -1;
+        for (const b of blobs) {
+          if (!prefersReducedMotion) {
+            b.x += b.vx;
+            b.y += b.vy;
+            if (b.x < 0.08 || b.x > 0.92) b.vx *= -1;
+            if (b.y < 0.08 || b.y > 0.92) b.vy *= -1;
 
-          // gentle attraction to cursor (subtle)
-          const ax = (mouse.x - b.x) * 0.00003;
-          const ay = (mouse.y - b.y) * 0.00003;
-          b.vx += ax; b.vy += ay;
+            const ax = (mouse.x - b.x) * 0.00003;
+            const ay = (mouse.y - b.y) * 0.00003;
+            b.vx += ax; b.vy += ay;
+            b.vx *= 0.98; b.vy *= 0.98;
+          }
 
-          // dampen
-          b.vx *= 0.98; b.vy *= 0.98;
+          const x = b.x * W;
+          const y = b.y * H;
+          const r = b.r * Math.min(W, H);
+
+          const g = ctx.createRadialGradient(x, y, r * 0.12, x, y, r);
+          g.addColorStop(0, `hsla(${b.hue}, 95%, 62%, 0.56)`);
+          g.addColorStop(0.35, `hsla(${b.hue}, 95%, 55%, 0.18)`);
+          g.addColorStop(1, `hsla(${b.hue}, 95%, 45%, 0.0)`);
+
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
         }
 
-        const x = b.x * W;
-        const y = b.y * H;
-        const r = b.r * Math.min(W, H);
-
-        const g = ctx.createRadialGradient(x, y, r * 0.12, x, y, r);
-        g.addColorStop(0, `hsla(${b.hue}, 95%, 62%, 0.55)`);
-        g.addColorStop(0.35, `hsla(${b.hue}, 95%, 55%, 0.18)`);
-        g.addColorStop(1, `hsla(${b.hue}, 95%, 45%, 0.0)`);
-
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalCompositeOperation = "source-over";
+        requestAnimationFrame(draw);
       }
-
-      ctx.globalCompositeOperation = "source-over";
-      requestAnimationFrame(draw);
-    }
-    draw();
+      draw();
+    })();
   </script>
 </body>
 </html>
