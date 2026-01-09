@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kian Foshee | Portfolio</title>
+  <meta name="description" content="Research + data infrastructure work: reproducible R pipelines, maps, and model outputs." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="wrap">
+    <div class="top">
+      <div>
+        <h1>Kian Foshee</h1>
+        <p class="tagline">
+          Economic mobility + data infrastructure (R). I build reproducible, decision-ready data assets
+          (datasets, crosswalks, maps, model outputs) and ship interpretable outputs.
+        </p>
+      </div>
+
+      <div class="buttons">
+        <a class="btn" href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="btn" href="mailto:YOUR_EMAIL" target="_blank" rel="noreferrer">Email</a>
+      </div>
+    </div>
+
+    <div class="pillrow">
+      <span class="pill">R</span>
+      <span class="pill">Reproducible pipelines</span>
+      <span class="pill">Geo / crosswalks</span>
+      <span class="pill">Maps + briefs</span>
+      <span class="pill">Applied stats</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="grid">
+      <article class="card">
+        <h2>Working Paper (SSRN)</h2>
+        <p>
+          County-level evidence on move-in rates and upward mobility. Includes reproducible data and
+          map-ready outputs.
+        </p>
+        <div class="links">
+          <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">
+            Read on SSRN →
+          </a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Code / Reproducible Pipeline</h2>
+        <p>
+          End-to-end R workflow: ingest → clean → crosswalk/join → QA → outputs.
+        </p>
+        <div class="links">
+          <a class="link" href="https://github.com/kfoshee/YOUR_BEST_REPO" target="_blank" rel="noreferrer">Repo →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Outputs (Proof You Ship)</h2>
+        <p>
+          Figures, maps, and short briefs designed for interpretation and decision-making.
+        </p>
+        <div class="links">
+          <a class="link" href="YOUR_PDF_OR_DEMO_LINK" target="_blank" rel="noreferrer">Figures / brief →</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="card full">
+      <h2>What I like working on</h2>
+      <ul>
+        <li>Messy data + ambiguous questions → clean, documented, reproducible pipelines.</li>
+        <li>Geographic consistency (stable keys, careful crosswalks, join quality checks).</li>
+        <li>Interpretability: outputs designed for decisions, not just accuracy.</li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <span>Last updated: <span id="date"></span></span>
+    </footer>
+  </main>
+
+  <script>
+    const d = new Date();
+    document.getElementById("date").textContent = d.toLocaleDateString(undefined, { year: "numeric", month: "short" });
+  </script>
+</body>
+</html>
