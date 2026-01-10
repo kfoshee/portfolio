@@ -20,6 +20,7 @@
 
       --line: rgba(255,255,255,.12);
       --panel: rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.05);
 
       --r: 18px;
       --r2: 14px;
@@ -38,6 +39,7 @@
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+    html{ scroll-behavior:smooth; scroll-padding-top: 78px; }
     body{
       margin:0;
       background: var(--bg);
@@ -98,19 +100,22 @@
     /* HERO */
     .hero{ padding-top: 24px; }
 
-    /* name */
+    /* UNCLIPPABLE NAME FIX */
     .name{
       margin: 0;
       font-size: clamp(72px, 8.5vw, 140px);
       font-weight: 1000;
       letter-spacing: -0.07em;
 
+      /* forces more vertical room */
       line-height: 1.25;
       padding: 0.12em 0 0.18em;
 
+      /* ensure no clipping */
       overflow: visible;
       display: block;
 
+      /* some browsers clip glyph boxes unless you force a filter/compositing layer */
       filter: drop-shadow(0 0 0 transparent);
       transform: translateZ(0);
     }
@@ -174,7 +179,7 @@
       background: rgba(122,162,255,.12);
     }
 
-    /* cards */
+    /* simple cards */
     .cards{
       margin-top: 16px;
       display:grid;
@@ -200,7 +205,7 @@
       font-size: 13px;
     }
 
-    /* headings */
+    /* Section headings */
     .sectionTitle{
       margin:0 0 10px 0;
       font-size: 22px;
@@ -232,6 +237,7 @@
       background: rgba(255,255,255,.10);
       border-radius: 999px;
     }
+    /* animated progress line */
     .timelineProgress{
       position:absolute;
       left: 8px;
@@ -292,25 +298,14 @@
       color: var(--muted2);
       font-size: 13px;
     }
-
-    /* LISTS: SLIGHTLY CLOSER */
     .tBullets{
-      margin: 8px 0 0 18px;     /* was 10px */
+      margin: 10px 0 0 18px;
       color: var(--muted);
-      line-height: 1.52;        /* was 1.6 */
+      line-height: 1.6;
       font-size: 13.5px;
     }
-    .tBullets li{ margin: 3px 0; } /* tighten a hair */
 
-    ul{
-      margin: 8px 0 0 18px;     /* was 10px */
-      color: var(--muted);
-      line-height: 1.52;        /* was 1.6 */
-      font-size: 13.5px;
-    }
-    ul li{ margin: 3px 0; }
-
-    /* Awards */
+    /* Awards list */
     .awards{
       display:grid;
       gap: 10px;
@@ -368,6 +363,7 @@
       .tTop{ flex-direction: column; align-items:flex-start; }
     }
     @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
       .reveal, .reveal.in{ transition:none; transform:none; filter:none; opacity:1; }
       .name span{ animation:none; }
       .timelineProgress{ transition:none; }
@@ -388,7 +384,8 @@
     </nav>
   </header>
 
-  <main id="page">
+  <main>
+    <!-- HERO -->
     <section id="hero">
       <div class="hero">
         <div class="reveal">
@@ -401,7 +398,7 @@
           <div class="row">
             <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
             <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
-            <a class="btn js-scroll" href="#experience">Scroll timeline</a>
+            <a class="btn" href="#experience">Scroll timeline</a>
           </div>
 
           <div class="cards">
@@ -422,10 +419,11 @@
       </div>
     </section>
 
+    <!-- EXPERIENCE TIMELINE -->
     <section id="experience">
       <div class="reveal">
         <h2 class="sectionTitle">Timeline</h2>
-        <p class="sectionSub">Scroll down — items animate in. The left spine fills as you progress.</p>
+        <p class="sectionSub">Scroll down — each item animates in. The left spine fills as you progress.</p>
       </div>
 
       <div class="timeline" id="timeline">
@@ -470,6 +468,7 @@
       </div>
     </section>
 
+    <!-- AWARDS -->
     <section id="awards">
       <div class="reveal">
         <h2 class="sectionTitle">Awards</h2>
@@ -485,11 +484,12 @@
       </div>
     </section>
 
+    <!-- CONTACT -->
     <section id="contact">
       <div class="contactBox reveal">
         <div>
           <div style="font-weight:1000;">Contact</div>
-          <div style="color: rgba(220,228,255,.56); margin-top:6px;">Portfolio URL</div>
+          <div class="muted2">Portfolio URL</div>
           <div style="margin-top:6px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;">
             https://kfoshee.github.io/portfolio/
           </div>
@@ -509,7 +509,7 @@
     (() => {
       document.getElementById("year").textContent = String(new Date().getFullYear());
 
-      // Reveal on scroll
+      // reveal on scroll
       const revealEls = document.querySelectorAll(".reveal");
       const io = new IntersectionObserver((entries) => {
         for (const e of entries) {
@@ -521,7 +521,7 @@
       }, { threshold: 0.18 });
       revealEls.forEach(el => io.observe(el));
 
-      // Active nav highlight
+      // active nav highlight
       const navLinks = document.querySelectorAll("nav a[data-nav]");
       const sections = ["hero","experience","awards","contact"].map(id => document.getElementById(id));
       const setActive = (id) => navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("data-nav") === id));
@@ -531,51 +531,22 @@
       }, { threshold: [0.35, 0.55, 0.75] });
       sections.forEach(s => sio.observe(s));
 
-      // Timeline progress fill
+      // timeline progress fill (based on scroll position)
       const timeline = document.getElementById("timeline");
       const prog = document.getElementById("timelineProgress");
       const updateProgress = () => {
         const rect = timeline.getBoundingClientRect();
         const viewH = window.innerHeight || document.documentElement.clientHeight;
-        const visibleTop = Math.max(0, Math.min(viewH, viewH - rect.top));
-        const denom = Math.max(1, Math.min(viewH, rect.height + 40));
-        const pct = Math.max(0, Math.min(1, visibleTop / denom));
+
+        // how much of timeline is within view from top
+        const start = Math.max(0, Math.min(viewH, viewH - rect.top));
+        const total = Math.max(1, Math.min(viewH + rect.height, viewH + rect.height - rect.top));
+        const pct = Math.max(0, Math.min(1, start / Math.min(viewH, rect.height + 40)));
+
         prog.style.height = (pct * 100).toFixed(2) + "%";
       };
       window.addEventListener("scroll", updateProgress, { passive: true });
       updateProgress();
-
-      // SICK smooth scroll (fast -> slow ease-out)
-      const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
-
-      function smoothScrollTo(targetEl, duration = 850){
-        const startY = window.scrollY;
-        const targetY = targetEl.getBoundingClientRect().top + window.scrollY - 78; // header offset
-        const delta = targetY - startY;
-        const t0 = performance.now();
-
-        const step = (now) => {
-          const t = Math.min(1, (now - t0) / duration);
-          const eased = easeOutQuint(t);
-          window.scrollTo(0, startY + delta * eased);
-          if (t < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      }
-
-      // Intercept nav clicks + "Scroll timeline"
-      document.querySelectorAll('a[href^="#"]').forEach(a => {
-        const href = a.getAttribute("href");
-        if (!href || href.length < 2) return;
-        const el = document.querySelector(href);
-        if (!el) return;
-
-        a.addEventListener("click", (e) => {
-          e.preventDefault();
-          smoothScrollTo(el, 900);
-        });
-      });
-
     })();
   </script>
 </body>
