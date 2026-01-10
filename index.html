@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Kian Foshee — Research • Data Infrastructure • Execution</title>
+  <title>Kian Foshee — Portfolio</title>
   <meta name="description" content="Kian Foshee — research, data infrastructure, and execution. Reproducible pipelines and decision-ready outputs." />
 
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -14,35 +14,28 @@
   <style>
     :root{
       --bg:#000;
-      --text:#F5F7FF;
-      --muted:rgba(220,228,255,.70);
-      --muted2:rgba(220,228,255,.58);
-
-      --line:rgba(255,255,255,.12);
-      --panel:rgba(255,255,255,.03);
-      --panel2:rgba(255,255,255,.045);
-
-      --shadow: 0 18px 60px rgba(0,0,0,.80);
-      --shadow2: 0 10px 28px rgba(0,0,0,.65);
-
-      --r:18px;
-      --r2:14px;
+      --text:#F6F8FF;
+      --muted: rgba(220,228,255,.72);
+      --muted2: rgba(220,228,255,.58);
+      --line: rgba(255,255,255,.12);
+      --panel: rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.045);
+      --r: 18px;
 
       --accent1:#7AA2FF;
       --accent2:#B88CFF;
       --accent3:#4FE3C1;
-
       --grad: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+
       --easeOut: cubic-bezier(.16, 1, .3, 1);
       --easeSoft: cubic-bezier(.2,.9,.2,1);
 
-      --gap:10px;
-      --gap2:8px;
+      --gap: 10px;
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    html{ scroll-behavior:smooth; scroll-padding-top: 92px; }
+    html, body { height:100%; }
+    html{ scroll-behavior:smooth; scroll-padding-top: 78px; }
     body{
       margin:0;
       background: var(--bg);
@@ -52,10 +45,9 @@
     }
     a{ color:inherit; text-decoration:none; }
     .muted{ color: var(--muted2); }
-    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
     ::selection{ background: rgba(122,162,255,.28); }
 
-    /* Topbar */
+    /* Topbar — SIMPLE */
     .topbar{
       position: fixed;
       inset: 0 0 auto 0;
@@ -65,40 +57,26 @@
       backdrop-filter: blur(10px);
     }
     .topbar-inner{
-      max-width: 980px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 12px 14px;
+      padding: 10px 14px;
       display:flex;
       align-items:center;
-      justify-content: space-between;
+      justify-content: flex-end;
       gap: 10px;
+      flex-wrap: wrap;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 950;
-      letter-spacing: -0.02em;
-      user-select:none;
-    }
-    .dot{
-      width: 9px; height: 9px; border-radius: 999px;
-      background: var(--accent1);
-      box-shadow: 0 0 18px rgba(122,162,255,.45);
-    }
-
-    .links{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    .navlink{
       font-size: 13px;
-      color: rgba(245,247,255,.86);
-    }
-    .link{
+      font-weight: 900;
+      color: rgba(246,248,255,.86);
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
       transition: transform .22s var(--easeOut), background .22s var(--easeOut), border-color .22s var(--easeOut);
+      user-select:none;
     }
-    .link:hover{
+    .navlink:hover{
       transform: translateY(-1px);
       border-color: rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
@@ -106,123 +84,81 @@
 
     /* Layout */
     main{
-      max-width: 980px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 92px 14px 50px;
+      padding: 78px 14px 44px;
     }
-    section{ scroll-margin-top: 92px; }
 
-    /* Hero */
+    /* HERO — NAME is the biggest thing */
     .hero{
-      padding: 14px 0 10px;
+      padding: 18px 0 8px;
     }
-
-    /* NAME at the top (requested) */
     .name{
       margin: 0;
-      font-size: 18px;
-      font-weight: 1000;
-      letter-spacing: -0.02em;
-      color: rgba(245,247,255,.92);
-    }
-    .roleline{
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13.5px;
-      line-height: 1.45;
-      max-width: 78ch;
-    }
-
-    h1{
-      margin: 12px 0 0 0;
-      font-size: clamp(36px, 4.6vw, 60px);
-      line-height: 1.05;
-      letter-spacing: -0.05em;
+      font-size: clamp(52px, 6.2vw, 92px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
       font-weight: 1000;
     }
-    .grad{
+    .name .grad{
       background: var(--grad);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       background-size: 200% 200%;
-      animation: titleShift 7s var(--easeSoft) infinite;
+      animation: shift 7s var(--easeSoft) infinite;
     }
-    @keyframes titleShift{
+    @keyframes shift{
       0%,100%{ background-position: 0% 50%; }
       50%{ background-position: 100% 50%; }
     }
 
-    /* concise employer bullets */
-    .scan{
-      margin-top: 10px;
+    .title{
+      margin: 10px 0 0 0;
+      font-size: clamp(20px, 2.4vw, 28px);
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      color: rgba(246,248,255,.92);
+    }
+
+    .oneLiner{
+      margin: 10px 0 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14.5px;
+      max-width: 80ch;
+    }
+
+    /* SIMPLE proof row (3 items) */
+    .proof{
+      margin-top: 12px;
       display:grid;
       grid-template-columns: repeat(3, minmax(0,1fr));
       gap: var(--gap);
     }
-    .scanItem{
+    .card{
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
       padding: 12px;
     }
-    .scanItem .k{
+    .card .k{
       font-weight: 1000;
       font-size: 13px;
       letter-spacing: -0.01em;
-      color: rgba(245,247,255,.92);
+      color: rgba(246,248,255,.92);
     }
-    .scanItem .v{
+    .card .v{
       margin-top: 6px;
       color: var(--muted2);
       font-size: 12.5px;
       line-height: 1.45;
     }
 
-    /* segmented control (strong) */
-    .segwrap{
-      margin-top: 10px;
-      display:flex;
-      gap: 12px;
-      align-items:center;
-      flex-wrap: wrap;
-    }
-    .seg{
-      display:inline-flex;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-    }
-    .seg button{
-      appearance:none;
-      border:0;
-      background: transparent;
-      color: rgba(245,247,255,.82);
-      font-weight: 950;
-      font-size: 12.5px;
-      padding: 10px 12px;
-      cursor:pointer;
-      transition: background .22s var(--easeOut), color .22s var(--easeOut);
-      white-space: nowrap;
-    }
-    .seg button + button{
-      border-left: 1px solid rgba(255,255,255,.10);
-    }
-    .seg button:hover{
-      background: rgba(255,255,255,.04);
-      color: rgba(245,247,255,.92);
-    }
-    .seg button.active{
-      background: rgba(122,162,255,.14);
-      color: rgba(245,247,255,.98);
-      box-shadow: inset 0 0 0 1px rgba(122,162,255,.18);
-    }
-
-    /* Work */
+    /* Sections */
+    section{ scroll-margin-top: 78px; }
     .section-head{
-      margin-top: 14px;
+      margin-top: 16px;
       display:flex;
       justify-content: space-between;
       gap: 10px;
@@ -231,16 +167,17 @@
     }
     h2{
       margin:0;
-      font-size: 17px;
+      font-size: 16px;
       letter-spacing: -0.02em;
       font-weight: 1000;
     }
     .hint{
+      margin:0;
       color: var(--muted2);
       font-size: 13px;
-      margin:0;
     }
 
+    /* Tiles — only 4, click to expand */
     .tiles{
       margin-top: 10px;
       display:grid;
@@ -274,7 +211,7 @@
     }
     .tag{
       font-size: 12px;
-      color: rgba(245,247,255,.80);
+      color: rgba(246,248,255,.82);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
       padding: 6px 9px;
@@ -286,12 +223,6 @@
       color: var(--muted);
       font-size: 13.5px;
       line-height: 1.6;
-    }
-    .tile-cta{
-      margin-top: 10px;
-      font-weight: 950;
-      font-size: 12.5px;
-      color: rgba(122,162,255,.95);
     }
 
     /* Expand panel */
@@ -347,7 +278,7 @@
     .close{
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
-      color: rgba(245,247,255,.92);
+      color: rgba(246,248,255,.92);
       border-radius: 14px;
       padding: 9px 11px;
       font-weight: 950;
@@ -367,7 +298,7 @@
       gap: var(--gap);
     }
     .block{
-      border-radius: var(--r2);
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.035);
       padding: 12px;
@@ -376,7 +307,7 @@
       margin: 0 0 8px 0;
       font-size: 12.5px;
       font-weight: 1000;
-      color: rgba(245,247,255,.92);
+      color: rgba(246,248,255,.92);
     }
     .bullets{
       margin: 0 0 0 18px;
@@ -390,10 +321,28 @@
       gap: 8px;
       margin-top: 8px;
     }
+    .smallLink{
+      font-size: 13px;
+      font-weight: 900;
+      color: rgba(246,248,255,.86);
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      transition: transform .22s var(--easeOut), background .22s var(--easeOut), border-color .22s var(--easeOut);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .smallLink:hover{
+      transform: translateY(-1px);
+      border-color: rgba(122,162,255,.34);
+      background: rgba(122,162,255,.10);
+    }
 
     /* Contact */
     .contact{
-      margin-top: 14px;
+      margin-top: 16px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
@@ -423,7 +372,7 @@
     }
 
     @media (max-width: 900px){
-      .scan{ grid-template-columns: 1fr; }
+      .proof{ grid-template-columns: 1fr; }
       .tiles{ grid-template-columns: 1fr; }
       .panel-grid{ grid-template-columns: 1fr; }
     }
@@ -431,74 +380,55 @@
       html{ scroll-behavior:auto; }
       .reveal, .reveal.in{ transition:none; transform:none; filter:none; opacity:1; }
       .panel{ transition:none; }
-      .grad{ animation:none; }
+      .name .grad{ animation:none; }
     }
   </style>
 </head>
 
 <body>
+  <!-- Simple topbar with only what matters (NO LinkedIn) -->
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="#top" aria-label="Home">
-        <span class="dot"></span>
-        <span>Kian Foshee</span>
-      </a>
-
-      <div class="links">
-        <!-- Replace placeholders -->
-        <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
-        <a class="link" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="link" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a class="link" href="mailto:KianFoshee@gmail.com">Email</a>
-      </div>
+      <a class="navlink" href="#work">Work</a>
+      <a class="navlink" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+      <a class="navlink" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="navlink" href="mailto:KianFoshee@gmail.com">Email</a>
     </div>
   </header>
 
   <main id="top">
     <section class="hero">
-      <!-- NAME at the top (requested) -->
-      <div class="name reveal">Kian Foshee</div>
-      <div class="roleline reveal">
-        Opportunity Insights (Harvard) contributor. Research + reproducible data infrastructure (R) + execution.
+      <!-- NAME is the biggest thing -->
+      <h1 class="name reveal"><span class="grad">Kian Foshee</span></h1>
+
+      <!-- concise title line -->
+      <div class="title reveal">Research • Data Infrastructure • Execution</div>
+
+      <!-- concise employer one-liner -->
+      <div class="oneLiner reveal">
+        Opportunity Insights (Harvard) contributor. I build rerunnable R pipelines and decision-ready outputs (maps, tables, briefs) with stable keys and join QA.
       </div>
 
-      <h1 class="reveal">
-        Research. <span class="grad">Data infrastructure.</span> Execution.
-      </h1>
-
-      <!-- concise, employer-friendly -->
-      <div class="scan reveal" aria-label="Employer scan">
-        <div class="scanItem">
-          <div class="k">What I build</div>
-          <div class="v">Rerunnable pipelines and decision-ready outputs (maps, tables, briefs).</div>
+      <!-- very simple scan row -->
+      <div class="proof reveal" aria-label="Employer scan">
+        <div class="card">
+          <div class="k">What I do</div>
+          <div class="v">Reproducible data work from messy inputs to interpretable outputs.</div>
         </div>
-        <div class="scanItem">
-          <div class="k">How I ensure correctness</div>
-          <div class="v">Stable keys, join QA guardrails, and reproducible deliverables.</div>
+        <div class="card">
+          <div class="k">How I’m different</div>
+          <div class="v">Correctness-first: stable keys, join QA guardrails, rerunnable deliverables.</div>
         </div>
-        <div class="scanItem">
+        <div class="card">
           <div class="k">Proof</div>
-          <div class="v">SSRN paper + code + outputs linked below.</div>
+          <div class="v">Paper + code + selected outputs linked below.</div>
         </div>
       </div>
-
-      <!-- Strong tabs -->
-      <div class="segwrap reveal">
-        <div class="seg" role="tablist" aria-label="Focus tabs">
-          <button class="active" type="button" data-tab="overview" role="tab" aria-selected="true">Overview</button>
-          <button type="button" data-tab="research" role="tab" aria-selected="false">Opportunity Insights</button>
-          <button type="button" data-tab="infra" role="tab" aria-selected="false">Reproducibility</button>
-          <button type="button" data-tab="business" role="tab" aria-selected="false">Entrepreneurship</button>
-          <button type="button" data-tab="awards" role="tab" aria-selected="false">Awards</button>
-        </div>
-      </div>
-
-      <div class="scan reveal" id="proofRow"></div>
     </section>
 
     <section id="work">
       <div class="section-head reveal">
-        <h2>Work summary</h2>
+        <h2>Work</h2>
         <p class="hint">Click a card to expand.</p>
       </div>
 
@@ -506,37 +436,33 @@
         <div class="tile reveal" data-open="research" role="button" tabindex="0" aria-label="Open Research">
           <div class="tile-top">
             <div class="tile-title">Research</div>
-            <div class="tag">Mobility / place</div>
+            <div class="tag">Mobility</div>
           </div>
           <div class="tile-text">Economic mobility work with reproducible deliverables and interpretable outputs.</div>
-          <div class="tile-cta">Expand</div>
         </div>
 
         <div class="tile reveal" data-open="infra" role="button" tabindex="0" aria-label="Open Data Infrastructure">
           <div class="tile-top">
             <div class="tile-title">Data Infrastructure</div>
-            <div class="tag">Keys / QA / joins</div>
+            <div class="tag">R / QA</div>
           </div>
-          <div class="tile-text">Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.</div>
-          <div class="tile-cta">Expand</div>
+          <div class="tile-text">Stable keys, join QA checks, and rerunnable pipelines in R.</div>
         </div>
 
         <div class="tile reveal" data-open="business" role="button" tabindex="0" aria-label="Open Business">
           <div class="tile-top">
             <div class="tile-title">Business</div>
-            <div class="tag">Ops ownership</div>
+            <div class="tag">Ops</div>
           </div>
           <div class="tile-text">Built a consumer product brand with measurable growth and operational ownership.</div>
-          <div class="tile-cta">Expand</div>
         </div>
 
         <div class="tile reveal" data-open="awards" role="button" tabindex="0" aria-label="Open Awards">
           <div class="tile-top">
             <div class="tile-title">Awards</div>
-            <div class="tag">Competitive signal</div>
+            <div class="tag">Signal</div>
           </div>
           <div class="tile-text">Competitive signal across economics, finance, and performance.</div>
-          <div class="tile-cta">Expand</div>
         </div>
       </div>
 
@@ -551,12 +477,12 @@
 
         <div class="panel-grid">
           <div class="block">
-            <h3>What I shipped</h3>
+            <h3>Highlights</h3>
             <ul class="bullets" id="panelBullets"></ul>
           </div>
 
           <div class="block">
-            <h3>Proof links</h3>
+            <h3>Links</h3>
             <div class="actions" id="panelLinks"></div>
           </div>
         </div>
@@ -570,10 +496,9 @@
           <div class="muted">Portfolio URL: <span class="mono">https://kfoshee.github.io/portfolio/</span></div>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <a class="link" href="mailto:KianFoshee@gmail.com">Email</a>
-          <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
-          <a class="link" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="link" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="smallLink" href="mailto:KianFoshee@gmail.com">Email</a>
+          <a class="smallLink" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+          <a class="smallLink" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
 
@@ -588,7 +513,7 @@
     (() => {
       document.getElementById("year").textContent = String(new Date().getFullYear());
 
-      // reveal animations
+      // reveal
       const revealEls = document.querySelectorAll(".reveal");
       const io = new IntersectionObserver((entries) => {
         for (const entry of entries) {
@@ -600,55 +525,7 @@
       }, { threshold: 0.14 });
       revealEls.forEach(el => io.observe(el));
 
-      // proof row content (concise)
-      const proofRow = document.getElementById("proofRow");
-      const segButtons = document.querySelectorAll(".seg button");
-
-      const PROOF = {
-        overview: [
-          ["Verify", "Paper + code + outputs linked below."],
-          ["Correctness", "Stable keys and join QA guardrails."],
-          ["Shipping", "Decision-ready maps, tables, and briefs."]
-        ],
-        research: [
-          ["Opportunity Insights", "Mobility research contributor; reproducible deliverables."],
-          ["Working paper", "Move-in rates and upward mobility (SSRN)."],
-          ["Outputs", "Map-ready outputs designed for interpretation."]
-        ],
-        infra: [
-          ["Reproducibility", "Rerunnable pipelines and versioned outputs."],
-          ["Join QA", "Coverage, duplicates, key integrity checks."],
-          ["Stable keys", "Definitions aligned before analysis."]
-        ],
-        business: [
-          ["Ops ownership", "Sourcing, QA, inventory, listings, support."],
-          ["Growth", "$50K+ sales; 40K+ followers; 100M+ views."],
-          ["Systems", "Repeatable workflows, not one-off wins."]
-        ],
-        awards: [
-          ["Economics", "World Economics Cup; Northwestern Econ Tournament; Harvard HPEC."],
-          ["Finance", "National Finance Challenge perfect score; NEC top score."],
-          ["Signal", "Competitive performance across domains."]
-        ]
-      };
-
-      function setProof(key){
-        const data = PROOF[key] || PROOF.overview;
-        proofRow.innerHTML = data.map(([k,v]) =>
-          `<div class="scanItem"><div class="k">${k}</div><div class="v">${v}</div></div>`
-        ).join("");
-      }
-
-      segButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          segButtons.forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected","false"); });
-          btn.classList.add("active");
-          btn.setAttribute("aria-selected","true");
-          setProof(btn.dataset.tab);
-        });
-      });
-
-      // Expand panel content
+      // panel content (simple + employer-readable)
       const DATA = {
         research: {
           title: "Research",
@@ -659,13 +536,12 @@
             "Outputs designed for interpretation, not just model performance."
           ],
           links: [
-            { label: "Open paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true },
-            { label: "GitHub", href: "https://github.com/kfoshee", ext: true }
+            { label: "Open paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true }
           ]
         },
         infra: {
           title: "Data Infrastructure",
-          sub: "Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.",
+          sub: "Stable keys, join QA checks, and rerunnable pipelines in R.",
           bullets: [
             "Standardize identifiers and definitions across datasets before analysis.",
             "Join QA checks so merges don’t silently fail (coverage, duplicates, key integrity).",
@@ -685,8 +561,7 @@
             "Iterated product via feedback loops and repeatable fulfillment workflows."
           ],
           links: [
-            { label: "Email", href: "mailto:KianFoshee@gmail.com", ext: false },
-            { label: "LinkedIn", href: "YOUR_LINKEDIN", ext: true }
+            { label: "Email", href: "mailto:KianFoshee@gmail.com", ext: false }
           ]
         },
         awards: {
@@ -700,8 +575,7 @@
             "National Economics Challenge (Texas) — Top Score (Top < 10%)."
           ],
           links: [
-            { label: "Paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true },
-            { label: "Contact", href: "#contact", ext: false }
+            { label: "Paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true }
           ]
         }
       };
@@ -730,7 +604,7 @@
         panelLinks.innerHTML = "";
         d.links.forEach(l => {
           const a = document.createElement("a");
-          a.className = "link";
+          a.className = "smallLink";
           a.textContent = l.label;
           a.href = l.href;
           if (l.ext && l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
@@ -750,9 +624,6 @@
       });
 
       closeBtn.addEventListener("click", () => panel.classList.remove("open"));
-
-      // init
-      setProof("overview");
     })();
   </script>
 </body>
