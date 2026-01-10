@@ -5,25 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <title>Kian Foshee — Research • Data Infrastructure • Execution</title>
-  <meta name="description" content="Research, data infrastructure, and execution. Reproducible pipelines and decision-ready outputs." />
+  <meta name="description" content="Kian Foshee — research, data infrastructure, and execution. Reproducible pipelines and decision-ready outputs." />
 
-  <!-- cache-bust helper -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
   <style>
     :root{
-      /* TRUE black background */
       --bg:#000;
-
       --text:#F5F7FF;
       --muted:rgba(220,228,255,.70);
       --muted2:rgba(220,228,255,.58);
 
       --line:rgba(255,255,255,.12);
-      --line2:rgba(255,255,255,.08);
-
       --panel:rgba(255,255,255,.03);
       --panel2:rgba(255,255,255,.045);
 
@@ -41,8 +36,8 @@
       --easeOut: cubic-bezier(.16, 1, .3, 1);
       --easeSoft: cubic-bezier(.2,.9,.2,1);
 
-      --gap:10px;      /* tighter */
-      --gap2:8px;      /* tighter */
+      --gap:10px;
+      --gap2:8px;
     }
 
     *{ box-sizing:border-box; }
@@ -60,7 +55,7 @@
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
     ::selection{ background: rgba(122,162,255,.28); }
 
-    /* Topbar: solid black, crisp */
+    /* Topbar */
     .topbar{
       position: fixed;
       inset: 0 0 auto 0;
@@ -113,18 +108,36 @@
     main{
       max-width: 980px;
       margin: 0 auto;
-      padding: 92px 14px 50px; /* tighter */
+      padding: 92px 14px 50px;
     }
+    section{ scroll-margin-top: 92px; }
 
     /* Hero */
     .hero{
-      padding: 18px 0 10px; /* tighter */
+      padding: 14px 0 10px;
     }
-    h1{
+
+    /* NAME at the top (requested) */
+    .name{
       margin: 0;
-      font-size: clamp(42px, 5.2vw, 74px);
-      line-height: 1.02;
-      letter-spacing: -0.055em;
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing: -0.02em;
+      color: rgba(245,247,255,.92);
+    }
+    .roleline{
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.45;
+      max-width: 78ch;
+    }
+
+    h1{
+      margin: 12px 0 0 0;
+      font-size: clamp(36px, 4.6vw, 60px);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
       font-weight: 1000;
     }
     .grad{
@@ -139,17 +152,36 @@
       0%,100%{ background-position: 0% 50%; }
       50%{ background-position: 100% 50%; }
     }
-    .sub{
+
+    /* concise employer bullets */
+    .scan{
       margin-top: 10px;
-      max-width: 78ch;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 14.5px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: var(--gap);
+    }
+    .scanItem{
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      padding: 12px;
+    }
+    .scanItem .k{
+      font-weight: 1000;
+      font-size: 13px;
+      letter-spacing: -0.01em;
+      color: rgba(245,247,255,.92);
+    }
+    .scanItem .v{
+      margin-top: 6px;
+      color: var(--muted2);
+      font-size: 12.5px;
+      line-height: 1.45;
     }
 
-    /* Strong “tabs/chips” (segmented control, not ugly pills) */
+    /* segmented control (strong) */
     .segwrap{
-      margin-top: 12px;
+      margin-top: 10px;
       display:flex;
       gap: 12px;
       align-items:center;
@@ -168,7 +200,7 @@
       border:0;
       background: transparent;
       color: rgba(245,247,255,.82);
-      font-weight: 900;
+      font-weight: 950;
       font-size: 12.5px;
       padding: 10px 12px;
       cursor:pointer;
@@ -188,38 +220,7 @@
       box-shadow: inset 0 0 0 1px rgba(122,162,255,.18);
     }
 
-    /* Proof row (tight + employer-scan) */
-    .proof{
-      margin-top: 12px;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: var(--gap);
-    }
-    .metric{
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      padding: 12px;
-    }
-    .metric .k{
-      font-weight: 1000;
-      letter-spacing: -0.02em;
-      font-size: 14px;
-      background: var(--grad);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-    }
-    .metric .v{
-      margin-top: 6px;
-      color: var(--muted2);
-      font-size: 12.5px;
-      line-height: 1.4;
-    }
-
-    /* Work tiles */
-    section{ scroll-margin-top: 92px; }
-
+    /* Work */
     .section-head{
       margin-top: 14px;
       display:flex;
@@ -230,7 +231,7 @@
     }
     h2{
       margin:0;
-      font-size: 18px;
+      font-size: 17px;
       letter-spacing: -0.02em;
       font-weight: 1000;
     }
@@ -293,7 +294,7 @@
       color: rgba(122,162,255,.95);
     }
 
-    /* Expand panel (stronger, cleaner) */
+    /* Expand panel */
     .panel{
       margin-top: 10px;
       border-radius: var(--r);
@@ -414,21 +415,18 @@
       padding-bottom: 10px;
     }
 
-    /* Stronger entrance animations */
+    /* Animations */
     .reveal{ opacity:0; transform: translateY(18px); filter: blur(14px); }
     .reveal.in{
       opacity:1; transform: translateY(0); filter: blur(0);
       transition: opacity .95s var(--easeSoft), transform .95s var(--easeSoft), filter .95s var(--easeSoft);
     }
 
-    /* Responsive */
     @media (max-width: 900px){
-      .hero{ grid-template-columns: 1fr; }
-      .proof{ grid-template-columns: 1fr; }
+      .scan{ grid-template-columns: 1fr; }
       .tiles{ grid-template-columns: 1fr; }
       .panel-grid{ grid-template-columns: 1fr; }
     }
-
     @media (prefers-reduced-motion: reduce){
       html{ scroll-behavior:auto; }
       .reveal, .reveal.in{ transition:none; transform:none; filter:none; opacity:1; }
@@ -447,7 +445,7 @@
       </a>
 
       <div class="links">
-        <!-- replace placeholders -->
+        <!-- Replace placeholders -->
         <a class="link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
         <a class="link" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
         <a class="link" href="YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
@@ -458,46 +456,50 @@
 
   <main id="top">
     <section class="hero">
+      <!-- NAME at the top (requested) -->
+      <div class="name reveal">Kian Foshee</div>
+      <div class="roleline reveal">
+        Opportunity Insights (Harvard) contributor. Research + reproducible data infrastructure (R) + execution.
+      </div>
+
       <h1 class="reveal">
         Research. <span class="grad">Data infrastructure.</span> Execution.
       </h1>
 
-      <p class="sub reveal">
-        I build reproducible pipelines and decision-ready outputs: stable keys, join QA, map-ready deliverables,
-        and writeups designed to be interpretable. Everything here is structured for an employer to scan fast and verify.
-      </p>
+      <!-- concise, employer-friendly -->
+      <div class="scan reveal" aria-label="Employer scan">
+        <div class="scanItem">
+          <div class="k">What I build</div>
+          <div class="v">Rerunnable pipelines and decision-ready outputs (maps, tables, briefs).</div>
+        </div>
+        <div class="scanItem">
+          <div class="k">How I ensure correctness</div>
+          <div class="v">Stable keys, join QA guardrails, and reproducible deliverables.</div>
+        </div>
+        <div class="scanItem">
+          <div class="k">Proof</div>
+          <div class="v">SSRN paper + code + outputs linked below.</div>
+        </div>
+      </div>
 
-      <!-- STRONG tabs/segmented control -->
-      <div class="segwrap reveal" aria-label="Quick focus">
+      <!-- Strong tabs -->
+      <div class="segwrap reveal">
         <div class="seg" role="tablist" aria-label="Focus tabs">
           <button class="active" type="button" data-tab="overview" role="tab" aria-selected="true">Overview</button>
           <button type="button" data-tab="research" role="tab" aria-selected="false">Opportunity Insights</button>
-          <button type="button" data-tab="infra" role="tab" aria-selected="false">R-first reproducibility</button>
+          <button type="button" data-tab="infra" role="tab" aria-selected="false">Reproducibility</button>
           <button type="button" data-tab="business" role="tab" aria-selected="false">Entrepreneurship</button>
           <button type="button" data-tab="awards" role="tab" aria-selected="false">Awards</button>
         </div>
       </div>
 
-      <div class="proof reveal" id="proofRow">
-        <div class="metric">
-          <div class="k">Verify fast</div>
-          <div class="v">Paper, code, and outputs are one click away.</div>
-        </div>
-        <div class="metric">
-          <div class="k">Correctness</div>
-          <div class="v">Stable keys, join QA guardrails, rerunnable deliverables.</div>
-        </div>
-        <div class="metric">
-          <div class="k">Shipping</div>
-          <div class="v">Outputs built for decisions, not just “a model.”</div>
-        </div>
-      </div>
+      <div class="scan reveal" id="proofRow"></div>
     </section>
 
     <section id="work">
       <div class="section-head reveal">
-        <h2>What I do</h2>
-        <p class="hint">Four tiles. Click one to expand.</p>
+        <h2>Work summary</h2>
+        <p class="hint">Click a card to expand.</p>
       </div>
 
       <div class="tiles">
@@ -507,7 +509,7 @@
             <div class="tag">Mobility / place</div>
           </div>
           <div class="tile-text">Economic mobility work with reproducible deliverables and interpretable outputs.</div>
-          <div class="tile-cta">Click to expand</div>
+          <div class="tile-cta">Expand</div>
         </div>
 
         <div class="tile reveal" data-open="infra" role="button" tabindex="0" aria-label="Open Data Infrastructure">
@@ -516,7 +518,7 @@
             <div class="tag">Keys / QA / joins</div>
           </div>
           <div class="tile-text">Stable keys, join QA checks, crosswalk-grade joins, and rerunnable pipelines in R.</div>
-          <div class="tile-cta">Click to expand</div>
+          <div class="tile-cta">Expand</div>
         </div>
 
         <div class="tile reveal" data-open="business" role="button" tabindex="0" aria-label="Open Business">
@@ -525,7 +527,7 @@
             <div class="tag">Ops ownership</div>
           </div>
           <div class="tile-text">Built a consumer product brand with measurable growth and operational ownership.</div>
-          <div class="tile-cta">Click to expand</div>
+          <div class="tile-cta">Expand</div>
         </div>
 
         <div class="tile reveal" data-open="awards" role="button" tabindex="0" aria-label="Open Awards">
@@ -534,7 +536,7 @@
             <div class="tag">Competitive signal</div>
           </div>
           <div class="tile-text">Competitive signal across economics, finance, and performance.</div>
-          <div class="tile-cta">Click to expand</div>
+          <div class="tile-cta">Expand</div>
         </div>
       </div>
 
@@ -584,10 +586,9 @@
 
   <script>
     (() => {
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       document.getElementById("year").textContent = String(new Date().getFullYear());
 
-      // Reveal animations
+      // reveal animations
       const revealEls = document.querySelectorAll(".reveal");
       const io = new IntersectionObserver((entries) => {
         for (const entry of entries) {
@@ -599,42 +600,42 @@
       }, { threshold: 0.14 });
       revealEls.forEach(el => io.observe(el));
 
-      // Segmented control -> updates proof row text (clean + employer-sense)
+      // proof row content (concise)
       const proofRow = document.getElementById("proofRow");
       const segButtons = document.querySelectorAll(".seg button");
 
       const PROOF = {
         overview: [
-          ["Verify fast", "Paper, code, and outputs are one click away."],
-          ["Correctness", "Stable keys, join QA guardrails, rerunnable deliverables."],
-          ["Shipping", "Outputs built for decisions, not just “a model.”"]
+          ["Verify", "Paper + code + outputs linked below."],
+          ["Correctness", "Stable keys and join QA guardrails."],
+          ["Shipping", "Decision-ready maps, tables, and briefs."]
         ],
         research: [
-          ["Opportunity Insights", "Economic mobility contribution work; reproducible deliverables."],
-          ["Working paper", "Move-in rates and the geography of upward mobility (SSRN)."],
-          ["Outputs", "Maps/tables designed for interpretation and reuse."]
+          ["Opportunity Insights", "Mobility research contributor; reproducible deliverables."],
+          ["Working paper", "Move-in rates and upward mobility (SSRN)."],
+          ["Outputs", "Map-ready outputs designed for interpretation."]
         ],
         infra: [
-          ["R-first reproducibility", "Rerunnable pipelines with versioned outputs."],
-          ["Join QA", "Coverage, duplicates, key integrity; merges don’t silently lie."],
-          ["Stable keys", "Definitions aligned before analysis, not after."]
+          ["Reproducibility", "Rerunnable pipelines and versioned outputs."],
+          ["Join QA", "Coverage, duplicates, key integrity checks."],
+          ["Stable keys", "Definitions aligned before analysis."]
         ],
         business: [
-          ["Ops ownership", "Sourcing, QA, inventory, listing, support, iteration loops."],
-          ["Growth signal", "$50K+ sales; 40K+ followers; 100M+ views."],
+          ["Ops ownership", "Sourcing, QA, inventory, listings, support."],
+          ["Growth", "$50K+ sales; 40K+ followers; 100M+ views."],
           ["Systems", "Repeatable workflows, not one-off wins."]
         ],
         awards: [
-          ["Competitive signal", "Economics and finance competitions + performance."],
           ["Economics", "World Economics Cup; Northwestern Econ Tournament; Harvard HPEC."],
-          ["Finance", "National Finance Challenge (TX) perfect score; NEC top score."]
+          ["Finance", "National Finance Challenge perfect score; NEC top score."],
+          ["Signal", "Competitive performance across domains."]
         ]
       };
 
       function setProof(key){
         const data = PROOF[key] || PROOF.overview;
         proofRow.innerHTML = data.map(([k,v]) =>
-          `<div class="metric"><div class="k">${k}</div><div class="v">${v}</div></div>`
+          `<div class="scanItem"><div class="k">${k}</div><div class="v">${v}</div></div>`
         ).join("");
       }
 
@@ -737,8 +738,7 @@
         });
 
         panel.classList.add("open");
-        if (!prefersReducedMotion) panel.scrollIntoView({ behavior:"smooth", block:"start" });
-        else panel.scrollIntoView();
+        panel.scrollIntoView({ behavior:"smooth", block:"start" });
       }
 
       document.querySelectorAll(".tile[data-open]").forEach(tile => {
@@ -751,7 +751,7 @@
 
       closeBtn.addEventListener("click", () => panel.classList.remove("open"));
 
-      // initialize proof row
+      // init
       setProof("overview");
     })();
   </script>
