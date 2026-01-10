@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <title>Kian Foshee — Portfolio</title>
-  <meta name="description" content="Kian Foshee — research, data infrastructure, and execution. Reproducible pipelines and decision-ready outputs." />
+  <meta name="description" content="Kian Foshee — research, data infrastructure, execution. Paper + code + proof." />
 
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
@@ -14,13 +14,14 @@
   <style>
     :root{
       --bg:#000;
-      --text:#F6F8FF;
+      --text:#F7F8FF;
       --muted: rgba(220,228,255,.72);
-      --muted2: rgba(220,228,255,.58);
+      --muted2: rgba(220,228,255,.56);
       --line: rgba(255,255,255,.12);
       --panel: rgba(255,255,255,.03);
       --panel2: rgba(255,255,255,.045);
       --r: 18px;
+      --r2: 14px;
 
       --accent1:#7AA2FF;
       --accent2:#B88CFF;
@@ -30,12 +31,12 @@
       --easeOut: cubic-bezier(.16, 1, .3, 1);
       --easeSoft: cubic-bezier(.2,.9,.2,1);
 
-      --gap: 10px;
+      --gap: 12px;
     }
 
     *{ box-sizing:border-box; }
     html, body { height:100%; }
-    html{ scroll-behavior:smooth; scroll-padding-top: 78px; }
+    html{ scroll-behavior:smooth; scroll-padding-top: 72px; }
     body{
       margin:0;
       background: var(--bg);
@@ -44,36 +45,37 @@
       overflow-x:hidden;
     }
     a{ color:inherit; text-decoration:none; }
-    .muted{ color: var(--muted2); }
     ::selection{ background: rgba(122,162,255,.28); }
+    .muted{ color: var(--muted2); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
 
-    /* Topbar — SIMPLE */
+    /* Minimal topbar: only proof links (small) */
     .topbar{
       position: fixed;
       inset: 0 0 auto 0;
-      z-index: 50;
+      z-index: 30;
       background: rgba(0,0,0,.92);
       border-bottom: 1px solid rgba(255,255,255,.08);
       backdrop-filter: blur(10px);
     }
     .topbar-inner{
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
       padding: 10px 14px;
       display:flex;
-      align-items:center;
       justify-content: flex-end;
       gap: 10px;
       flex-wrap: wrap;
+      align-items:center;
     }
     .navlink{
       font-size: 13px;
-      font-weight: 900;
-      color: rgba(246,248,255,.86);
+      font-weight: 950;
+      color: rgba(247,248,255,.86);
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
-      transition: transform .22s var(--easeOut), background .22s var(--easeOut), border-color .22s var(--easeOut);
+      transition: transform .2s var(--easeOut), background .2s var(--easeOut), border-color .2s var(--easeOut);
       user-select:none;
     }
     .navlink:hover{
@@ -82,22 +84,21 @@
       background: rgba(255,255,255,.04);
     }
 
-    /* Layout */
     main{
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 78px 14px 44px;
+      padding: 72px 14px 44px;
     }
 
-    /* HERO — NAME is the biggest thing */
+    /* HERO: name is the biggest thing */
     .hero{
-      padding: 18px 0 8px;
+      padding: 26px 0 10px;
     }
     .name{
       margin: 0;
-      font-size: clamp(52px, 6.2vw, 92px);
-      line-height: 0.98;
-      letter-spacing: -0.06em;
+      font-size: clamp(66px, 7.2vw, 108px);
+      line-height: 0.95;
+      letter-spacing: -0.065em;
       font-weight: 1000;
     }
     .name .grad{
@@ -113,63 +114,88 @@
       50%{ background-position: 100% 50%; }
     }
 
-    .title{
+    .headline{
       margin: 10px 0 0 0;
-      font-size: clamp(20px, 2.4vw, 28px);
+      font-size: clamp(18px, 2.2vw, 24px);
       font-weight: 950;
       letter-spacing: -0.02em;
-      color: rgba(246,248,255,.92);
+      color: rgba(247,248,255,.92);
     }
-
-    .oneLiner{
+    .summary{
       margin: 10px 0 0 0;
+      max-width: 78ch;
       color: var(--muted);
       line-height: 1.6;
       font-size: 14.5px;
-      max-width: 80ch;
     }
 
-    /* SIMPLE proof row (3 items) */
-    .proof{
-      margin-top: 12px;
+    /* only TWO simple blocks: what + proof */
+    .two{
+      margin-top: 14px;
       display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
+      grid-template-columns: 1fr 1fr;
       gap: var(--gap);
     }
-    .card{
+    .box{
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
-      padding: 12px;
+      padding: 14px;
     }
-    .card .k{
-      font-weight: 1000;
+    .box h2{
+      margin:0;
       font-size: 13px;
+      font-weight: 1000;
       letter-spacing: -0.01em;
-      color: rgba(246,248,255,.92);
+      color: rgba(247,248,255,.92);
     }
-    .card .v{
-      margin-top: 6px;
+    .box p{
+      margin: 8px 0 0 0;
       color: var(--muted2);
-      font-size: 12.5px;
-      line-height: 1.45;
+      line-height: 1.5;
+      font-size: 13.5px;
+    }
+    .btnrow{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 9px 11px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      font-size: 13px;
+      font-weight: 950;
+      color: rgba(247,248,255,.88);
+      transition: transform .2s var(--easeOut), background .2s var(--easeOut), border-color .2s var(--easeOut);
+      user-select:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(122,162,255,.30);
+      background: rgba(122,162,255,.10);
+      color: rgba(247,248,255,.95);
     }
 
-    /* Sections */
-    section{ scroll-margin-top: 78px; }
+    /* Work: 4 simple cards, then one expanded panel */
     .section-head{
-      margin-top: 16px;
+      margin-top: 18px;
       display:flex;
       justify-content: space-between;
       gap: 10px;
       align-items: baseline;
       flex-wrap: wrap;
     }
-    h2{
+    .section-head h2{
       margin:0;
       font-size: 16px;
-      letter-spacing: -0.02em;
       font-weight: 1000;
+      letter-spacing: -0.02em;
     }
     .hint{
       margin:0;
@@ -177,7 +203,6 @@
       font-size: 13px;
     }
 
-    /* Tiles — only 4, click to expand */
     .tiles{
       margin-top: 10px;
       display:grid;
@@ -190,42 +215,27 @@
       background: rgba(255,255,255,.03);
       padding: 14px;
       cursor:pointer;
-      transition: transform .35s var(--easeSoft), border-color .35s var(--easeSoft), background .35s var(--easeSoft);
+      transition: transform .28s var(--easeSoft), border-color .28s var(--easeSoft), background .28s var(--easeSoft);
       user-select:none;
     }
     .tile:hover{
       transform: translateY(-3px);
-      border-color: rgba(122,162,255,.30);
+      border-color: rgba(122,162,255,.28);
       background: rgba(255,255,255,.045);
     }
-    .tile-top{
-      display:flex;
-      justify-content: space-between;
-      align-items:center;
-      gap: 10px;
-    }
-    .tile-title{
+    .tile .t{
       font-weight: 1000;
-      letter-spacing: -0.02em;
       font-size: 15px;
+      letter-spacing: -0.02em;
+      margin:0;
     }
-    .tag{
-      font-size: 12px;
-      color: rgba(246,248,255,.82);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      padding: 6px 9px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-    .tile-text{
-      margin-top: 10px;
+    .tile .d{
+      margin-top: 8px;
       color: var(--muted);
+      line-height: 1.55;
       font-size: 13.5px;
-      line-height: 1.6;
     }
 
-    /* Expand panel */
     .panel{
       margin-top: 10px;
       border-radius: var(--r);
@@ -240,11 +250,11 @@
       max-height: 0;
 
       transition:
-        opacity .55s var(--easeSoft),
-        transform .55s var(--easeSoft),
-        filter .55s var(--easeSoft),
-        max-height .65s var(--easeSoft),
-        padding .65s var(--easeSoft);
+        opacity .45s var(--easeSoft),
+        transform .45s var(--easeSoft),
+        filter .45s var(--easeSoft),
+        max-height .55s var(--easeSoft),
+        padding .55s var(--easeSoft);
     }
     .panel.open{
       opacity: 1;
@@ -273,32 +283,32 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.55;
-      max-width: 80ch;
+      max-width: 78ch;
     }
     .close{
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
-      color: rgba(246,248,255,.92);
+      color: rgba(247,248,255,.92);
       border-radius: 14px;
       padding: 9px 11px;
       font-weight: 950;
       cursor:pointer;
-      transition: transform .22s var(--easeOut), background .22s var(--easeOut), border-color .22s var(--easeOut);
+      transition: transform .2s var(--easeOut), background .2s var(--easeOut), border-color .2s var(--easeOut);
       user-select:none;
     }
     .close:hover{
       transform: translateY(-1px);
-      border-color: rgba(122,162,255,.34);
+      border-color: rgba(122,162,255,.30);
       background: rgba(122,162,255,.10);
     }
 
     .panel-grid{
       display:grid;
-      grid-template-columns: 1.05fr .95fr;
+      grid-template-columns: 1.15fr .85fr;
       gap: var(--gap);
     }
     .block{
-      border-radius: 14px;
+      border-radius: var(--r2);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.035);
       padding: 12px;
@@ -307,7 +317,7 @@
       margin: 0 0 8px 0;
       font-size: 12.5px;
       font-weight: 1000;
-      color: rgba(246,248,255,.92);
+      color: rgba(247,248,255,.92);
     }
     .bullets{
       margin: 0 0 0 18px;
@@ -321,28 +331,10 @@
       gap: 8px;
       margin-top: 8px;
     }
-    .smallLink{
-      font-size: 13px;
-      font-weight: 900;
-      color: rgba(246,248,255,.86);
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      transition: transform .22s var(--easeOut), background .22s var(--easeOut), border-color .22s var(--easeOut);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .smallLink:hover{
-      transform: translateY(-1px);
-      border-color: rgba(122,162,255,.34);
-      background: rgba(122,162,255,.10);
-    }
 
-    /* Contact */
+    /* Contact: minimal */
     .contact{
-      margin-top: 16px;
+      margin-top: 18px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
@@ -364,15 +356,15 @@
       padding-bottom: 10px;
     }
 
-    /* Animations */
-    .reveal{ opacity:0; transform: translateY(18px); filter: blur(14px); }
+    /* Clean, subtle animation only */
+    .reveal{ opacity:0; transform: translateY(14px); filter: blur(10px); }
     .reveal.in{
       opacity:1; transform: translateY(0); filter: blur(0);
-      transition: opacity .95s var(--easeSoft), transform .95s var(--easeSoft), filter .95s var(--easeSoft);
+      transition: opacity .8s var(--easeSoft), transform .8s var(--easeSoft), filter .8s var(--easeSoft);
     }
 
     @media (max-width: 900px){
-      .proof{ grid-template-columns: 1fr; }
+      .two{ grid-template-columns: 1fr; }
       .tiles{ grid-template-columns: 1fr; }
       .panel-grid{ grid-template-columns: 1fr; }
     }
@@ -386,7 +378,6 @@
 </head>
 
 <body>
-  <!-- Simple topbar with only what matters (NO LinkedIn) -->
   <header class="topbar">
     <div class="topbar-inner">
       <a class="navlink" href="#work">Work</a>
@@ -398,30 +389,25 @@
 
   <main id="top">
     <section class="hero">
-      <!-- NAME is the biggest thing -->
       <h1 class="name reveal"><span class="grad">Kian Foshee</span></h1>
+      <div class="headline reveal">Research • Data Infrastructure • Execution</div>
 
-      <!-- concise title line -->
-      <div class="title reveal">Research • Data Infrastructure • Execution</div>
-
-      <!-- concise employer one-liner -->
-      <div class="oneLiner reveal">
-        Opportunity Insights (Harvard) contributor. I build rerunnable R pipelines and decision-ready outputs (maps, tables, briefs) with stable keys and join QA.
+      <div class="summary reveal">
+        Opportunity Insights (Harvard) contributor. I build reproducible R pipelines and decision-ready outputs with stable keys and join QA.
       </div>
 
-      <!-- very simple scan row -->
-      <div class="proof reveal" aria-label="Employer scan">
-        <div class="card">
-          <div class="k">What I do</div>
-          <div class="v">Reproducible data work from messy inputs to interpretable outputs.</div>
+      <div class="two reveal">
+        <div class="box">
+          <h2>In one sentence</h2>
+          <p>I take messy data, make it reproducible, and ship outputs that support real decisions.</p>
         </div>
-        <div class="card">
-          <div class="k">How I’m different</div>
-          <div class="v">Correctness-first: stable keys, join QA guardrails, rerunnable deliverables.</div>
-        </div>
-        <div class="card">
-          <div class="k">Proof</div>
-          <div class="v">Paper + code + selected outputs linked below.</div>
+        <div class="box">
+          <h2>Proof</h2>
+          <p>Working paper (SSRN) + code (GitHub) are one click away.</p>
+          <div class="btnrow">
+            <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
+            <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
+          </div>
         </div>
       </div>
     </section>
@@ -429,40 +415,28 @@
     <section id="work">
       <div class="section-head reveal">
         <h2>Work</h2>
-        <p class="hint">Click a card to expand.</p>
+        <p class="hint">Click one item to expand.</p>
       </div>
 
       <div class="tiles">
         <div class="tile reveal" data-open="research" role="button" tabindex="0" aria-label="Open Research">
-          <div class="tile-top">
-            <div class="tile-title">Research</div>
-            <div class="tag">Mobility</div>
-          </div>
-          <div class="tile-text">Economic mobility work with reproducible deliverables and interpretable outputs.</div>
+          <div class="t">Research</div>
+          <div class="d">Economic mobility work with reproducible deliverables and interpretable outputs.</div>
         </div>
 
         <div class="tile reveal" data-open="infra" role="button" tabindex="0" aria-label="Open Data Infrastructure">
-          <div class="tile-top">
-            <div class="tile-title">Data Infrastructure</div>
-            <div class="tag">R / QA</div>
-          </div>
-          <div class="tile-text">Stable keys, join QA checks, and rerunnable pipelines in R.</div>
+          <div class="t">Data infrastructure</div>
+          <div class="d">Stable keys, join QA guardrails, and rerunnable pipelines in R.</div>
         </div>
 
         <div class="tile reveal" data-open="business" role="button" tabindex="0" aria-label="Open Business">
-          <div class="tile-top">
-            <div class="tile-title">Business</div>
-            <div class="tag">Ops</div>
-          </div>
-          <div class="tile-text">Built a consumer product brand with measurable growth and operational ownership.</div>
+          <div class="t">Business</div>
+          <div class="d">Built a consumer product brand with measurable growth and ops ownership.</div>
         </div>
 
         <div class="tile reveal" data-open="awards" role="button" tabindex="0" aria-label="Open Awards">
-          <div class="tile-top">
-            <div class="tile-title">Awards</div>
-            <div class="tag">Signal</div>
-          </div>
-          <div class="tile-text">Competitive signal across economics, finance, and performance.</div>
+          <div class="t">Awards</div>
+          <div class="d">Competitive signal across economics, finance, and performance.</div>
         </div>
       </div>
 
@@ -495,16 +469,16 @@
           <div style="font-weight:1000;">Contact</div>
           <div class="muted">Portfolio URL: <span class="mono">https://kfoshee.github.io/portfolio/</span></div>
         </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <a class="smallLink" href="mailto:KianFoshee@gmail.com">Email</a>
-          <a class="smallLink" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
-          <a class="smallLink" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+        <div class="btnrow">
+          <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
+          <a class="btn" href="https://papers.ssrn.com/sol3/papers.csrn?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+          <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
 
       <div class="footer">
         <span>© <span id="year"></span> Kian Foshee</span>
-        <span class="muted">Research • Infrastructure • Execution</span>
+        <span class="muted">Research • Data Infrastructure • Execution</span>
       </div>
     </section>
   </main>
@@ -525,7 +499,7 @@
       }, { threshold: 0.14 });
       revealEls.forEach(el => io.observe(el));
 
-      // panel content (simple + employer-readable)
+      // panel data (minimal + clear)
       const DATA = {
         research: {
           title: "Research",
@@ -540,7 +514,7 @@
           ]
         },
         infra: {
-          title: "Data Infrastructure",
+          title: "Data infrastructure",
           sub: "Stable keys, join QA checks, and rerunnable pipelines in R.",
           bullets: [
             "Standardize identifiers and definitions across datasets before analysis.",
@@ -554,7 +528,7 @@
         },
         business: {
           title: "Business",
-          sub: "Built a consumer product brand with measurable growth and end-to-end operating ownership.",
+          sub: "Consumer product brand with measurable growth and end-to-end ops ownership.",
           bullets: [
             "Owned sourcing, vendor management, QA, inventory planning, listings, and customer operations.",
             "Built distribution and community growth with measurable reach.",
@@ -604,7 +578,7 @@
         panelLinks.innerHTML = "";
         d.links.forEach(l => {
           const a = document.createElement("a");
-          a.className = "smallLink";
+          a.className = "btn";
           a.textContent = l.label;
           a.href = l.href;
           if (l.ext && l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
