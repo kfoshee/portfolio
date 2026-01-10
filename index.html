@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <title>Kian Foshee — Portfolio</title>
-  <meta name="description" content="Kian Foshee — research, data infrastructure, execution. Paper + code + proof." />
+  <meta name="description" content="Kian Foshee — Research, Data Infrastructure, Execution. Paper + code + proof." />
 
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
@@ -17,9 +17,11 @@
       --text:#F7F8FF;
       --muted: rgba(220,228,255,.72);
       --muted2: rgba(220,228,255,.56);
+
       --line: rgba(255,255,255,.12);
       --panel: rgba(255,255,255,.03);
       --panel2: rgba(255,255,255,.045);
+
       --r: 18px;
       --r2: 14px;
 
@@ -31,12 +33,12 @@
       --easeOut: cubic-bezier(.16, 1, .3, 1);
       --easeSoft: cubic-bezier(.2,.9,.2,1);
 
-      --gap: 12px;
+      --gap: 14px;
     }
 
     *{ box-sizing:border-box; }
     html, body { height:100%; }
-    html{ scroll-behavior:smooth; scroll-padding-top: 72px; }
+    html{ scroll-behavior:smooth; scroll-padding-top: 74px; }
     body{
       margin:0;
       background: var(--bg);
@@ -49,17 +51,17 @@
     .muted{ color: var(--muted2); }
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
 
-    /* Minimal topbar: only proof links (small) */
+    /* Topbar */
     .topbar{
       position: fixed;
       inset: 0 0 auto 0;
-      z-index: 30;
+      z-index: 50;
       background: rgba(0,0,0,.92);
       border-bottom: 1px solid rgba(255,255,255,.08);
       backdrop-filter: blur(10px);
     }
     .topbar-inner{
-      max-width: 920px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 10px 14px;
       display:flex;
@@ -85,21 +87,22 @@
     }
 
     main{
-      max-width: 920px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 72px 14px 44px;
+      padding: 74px 14px 56px;
     }
+    section{ scroll-margin-top: 74px; padding: 26px 0; }
 
-    /* HERO: name is the biggest thing */
-    .hero{
-      padding: 26px 0 10px;
-    }
+    /* HERO — fix name cut-off */
+    .hero{ padding-top: 28px; }
     .name{
       margin: 0;
-      font-size: clamp(66px, 7.2vw, 108px);
-      line-height: 0.95;
-      letter-spacing: -0.065em;
+      font-size: clamp(52px, 7vw, 112px);
+      line-height: 1.02;         /* FIX: prevents clipping */
+      letter-spacing: -0.06em;
       font-weight: 1000;
+      overflow: visible;
+      word-break: keep-all;
     }
     .name .grad{
       background: var(--grad);
@@ -108,6 +111,8 @@
       color: transparent;
       background-size: 200% 200%;
       animation: shift 7s var(--easeSoft) infinite;
+      display: inline-block;     /* FIX: keeps full glyphs visible */
+      padding-bottom: 0.04em;    /* FIX: avoids baseline cropping on some browsers */
     }
     @keyframes shift{
       0%,100%{ background-position: 0% 50%; }
@@ -115,57 +120,32 @@
     }
 
     .headline{
-      margin: 10px 0 0 0;
+      margin-top: 10px;
       font-size: clamp(18px, 2.2vw, 24px);
       font-weight: 950;
       letter-spacing: -0.02em;
       color: rgba(247,248,255,.92);
     }
     .summary{
-      margin: 10px 0 0 0;
-      max-width: 78ch;
+      margin-top: 10px;
+      max-width: 80ch;
       color: var(--muted);
       line-height: 1.6;
       font-size: 14.5px;
     }
 
-    /* only TWO simple blocks: what + proof */
-    .two{
+    .ctaRow{
       margin-top: 14px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--gap);
-    }
-    .box{
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      padding: 14px;
-    }
-    .box h2{
-      margin:0;
-      font-size: 13px;
-      font-weight: 1000;
-      letter-spacing: -0.01em;
-      color: rgba(247,248,255,.92);
-    }
-    .box p{
-      margin: 8px 0 0 0;
-      color: var(--muted2);
-      line-height: 1.5;
-      font-size: 13.5px;
-    }
-    .btnrow{
-      margin-top: 10px;
       display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
     }
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding: 9px 11px;
+      padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
@@ -181,160 +161,101 @@
       background: rgba(122,162,255,.10);
       color: rgba(247,248,255,.95);
     }
-
-    /* Work: 4 simple cards, then one expanded panel */
-    .section-head{
-      margin-top: 18px;
-      display:flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: baseline;
-      flex-wrap: wrap;
-    }
-    .section-head h2{
-      margin:0;
-      font-size: 16px;
-      font-weight: 1000;
-      letter-spacing: -0.02em;
-    }
-    .hint{
-      margin:0;
-      color: var(--muted2);
-      font-size: 13px;
+    .btn.primary{
+      border-color: rgba(122,162,255,.34);
+      background: rgba(122,162,255,.12);
     }
 
-    .tiles{
-      margin-top: 10px;
+    /* Cards */
+    .grid2{
+      margin-top: 14px;
       display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
+      grid-template-columns: 1fr 1fr;
       gap: var(--gap);
+      align-items:start;
     }
-    .tile{
+    .card{
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
       padding: 14px;
-      cursor:pointer;
-      transition: transform .28s var(--easeSoft), border-color .28s var(--easeSoft), background .28s var(--easeSoft);
-      user-select:none;
     }
-    .tile:hover{
-      transform: translateY(-3px);
-      border-color: rgba(122,162,255,.28);
-      background: rgba(255,255,255,.045);
-    }
-    .tile .t{
-      font-weight: 1000;
-      font-size: 15px;
-      letter-spacing: -0.02em;
+    .card h3{
       margin:0;
+      font-size: 13px;
+      font-weight: 1000;
+      color: rgba(247,248,255,.92);
+      letter-spacing: -0.01em;
     }
-    .tile .d{
-      margin-top: 8px;
-      color: var(--muted);
-      line-height: 1.55;
+    .card p{
+      margin: 8px 0 0 0;
+      color: var(--muted2);
+      line-height: 1.5;
       font-size: 13.5px;
     }
 
-    .panel{
-      margin-top: 10px;
+    /* Timeline */
+    .stack{
+      margin-top: 14px;
+      display:grid;
+      gap: var(--gap);
+    }
+    .item{
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
       padding: 14px;
-
-      opacity: 0;
-      transform: translateY(14px);
-      filter: blur(12px);
-      pointer-events:none;
-      max-height: 0;
-
-      transition:
-        opacity .45s var(--easeSoft),
-        transform .45s var(--easeSoft),
-        filter .45s var(--easeSoft),
-        max-height .55s var(--easeSoft),
-        padding .55s var(--easeSoft);
     }
-    .panel.open{
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-      pointer-events:auto;
-      max-height: 520px;
-    }
-    .panel-head{
+    .itemTop{
       display:flex;
       justify-content: space-between;
       gap: 10px;
-      align-items:flex-start;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      padding-bottom: 10px;
-      margin-bottom: 10px;
+      flex-wrap: wrap;
+      align-items: baseline;
     }
-    .panel-title{
-      margin:0;
+    .itemTitle{
       font-weight: 1000;
       letter-spacing: -0.02em;
       font-size: 15px;
+      color: rgba(247,248,255,.95);
     }
-    .panel-sub{
-      margin-top: 6px;
-      color: var(--muted);
+    .itemMeta{
+      color: var(--muted2);
       font-size: 13px;
-      line-height: 1.55;
-      max-width: 78ch;
-    }
-    .close{
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
-      color: rgba(247,248,255,.92);
-      border-radius: 14px;
-      padding: 9px 11px;
-      font-weight: 950;
-      cursor:pointer;
-      transition: transform .2s var(--easeOut), background .2s var(--easeOut), border-color .2s var(--easeOut);
-      user-select:none;
-    }
-    .close:hover{
-      transform: translateY(-1px);
-      border-color: rgba(122,162,255,.30);
-      background: rgba(122,162,255,.10);
-    }
-
-    .panel-grid{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: var(--gap);
-    }
-    .block{
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.035);
-      padding: 12px;
-    }
-    .block h3{
-      margin: 0 0 8px 0;
-      font-size: 12.5px;
-      font-weight: 1000;
-      color: rgba(247,248,255,.92);
     }
     .bullets{
-      margin: 0 0 0 18px;
+      margin: 10px 0 0 18px;
       color: var(--muted);
-      font-size: 13px;
       line-height: 1.6;
-    }
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-      margin-top: 8px;
+      font-size: 13.5px;
     }
 
-    /* Contact: minimal */
+    /* Awards list */
+    .awards{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .award{
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      padding: 12px 14px;
+      color: rgba(247,248,255,.90);
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .award span{
+      display:block;
+      margin-top: 6px;
+      color: var(--muted2);
+      font-weight: 700;
+      font-size: 12.5px;
+    }
+
+    /* Contact */
     .contact{
-      margin-top: 18px;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
@@ -356,22 +277,25 @@
       padding-bottom: 10px;
     }
 
-    /* Clean, subtle animation only */
-    .reveal{ opacity:0; transform: translateY(14px); filter: blur(10px); }
+    /* Scroll animations */
+    .reveal{
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(12px);
+    }
     .reveal.in{
-      opacity:1; transform: translateY(0); filter: blur(0);
-      transition: opacity .8s var(--easeSoft), transform .8s var(--easeSoft), filter .8s var(--easeSoft);
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      transition: opacity .85s var(--easeSoft), transform .85s var(--easeSoft), filter .85s var(--easeSoft);
     }
 
     @media (max-width: 900px){
-      .two{ grid-template-columns: 1fr; }
-      .tiles{ grid-template-columns: 1fr; }
-      .panel-grid{ grid-template-columns: 1fr; }
+      .grid2{ grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce){
       html{ scroll-behavior:auto; }
       .reveal, .reveal.in{ transition:none; transform:none; filter:none; opacity:1; }
-      .panel{ transition:none; }
       .name .grad{ animation:none; }
     }
   </style>
@@ -381,6 +305,9 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a class="navlink" href="#work">Work</a>
+      <a class="navlink" href="#experience">Experience</a>
+      <a class="navlink" href="#awards">Awards</a>
+      <a class="navlink" href="#contact">Contact</a>
       <a class="navlink" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
       <a class="navlink" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
       <a class="navlink" href="mailto:KianFoshee@gmail.com">Email</a>
@@ -388,90 +315,117 @@
   </header>
 
   <main id="top">
+    <!-- HERO -->
     <section class="hero">
       <h1 class="name reveal"><span class="grad">Kian Foshee</span></h1>
       <div class="headline reveal">Research • Data Infrastructure • Execution</div>
-
       <div class="summary reveal">
         Opportunity Insights (Harvard) contributor. I build reproducible R pipelines and decision-ready outputs with stable keys and join QA.
       </div>
 
-      <div class="two reveal">
-        <div class="box">
-          <h2>In one sentence</h2>
+      <div class="ctaRow reveal">
+        <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
+        <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
+        <a class="btn" href="#experience">Scroll for experience</a>
+      </div>
+
+      <div class="grid2 reveal">
+        <div class="card">
+          <h3>In one sentence</h3>
           <p>I take messy data, make it reproducible, and ship outputs that support real decisions.</p>
         </div>
-        <div class="box">
-          <h2>Proof</h2>
-          <p>Working paper (SSRN) + code (GitHub) are one click away.</p>
-          <div class="btnrow">
-            <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
-            <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
-          </div>
+        <div class="card">
+          <h3>Proof</h3>
+          <p>Paper (SSRN) + code (GitHub) are one click away. Use this page to scan quickly.</p>
         </div>
       </div>
     </section>
 
+    <!-- WORK (short) -->
     <section id="work">
-      <div class="section-head reveal">
-        <h2>Work</h2>
-        <p class="hint">Click one item to expand.</p>
+      <div class="item reveal">
+        <div class="itemTop">
+          <div class="itemTitle">Work focus</div>
+          <div class="itemMeta">What I ship</div>
+        </div>
+        <ul class="bullets">
+          <li>Reproducible R deliverables: cleaned datasets, stable keys, join QA checks.</li>
+          <li>Decision-ready outputs: maps, tables, and briefs designed for interpretation.</li>
+          <li>End-to-end ownership: question → pipeline → QA → output.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE (scroll reveals) -->
+    <section id="experience">
+      <div class="itemTop reveal" style="margin-bottom:10px;">
+        <div class="itemTitle" style="font-size:18px;">Experience</div>
+        <div class="itemMeta">Most relevant first</div>
       </div>
 
-      <div class="tiles">
-        <div class="tile reveal" data-open="research" role="button" tabindex="0" aria-label="Open Research">
-          <div class="t">Research</div>
-          <div class="d">Economic mobility work with reproducible deliverables and interpretable outputs.</div>
-        </div>
-
-        <div class="tile reveal" data-open="infra" role="button" tabindex="0" aria-label="Open Data Infrastructure">
-          <div class="t">Data infrastructure</div>
-          <div class="d">Stable keys, join QA guardrails, and rerunnable pipelines in R.</div>
-        </div>
-
-        <div class="tile reveal" data-open="business" role="button" tabindex="0" aria-label="Open Business">
-          <div class="t">Business</div>
-          <div class="d">Built a consumer product brand with measurable growth and ops ownership.</div>
-        </div>
-
-        <div class="tile reveal" data-open="awards" role="button" tabindex="0" aria-label="Open Awards">
-          <div class="t">Awards</div>
-          <div class="d">Competitive signal across economics, finance, and performance.</div>
-        </div>
-      </div>
-
-      <div id="panel" class="panel" aria-live="polite">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title" id="panelTitle">Title</div>
-            <div class="panel-sub" id="panelSub">Subtitle</div>
+      <div class="stack">
+        <div class="item reveal">
+          <div class="itemTop">
+            <div class="itemTitle">Opportunity Insights (Harvard) — Economic Mobility Research Contributor</div>
+            <div class="itemMeta">Reproducible R deliverables</div>
           </div>
-          <button class="close" id="closeBtn" type="button">Close</button>
+          <ul class="bullets">
+            <li>Built reproducible deliverables: cleaned datasets, crosswalk-style joins, maps, model outputs.</li>
+            <li>Maintained tract-level consistency through stable keys and join QA guardrails.</li>
+            <li>Produced outputs designed for interpretation (not just accuracy).</li>
+          </ul>
         </div>
 
-        <div class="panel-grid">
-          <div class="block">
-            <h3>Highlights</h3>
-            <ul class="bullets" id="panelBullets"></ul>
+        <div class="item reveal">
+          <div class="itemTop">
+            <div class="itemTitle">UT Dallas — Economic Research Assistant (Municipal / Policy)</div>
+            <div class="itemMeta">N=1,000+ survey analysis</div>
           </div>
+          <ul class="bullets">
+            <li>Cleaned and weighted a N=1,000+ small-business survey.</li>
+            <li>Translated results into stakeholder-ready briefs and structured tables/figures.</li>
+          </ul>
+        </div>
 
-          <div class="block">
-            <h3>Links</h3>
-            <div class="actions" id="panelLinks"></div>
+        <div class="item reveal">
+          <div class="itemTop">
+            <div class="itemTitle">Supreme Pickle — Founder / Owner</div>
+            <div class="itemMeta">$50K+ sales • 40K+ followers • 100M+ views</div>
           </div>
+          <ul class="bullets">
+            <li>Owned sourcing, vendor management, QA, inventory planning, listings, and support.</li>
+            <li>Built repeatable operating workflows and iteration loops.</li>
+          </ul>
         </div>
       </div>
     </section>
 
+    <!-- AWARDS (scroll reveals) -->
+    <section id="awards">
+      <div class="itemTop reveal" style="margin-bottom:10px;">
+        <div class="itemTitle" style="font-size:18px;">Awards</div>
+        <div class="itemMeta">Competitive signal</div>
+      </div>
+
+      <div class="awards">
+        <div class="award reveal">World Economics Cup<span>Individual Top-10; Team 4th (World Finals)</span></div>
+        <div class="award reveal">Northwestern Economics Tournament<span>2nd Place</span></div>
+        <div class="award reveal">Harvard Pre-Collegiate Economics Challenge<span>3rd Place (Team); Individual High Distinction</span></div>
+        <div class="award reveal">National Finance Challenge (Texas)<span>Perfect Score (1 of 56)</span></div>
+        <div class="award reveal">National Economics Challenge (Texas)<span>Top Score (Top &lt; 10%)</span></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
     <section id="contact">
       <div class="contact reveal">
         <div>
           <div style="font-weight:1000;">Contact</div>
           <div class="muted">Portfolio URL: <span class="mono">https://kfoshee.github.io/portfolio/</span></div>
         </div>
-        <div class="btnrow">
+        <div class="ctaRow" style="margin:0;">
           <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
-          <a class="btn" href="https://papers.ssrn.com/sol3/papers.csrn?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
           <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
@@ -487,7 +441,7 @@
     (() => {
       document.getElementById("year").textContent = String(new Date().getFullYear());
 
-      // reveal
+      // Scroll reveal (simple, smooth)
       const revealEls = document.querySelectorAll(".reveal");
       const io = new IntersectionObserver((entries) => {
         for (const entry of entries) {
@@ -498,106 +452,6 @@
         }
       }, { threshold: 0.14 });
       revealEls.forEach(el => io.observe(el));
-
-      // panel data (minimal + clear)
-      const DATA = {
-        research: {
-          title: "Research",
-          sub: "Economic mobility and place-based outcomes; outputs designed to be interpretable and reusable.",
-          bullets: [
-            "Working paper on move-in rates and the geography of upward mobility (SSRN).",
-            "Reproducible R deliverables: cleaned datasets, maps, and model outputs.",
-            "Outputs designed for interpretation, not just model performance."
-          ],
-          links: [
-            { label: "Open paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true }
-          ]
-        },
-        infra: {
-          title: "Data infrastructure",
-          sub: "Stable keys, join QA checks, and rerunnable pipelines in R.",
-          bullets: [
-            "Standardize identifiers and definitions across datasets before analysis.",
-            "Join QA checks so merges don’t silently fail (coverage, duplicates, key integrity).",
-            "Versioned outputs that can be reproduced exactly."
-          ],
-          links: [
-            { label: "Open repo", href: "YOUR_BEST_REPO", ext: true },
-            { label: "GitHub profile", href: "https://github.com/kfoshee", ext: true }
-          ]
-        },
-        business: {
-          title: "Business",
-          sub: "Consumer product brand with measurable growth and end-to-end ops ownership.",
-          bullets: [
-            "Owned sourcing, vendor management, QA, inventory planning, listings, and customer operations.",
-            "Built distribution and community growth with measurable reach.",
-            "Iterated product via feedback loops and repeatable fulfillment workflows."
-          ],
-          links: [
-            { label: "Email", href: "mailto:KianFoshee@gmail.com", ext: false }
-          ]
-        },
-        awards: {
-          title: "Awards",
-          sub: "Competitive signal across economics, finance, and performance.",
-          bullets: [
-            "World Economics Cup — Individual Top-10; Team 4th (World Finals).",
-            "Northwestern Economics Tournament — 2nd Place.",
-            "Harvard Pre-Collegiate Economics Challenge — 3rd Place (Team); Individual High Distinction.",
-            "National Finance Challenge (Texas) — Perfect Score (1 of 56).",
-            "National Economics Challenge (Texas) — Top Score (Top < 10%)."
-          ],
-          links: [
-            { label: "Paper", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840", ext: true }
-          ]
-        }
-      };
-
-      const panel = document.getElementById("panel");
-      const panelTitle = document.getElementById("panelTitle");
-      const panelSub = document.getElementById("panelSub");
-      const panelBullets = document.getElementById("panelBullets");
-      const panelLinks = document.getElementById("panelLinks");
-      const closeBtn = document.getElementById("closeBtn");
-
-      function openPanel(key){
-        const d = DATA[key];
-        if (!d) return;
-
-        panelTitle.textContent = d.title;
-        panelSub.textContent = d.sub;
-
-        panelBullets.innerHTML = "";
-        d.bullets.forEach(t => {
-          const li = document.createElement("li");
-          li.textContent = t;
-          panelBullets.appendChild(li);
-        });
-
-        panelLinks.innerHTML = "";
-        d.links.forEach(l => {
-          const a = document.createElement("a");
-          a.className = "btn";
-          a.textContent = l.label;
-          a.href = l.href;
-          if (l.ext && l.href.startsWith("http")) { a.target = "_blank"; a.rel = "noreferrer"; }
-          panelLinks.appendChild(a);
-        });
-
-        panel.classList.add("open");
-        panel.scrollIntoView({ behavior:"smooth", block:"start" });
-      }
-
-      document.querySelectorAll(".tile[data-open]").forEach(tile => {
-        const run = () => openPanel(tile.dataset.open);
-        tile.addEventListener("click", run);
-        tile.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); run(); }
-        });
-      });
-
-      closeBtn.addEventListener("click", () => panel.classList.remove("open"));
     })();
   </script>
 </body>
