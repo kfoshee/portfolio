@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <title>Kian Foshee — Portfolio</title>
-  <meta name="description" content="Kian Foshee — Research, Data Infrastructure, Execution. Paper + code + experience timeline." />
 
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
@@ -15,40 +14,50 @@
     :root{
       --bg:#000;
       --text:#F7F8FF;
-      --muted: rgba(220,228,255,.72);
+      --muted: rgba(220,228,255,.70);
       --muted2: rgba(220,228,255,.56);
 
-      --line: rgba(255,255,255,.12);
-      --panel: rgba(255,255,255,.03);
+      --line: rgba(255,255,255,.10);
+      --card: rgba(255,255,255,.03);
+      --cardHover: rgba(255,255,255,.05);
 
       --r: 18px;
       --r2: 14px;
+      --pill: 999px;
 
       --a1:#7AA2FF;
       --a2:#B88CFF;
       --a3:#4FE3C1;
       --grad: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
+      --glow: linear-gradient(135deg, rgba(122,162,255,.16), rgba(184,140,255,.10), rgba(79,227,193,.08));
 
       --ease: cubic-bezier(.2,.9,.2,1);
       --ease2: cubic-bezier(.16, 1, .3, 1);
 
-      --max: 980px;
+      --max: 1040px;
+
+      --pad: 22px;
+      --wrapTop: 34px;
+      --wrapBottom: 80px;
+      --sectionPad: 44px;
+      --shellPad: 24px;
       --gap: 14px;
+      --gapTight: 12px;
+
+      --lerp: 0.09;
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html,body{ height:100%; margin:0; background:var(--bg); color:var(--text); }
     body{
-      margin:0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      overflow-x:hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Display", "SF Pro Text", Segoe UI, Roboto, Helvetica, Arial;
+      overflow: hidden;
+      font-size: 16px;
     }
     a{ color:inherit; text-decoration:none; }
     ::selection{ background: rgba(122,162,255,.28); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
 
-    /* header */
     header{
       position: fixed;
       top:0; left:0; right:0;
@@ -60,7 +69,7 @@
     nav{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 12px 16px;
+      padding: 12px var(--pad);
       display:flex;
       justify-content: flex-end;
       gap: 10px;
@@ -68,49 +77,95 @@
       align-items:center;
     }
     nav a{
-      font-size: 13px;
-      font-weight: 950;
+      font-size: 13.5px;
+      font-weight: 900;
       color: rgba(247,248,255,.86);
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
-      transition: transform .2s var(--ease2), background .2s var(--ease2), border-color .2s var(--ease2);
+      transition: transform .18s var(--ease2), background .18s var(--ease2), border-color .18s var(--ease2), opacity .18s var(--ease2);
       user-select:none;
+      opacity: .92;
     }
     nav a:hover{
       transform: translateY(-1px);
       border-color: rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
+      opacity: 1;
     }
     nav a.active{
       border-color: rgba(122,162,255,.30);
       background: rgba(122,162,255,.10);
-      color: rgba(247,248,255,.95);
+      color: rgba(247,248,255,.96);
+      opacity: 1;
     }
 
-    main{
+    #viewport{
+      position: fixed;
+      inset: 52px 0 0 0;
+      overflow: hidden;
+    }
+    #content{ will-change: transform; }
+
+    .wrap{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 78px 16px 56px;
+      padding: var(--wrapTop) var(--pad) var(--wrapBottom);
+      overflow: visible;
     }
-    section{ scroll-margin-top: 78px; padding: 30px 0; }
+    section{
+      padding: var(--sectionPad) 0;
+      scroll-margin-top: 100px;
+      overflow: visible;
+    }
+
+    .shell{
+      width: 100%;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.10);
+      background: var(--card);
+      padding: var(--shellPad);
+      position: relative;
+      overflow: visible;
+      transform: translateZ(0);
+    }
+    .shell::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius: var(--r);
+      background: var(--glow);
+      filter: blur(22px);
+      opacity: 0;
+      transition: opacity .65s var(--ease);
+      z-index:0;
+      pointer-events:none;
+    }
+    .shell > *{ position: relative; z-index: 1; }
+
+    .reveal{
+      opacity: 0;
+      transform: translateY(18px) scale(.995);
+      filter: blur(5px);
+    }
+    .reveal.in{
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+      transition: opacity .85s var(--ease), transform .85s var(--ease), filter .85s var(--ease);
+    }
+    .shell.reveal.in::before{ opacity: .20; }
 
     /* HERO */
-    .hero{ padding-top: 24px; }
-
-    /* name */
     .name{
       margin: 0;
-      font-size: clamp(72px, 8.5vw, 140px);
+      font-size: clamp(92px, 9.6vw, 178px);
       font-weight: 1000;
-      letter-spacing: -0.07em;
-
-      line-height: 1.25;
-      padding: 0.12em 0 0.18em;
-
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      padding: 0.12em 0.14em 0.18em;
+      display: inline-block;
       overflow: visible;
-      display: block;
-
       filter: drop-shadow(0 0 0 transparent);
       transform: translateZ(0);
     }
@@ -128,24 +183,19 @@
       50%{ background-position: 100% 50%; }
     }
 
-    .tagline{
+    .dots{
       margin: 0;
-      font-size: clamp(18px, 2.2vw, 24px);
+      font-size: 22px;
       font-weight: 950;
       letter-spacing: -0.02em;
       color: rgba(247,248,255,.94);
+      padding-left: 2px;
     }
-    .desc{
-      margin-top: 10px;
-      max-width: 82ch;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14.5px;
-    }
+
     .row{
-      margin-top: 14px;
+      margin-top: 18px;
       display:flex;
-      gap: 10px;
+      gap: var(--gapTight);
       flex-wrap: wrap;
       align-items:center;
     }
@@ -153,18 +203,18 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding: 10px 12px;
+      padding: 12px 16px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
-      font-size: 13px;
-      font-weight: 950;
+      font-size: 14px;
+      font-weight: 900;
       color: rgba(247,248,255,.90);
-      transition: transform .2s var(--ease2), background .2s var(--ease2), border-color .2s var(--ease2);
+      transition: transform .18s var(--ease2), background .18s var(--ease2), border-color .18s var(--ease2);
       user-select:none;
     }
     .btn:hover{
-      transform: translateY(-1px);
+      transform: translateY(-2px);
       border-color: rgba(122,162,255,.30);
       background: rgba(122,162,255,.10);
       color: rgba(247,248,255,.96);
@@ -174,203 +224,195 @@
       background: rgba(122,162,255,.12);
     }
 
-    /* cards */
-    .cards{
-      margin-top: 16px;
+    .grid3{
+      margin-top: 18px;
       display:grid;
       grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 12px;
+      gap: var(--gap);
     }
-    .card{
+    .box{
       border-radius: var(--r2);
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
       padding: 14px;
+      transition: transform .18s var(--ease2), border-color .18s var(--ease2), background .18s var(--ease2);
     }
-    .card h3{
+    .box:hover{
+      transform: translateY(-2px);
+      border-color: rgba(122,162,255,.16);
+      background: var(--cardHover);
+    }
+
+    /* one-line cards */
+    .box h3{
       margin:0;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 1000;
       color: rgba(247,248,255,.92);
-    }
-    .card p{
-      margin: 8px 0 0 0;
-      color: var(--muted2);
-      line-height: 1.5;
-      font-size: 13px;
-    }
-
-    /* headings */
-    .sectionTitle{
-      margin:0 0 10px 0;
-      font-size: 22px;
-      font-weight: 1000;
-      letter-spacing: -0.02em;
-    }
-    .sectionSub{
-      margin:0 0 18px 0;
-      color: var(--muted2);
-      font-size: 13.5px;
-      line-height: 1.5;
-      max-width: 86ch;
-    }
-
-    /* Timeline */
-    .timeline{
-      position: relative;
-      padding-left: 22px;
-      display:grid;
-      gap: 14px;
-    }
-    .timeline::before{
-      content:"";
-      position:absolute;
-      left: 8px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: rgba(255,255,255,.10);
-      border-radius: 999px;
-    }
-    .timelineProgress{
-      position:absolute;
-      left: 8px;
-      top: 0;
-      width: 2px;
-      height: 0%;
-      background: var(--grad);
-      border-radius: 999px;
-      box-shadow: 0 0 18px rgba(122,162,255,.18);
-      transition: height .18s linear;
-    }
-
-    .node{
-      position: absolute;
-      left: -2px;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.9);
-      box-shadow: 0 10px 30px rgba(0,0,0,.7);
       display:flex;
       align-items:center;
-      justify-content:center;
+      gap: 8px;
     }
-    .node::after{
+    .box h3::after{
       content:"";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(122,162,255,.9);
-      box-shadow: 0 0 18px rgba(122,162,255,.35);
-      opacity: .9;
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.08);
+      transform: translateY(1px);
+    }
+    .oneLine{
+      margin-top: 10px;
+      color: rgba(220,228,255,.72);
+      line-height: 1.35;
+      font-size: 14px;
+      font-weight: 700;
     }
 
-    .titem{
-      position: relative;
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      padding: 14px;
-    }
-    .tTop{
+    .st{
       display:flex;
       justify-content: space-between;
       gap: 10px;
       flex-wrap: wrap;
       align-items: baseline;
+      margin-bottom: 18px;
+      padding: 0 2px;
     }
-    .tTitle{
-      margin:0;
+    .st .t{
       font-weight: 1000;
-      font-size: 15px;
       letter-spacing: -0.02em;
-      color: rgba(247,248,255,.95);
+      font-size: 20px;
+      color: rgba(247,248,255,.94);
     }
-    .tMeta{
-      color: var(--muted2);
-      font-size: 13px;
+    .st .s{
+      color: rgba(220,228,255,.55);
+      font-size: 14px;
+      font-weight: 800;
     }
 
-    /* LISTS: SLIGHTLY CLOSER */
-    .tBullets{
-      margin: 8px 0 0 18px;     /* was 10px */
-      color: var(--muted);
-      line-height: 1.52;        /* was 1.6 */
-      font-size: 13.5px;
-    }
-    .tBullets li{ margin: 3px 0; } /* tighten a hair */
+    /* EXPERIENCE */
+    .stack{ display:grid; gap: var(--gap); }
 
-    ul{
-      margin: 8px 0 0 18px;     /* was 10px */
-      color: var(--muted);
-      line-height: 1.52;        /* was 1.6 */
-      font-size: 13.5px;
-    }
-    ul li{ margin: 3px 0; }
-
-    /* Awards */
-    .awards{
-      display:grid;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .award{
-      border-radius: var(--r);
+    .xp{
+      border-radius: var(--r2);
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
-      padding: 12px 14px;
-      font-weight: 950;
-      font-size: 13px;
-      color: rgba(247,248,255,.92);
+      padding: 18px;
+      transition: transform .18s var(--ease2), border-color .18s var(--ease2), background .18s var(--ease2);
+      position: relative;
+      overflow:hidden;
     }
-    .award span{
-      display:block;
-      margin-top: 6px;
-      color: var(--muted2);
-      font-weight: 700;
-      font-size: 12.5px;
+    .xp::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: var(--glow);
+      filter: blur(26px);
+      opacity: 0.0;
+      transition: opacity .4s var(--ease);
+      pointer-events:none;
     }
+    .xp:hover{
+      transform: translateY(-2px);
+      border-color: rgba(122,162,255,.16);
+      background: rgba(255,255,255,.045);
+    }
+    .xp:hover::before{ opacity: .22; }
 
-    /* Contact */
-    .contactBox{
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      padding: 14px;
+    .xpTop{
       display:flex;
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
+      align-items: baseline;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .xpTitle{
+      margin:0;
+      font-weight: 1000;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: rgba(247,248,255,.95);
+    }
+    .xpMeta{
+      color: rgba(247,248,255,.92);
+      font-size: 14px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: var(--pill);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      white-space: nowrap;
+    }
+
+    .xpQuick{
+      display:grid;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .line{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.025);
+      padding: 12px 14px;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.55;
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+    .num{
+      flex: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display:flex;
       align-items:center;
+      justify-content:center;
+      font-weight: 1000;
+      color: rgba(247,248,255,.92);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(122,162,255,.10);
     }
-    .small{
-      color: rgba(220,228,255,.55);
-      font-size: 12px;
+    .line b{ color: rgba(247,248,255,.92); font-weight: 950; }
+
+    /* AWARDS */
+    .award{
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      padding: 14px 16px;
+      font-weight: 950;
+      font-size: 14px;
+      color: rgba(247,248,255,.92);
+    }
+    .award span{
+      display:block;
+      margin-top: 8px;
+      color: var(--muted2);
+      font-weight: 700;
+      font-size: 13.5px;
     }
 
-    /* Scroll reveal */
-    .reveal{
-      opacity: 0;
-      transform: translateY(22px);
-      filter: blur(12px);
-    }
-    .reveal.in{
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-      transition: opacity .85s var(--ease), transform .85s var(--ease), filter .85s var(--ease);
-    }
-
-    @media (max-width: 900px){
-      .cards{ grid-template-columns: 1fr; }
-      .tTop{ flex-direction: column; align-items:flex-start; }
+    @media (max-width: 980px){
+      .grid3{ grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce){
-      .reveal, .reveal.in{ transition:none; transform:none; filter:none; opacity:1; }
+      :root{ --lerp: 1; }
+      .reveal, .reveal.in{
+        transition:none !important;
+        transform:none !important;
+        filter:none !important;
+        opacity:1 !important;
+      }
       .name span{ animation:none; }
-      .timelineProgress{ transition:none; }
+      .shell::before, .xp::before{ display:none; }
+      #viewport{ overflow-y:auto; }
+      #content{ transform:none !important; }
+      body{ overflow:auto; }
     }
   </style>
 </head>
@@ -378,8 +420,8 @@
 <body>
   <header>
     <nav aria-label="Primary">
-      <a href="#hero" data-nav="hero">Top</a>
-      <a href="#experience" data-nav="experience">Timeline</a>
+      <a href="#top" data-nav="top">Top</a>
+      <a href="#experience" data-nav="experience">Experience</a>
       <a href="#awards" data-nav="awards">Awards</a>
       <a href="#contact" data-nav="contact">Contact</a>
       <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
@@ -388,192 +430,273 @@
     </nav>
   </header>
 
-  <main id="page">
-    <section id="hero">
-      <div class="hero">
-        <div class="reveal">
-          <h1 class="name"><span>Kian Foshee</span></h1>
-          <p class="tagline">Research • Data Infrastructure • Execution</p>
-          <p class="desc">
-            Opportunity Insights (Harvard) contributor. I build reproducible R pipelines and decision-ready outputs with stable keys and join QA.
-          </p>
+  <div id="viewport">
+    <div id="content">
+      <div class="wrap">
 
-          <div class="row">
-            <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
-            <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
-            <a class="btn js-scroll" href="#experience">Scroll timeline</a>
-          </div>
+        <section id="top">
+          <div class="shell reveal" data-reveal>
+            <h1 class="name"><span>Kian Foshee</span></h1>
+            <p class="dots">Research • Data Infrastructure • Execution</p>
 
-          <div class="cards">
-            <div class="card">
-              <h3>What I do</h3>
-              <p>Turn messy data into reproducible assets and interpretable outputs.</p>
+            <div class="row">
+              <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
+              <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
+              <a class="btn" href="YOUR_OUTPUTS_LINK" target="_blank" rel="noreferrer">Outputs</a>
             </div>
-            <div class="card">
-              <h3>Correctness</h3>
-              <p>Stable keys and join QA guardrails so merges don’t silently lie.</p>
+
+            <!-- one-line cards -->
+            <div class="grid3">
+              <div class="box">
+                <h3>Who I am</h3>
+                <div class="oneLine">Builder focused on correctness + execution.</div>
+              </div>
+              <div class="box">
+                <h3>What I do</h3>
+                <div class="oneLine">Messy data → reproducible assets → decision-ready outputs.</div>
+              </div>
+              <div class="box">
+                <h3>What I’m known for</h3>
+                <div class="oneLine">Hardening keys, joins, and outputs so results hold up.</div>
+              </div>
             </div>
-            <div class="card">
-              <h3>Proof</h3>
-              <p>Paper + code are one click away.</p>
+          </div>
+        </section>
+
+        <section id="experience">
+          <div class="shell reveal" data-reveal>
+            <div class="st">
+              <div class="t">Experience</div>
+              <div class="s">Quick + clear impact</div>
+            </div>
+
+            <div class="stack">
+
+              <div class="xp">
+                <div class="xpTop">
+                  <p class="xpTitle">Opportunity Insights — Economic Mobility Research Contributor</p>
+                  <span class="xpMeta">Research infrastructure</span>
+                </div>
+
+                <div class="xpQuick">
+                  <div class="line"><span class="num">1</span><div><b>Reproducible R deliverables shipped</b>: cleaned data, joins, maps, and model outputs.</div></div>
+                  <div class="line"><span class="num">2</span><div><b>PhD-level research collaboration</b>: iterated on questions and write-ups with OI-affiliated researchers.</div></div>
+                  <div class="line"><span class="num">3</span><div><b>More trustworthy results</b>: stable geo keys + join QA so merges don’t silently fail.</div></div>
+                </div>
+              </div>
+
+              <div class="xp">
+                <div class="xpTop">
+                  <p class="xpTitle">Supreme Pickle — Founder / Owner</p>
+                  <span class="xpMeta">$50K+ sales • 40K+ followers • 100M+ views</span>
+                </div>
+
+                <div class="xpQuick">
+                  <div class="line"><span class="num">1</span><div><b>End-to-end operations owned</b>: sourcing, QA, inventory, listings, customer support.</div></div>
+                  <div class="line"><span class="num">2</span><div><b>$50K+ sales • 40K+ followers • 100M+ views</b>: growth built through product + distribution loops.</div></div>
+                  <div class="line"><span class="num">3</span><div><b>Repeatable systems built</b>: fulfillment and iteration scaled without breaking as demand increased.</div></div>
+                </div>
+              </div>
+
+              <div class="xp">
+                <div class="xpTop">
+                  <p class="xpTitle">UT Dallas — Economic Research Assistant (Municipal / Policy)</p>
+                  <span class="xpMeta">N=1,000+ survey</span>
+                </div>
+
+                <div class="xpQuick">
+                  <div class="line"><span class="num">1</span><div><b>N=1,000+ survey cleaned + weighted</b>: analysis-ready dataset for policy questions.</div></div>
+                  <div class="line"><span class="num">2</span><div><b>Stakeholder-ready briefs delivered</b>: clear tables plus “what it means / what it doesn’t” takeaways.</div></div>
+                  <div class="line"><span class="num">3</span><div><b>Decision focus enforced</b>: centered outputs on what changes and what can’t be claimed.</div></div>
+                </div>
+              </div>
+
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section id="experience">
-      <div class="reveal">
-        <h2 class="sectionTitle">Timeline</h2>
-        <p class="sectionSub">Scroll down — items animate in. The left spine fills as you progress.</p>
-      </div>
+        <section id="awards">
+          <div class="shell reveal" data-reveal>
+            <div class="st">
+              <div class="t">Awards</div>
+              <div class="s">Selected</div>
+            </div>
 
-      <div class="timeline" id="timeline">
-        <div class="timelineProgress" id="timelineProgress" aria-hidden="true"></div>
-
-        <div class="titem reveal">
-          <div class="node" aria-hidden="true" style="top: 18px;"></div>
-          <div class="tTop">
-            <p class="tTitle">Opportunity Insights (Harvard) — Economic Mobility Research Contributor</p>
-            <p class="tMeta">Reproducible R deliverables</p>
+            <div class="stack">
+              <div class="award">World Economics Cup <span>Individual Top-10; Team 4th (World Finals)</span></div>
+              <div class="award">Northwestern Economics Tournament <span>2nd Place</span></div>
+              <div class="award">Harvard Pre-Collegiate Economics Challenge <span>3rd Place (Team); Individual High Distinction</span></div>
+              <div class="award">National Finance Challenge (Texas) <span>Perfect Score (1 of 56)</span></div>
+              <div class="award">National Economics Challenge (Texas) <span>Top Score (Top &lt; 10%)</span></div>
+            </div>
           </div>
-          <ul class="tBullets">
-            <li>Built reproducible deliverables: cleaned datasets, crosswalk-style joins, maps, model outputs.</li>
-            <li>Maintained tract-level consistency through stable keys and join QA guardrails.</li>
-            <li>Produced outputs designed for interpretation (not just accuracy).</li>
-          </ul>
-        </div>
+        </section>
 
-        <div class="titem reveal">
-          <div class="node" aria-hidden="true" style="top: 190px;"></div>
-          <div class="tTop">
-            <p class="tTitle">UT Dallas — Economic Research Assistant (Municipal / Policy)</p>
-            <p class="tMeta">N=1,000+ survey analysis</p>
+        <section id="contact">
+          <div class="shell reveal" data-reveal>
+            <div class="st">
+              <div class="t">Contact</div>
+              <div class="s">Quick links</div>
+            </div>
+
+            <div class="row" style="margin-top:0;">
+              <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
+              <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+              <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+
+            <div style="margin-top:18px; color: rgba(220,228,255,.55); font-size:13px;">Portfolio URL</div>
+            <div class="mono" style="margin-top:6px; color: rgba(247,248,255,.88); font-size:14px;">https://kfoshee.github.io/portfolio/</div>
+            <div style="margin-top:18px; color: rgba(220,228,255,.55); font-size:13px;">© <span id="year"></span> Kian Foshee</div>
           </div>
-          <ul class="tBullets">
-            <li>Cleaned and weighted an N=1,000+ small-business survey.</li>
-            <li>Translated results into stakeholder-ready briefs and structured tables/figures.</li>
-          </ul>
-        </div>
+        </section>
 
-        <div class="titem reveal">
-          <div class="node" aria-hidden="true" style="top: 362px;"></div>
-          <div class="tTop">
-            <p class="tTitle">Supreme Pickle — Founder / Owner</p>
-            <p class="tMeta">$50K+ sales • 40K+ followers • 100M+ views</p>
-          </div>
-          <ul class="tBullets">
-            <li>Owned sourcing, QA, inventory planning, listings, and customer operations.</li>
-            <li>Built repeatable workflows and iteration loops.</li>
-          </ul>
-        </div>
       </div>
-    </section>
-
-    <section id="awards">
-      <div class="reveal">
-        <h2 class="sectionTitle">Awards</h2>
-        <p class="sectionSub">Selected competitive results.</p>
-      </div>
-
-      <div class="awards">
-        <div class="award reveal">World Economics Cup <span>Individual Top-10; Team 4th (World Finals)</span></div>
-        <div class="award reveal">Northwestern Economics Tournament <span>2nd Place</span></div>
-        <div class="award reveal">Harvard Pre-Collegiate Economics Challenge <span>3rd Place (Team); Individual High Distinction</span></div>
-        <div class="award reveal">National Finance Challenge (Texas) <span>Perfect Score (1 of 56)</span></div>
-        <div class="award reveal">National Economics Challenge (Texas) <span>Top Score (Top &lt; 10%)</span></div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="contactBox reveal">
-        <div>
-          <div style="font-weight:1000;">Contact</div>
-          <div style="color: rgba(220,228,255,.56); margin-top:6px;">Portfolio URL</div>
-          <div style="margin-top:6px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;">
-            https://kfoshee.github.io/portfolio/
-          </div>
-          <div class="small" style="margin-top:10px;">© <span id="year"></span> Kian Foshee</div>
-        </div>
-
-        <div class="row" style="margin-top:0;">
-          <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
-          <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
-          <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
-        </div>
-      </div>
-    </section>
-  </main>
+    </div>
+  </div>
 
   <script>
     (() => {
-      document.getElementById("year").textContent = String(new Date().getFullYear());
+      const year = document.getElementById("year");
+      if (year) year.textContent = String(new Date().getFullYear());
 
-      // Reveal on scroll
-      const revealEls = document.querySelectorAll(".reveal");
-      const io = new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add("in");
-            io.unobserve(e.target);
-          }
-        }
-      }, { threshold: 0.18 });
-      revealEls.forEach(el => io.observe(el));
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      const viewport = document.getElementById("viewport");
+      const content = document.getElementById("content");
 
-      // Active nav highlight
-      const navLinks = document.querySelectorAll("nav a[data-nav]");
-      const sections = ["hero","experience","awards","contact"].map(id => document.getElementById(id));
-      const setActive = (id) => navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("data-nav") === id));
-      const sio = new IntersectionObserver((entries) => {
-        const vis = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-        if (vis.length) setActive(vis[0].target.id);
-      }, { threshold: [0.35, 0.55, 0.75] });
-      sections.forEach(s => sio.observe(s));
+      if (prefersReducedMotion || isTouch) {
+        viewport.style.overflowY = "auto";
+        content.style.transform = "none";
+        document.body.style.overflow = "auto";
 
-      // Timeline progress fill
-      const timeline = document.getElementById("timeline");
-      const prog = document.getElementById("timelineProgress");
-      const updateProgress = () => {
-        const rect = timeline.getBoundingClientRect();
-        const viewH = window.innerHeight || document.documentElement.clientHeight;
-        const visibleTop = Math.max(0, Math.min(viewH, viewH - rect.top));
-        const denom = Math.max(1, Math.min(viewH, rect.height + 40));
-        const pct = Math.max(0, Math.min(1, visibleTop / denom));
-        prog.style.height = (pct * 100).toFixed(2) + "%";
-      };
-      window.addEventListener("scroll", updateProgress, { passive: true });
-      updateProgress();
-
-      // SICK smooth scroll (fast -> slow ease-out)
-      const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
-
-      function smoothScrollTo(targetEl, duration = 850){
-        const startY = window.scrollY;
-        const targetY = targetEl.getBoundingClientRect().top + window.scrollY - 78; // header offset
-        const delta = targetY - startY;
-        const t0 = performance.now();
-
-        const step = (now) => {
-          const t = Math.min(1, (now - t0) / duration);
-          const eased = easeOutQuint(t);
-          window.scrollTo(0, startY + delta * eased);
-          if (t < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
+        const targets = document.querySelectorAll("[data-reveal]");
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+        }, { threshold: 0.2 });
+        targets.forEach(t => io.observe(t));
+        return;
       }
 
-      // Intercept nav clicks + "Scroll timeline"
-      document.querySelectorAll('a[href^="#"]').forEach(a => {
-        const href = a.getAttribute("href");
-        if (!href || href.length < 2) return;
-        const el = document.querySelector(href);
-        if (!el) return;
+      const LERP = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--lerp")) || 0.09;
+      const sections = Array.from(document.querySelectorAll("section"));
+      const revealTargets = Array.from(document.querySelectorAll("[data-reveal]"));
+      const navLinks = Array.from(document.querySelectorAll("nav a[data-nav]"));
 
-        a.addEventListener("click", (e) => {
-          e.preventDefault();
-          smoothScrollTo(el, 900);
-        });
+      let current = 0, target = 0, maxScroll = 0, ticking = false;
+      let lastInput = performance.now(), snapDone = false;
+
+      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+      function measure() {
+        const vh = viewport.clientHeight;
+        const ch = content.scrollHeight;
+        maxScroll = Math.max(0, ch - vh);
+        target = clamp(target, 0, maxScroll);
+        current = clamp(current, 0, maxScroll);
+      }
+
+      function nearestSection(pos) {
+        let best = sections[0], bestD = Math.abs(best.offsetTop - pos);
+        for (const s of sections) {
+          const d = Math.abs(s.offsetTop - pos);
+          if (d < bestD) { best = s; bestD = d; }
+        }
+        return { el: best, d: bestD };
+      }
+
+      function setActiveNav(id) {
+        navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("data-nav") === id));
+      }
+
+      function updateReveal() {
+        const vh = viewport.clientHeight;
+        const trigger = current + vh * 0.85;
+        for (const el of revealTargets) {
+          if (el.classList.contains("in")) continue;
+          if (el.offsetTop <= trigger) el.classList.add("in");
+        }
+      }
+
+      function updateActiveSection() {
+        const vh = viewport.clientHeight;
+        const mid = current + vh * 0.40;
+        let best = sections[0];
+        for (const s of sections) if (s.offsetTop <= mid) best = s;
+        if (best && best.id) setActiveNav(best.id);
+      }
+
+      function maybeSnap() {
+        const idle = (performance.now() - lastInput) > 260;
+        if (!idle || snapDone) return;
+        const { el, d } = nearestSection(target);
+        const THRESH = 140;
+        if (d <= THRESH) {
+          target = clamp(el.offsetTop, 0, maxScroll);
+          requestTick();
+        }
+        snapDone = true;
+      }
+
+      function render() {
+        current += (target - current) * LERP;
+        if (Math.abs(target - current) < 0.35) current = target;
+
+        content.style.transform = `translate3d(0, ${-current}px, 0)`;
+
+        updateReveal();
+        updateActiveSection();
+        maybeSnap();
+
+        if (Math.abs(target - current) > 0.35) requestAnimationFrame(render);
+        else ticking = false;
+      }
+
+      function requestTick() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(render);
+      }
+
+      function onWheel(e) {
+        e.preventDefault();
+        lastInput = performance.now();
+        snapDone = false;
+        target = clamp(target + e.deltaY, 0, maxScroll);
+        requestTick();
+      }
+
+      function scrollToId(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        lastInput = performance.now();
+        snapDone = true;
+        target = clamp(el.offsetTop, 0, maxScroll);
+        requestTick();
+      }
+
+      measure();
+      updateReveal();
+      updateActiveSection();
+      requestTick();
+
+      viewport.addEventListener("wheel", onWheel, { passive: false });
+      window.addEventListener("resize", () => { measure(); requestTick(); }, { passive: true });
+
+      navLinks.forEach(a => a.addEventListener("click", (e) => {
+        e.preventDefault();
+        scrollToId(a.getAttribute("data-nav"));
+      }));
+
+      document.addEventListener("click", (e) => {
+        const t = e.target;
+        if (!(t instanceof HTMLElement)) return;
+        const link = t.closest("a");
+        if (!link) return;
+        const href = link.getAttribute("href") || "";
+        if (!href.startsWith("#")) return;
+        e.preventDefault();
+        scrollToId(href.slice(1));
       });
 
     })();
