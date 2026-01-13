@@ -17,7 +17,6 @@
       --muted: rgba(220,228,255,.70);
       --muted2: rgba(220,228,255,.56);
 
-      --line: rgba(255,255,255,.10);
       --card: rgba(255,255,255,.03);
       --cardHover: rgba(255,255,255,.05);
 
@@ -123,7 +122,7 @@
       width: 100%;
       border-radius: var(--r);
       border: 1px solid rgba(255,255,255,.10);
-      background: var(--card);
+      background: rgba(255,255,255,.03);
       padding: var(--shellPad);
       position: relative;
       overflow: visible;
@@ -223,6 +222,11 @@
       border-color: rgba(122,162,255,.34);
       background: rgba(122,162,255,.12);
     }
+    .btn.small{
+      padding: 9px 12px;
+      font-size: 13px;
+      border-radius: 12px;
+    }
 
     .grid3{
       margin-top: 18px;
@@ -242,8 +246,6 @@
       border-color: rgba(122,162,255,.16);
       background: var(--cardHover);
     }
-
-    /* one-line cards */
     .box h3{
       margin:0;
       font-size: 14px;
@@ -289,7 +291,7 @@
       font-weight: 800;
     }
 
-    /* EXPERIENCE */
+    /* Experience */
     .stack{ display:grid; gap: var(--gap); }
 
     .xp{
@@ -379,7 +381,42 @@
     }
     .line b{ color: rgba(247,248,255,.92); font-weight: 950; }
 
-    /* AWARDS */
+    /* Inline paper button row inside OI */
+    .inlineBtns{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Awards */
+    .awardsWrap{
+      position: relative;
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      overflow: hidden;
+    }
+    .awardsScroll{
+      max-height: 340px;
+      overflow-y: auto;
+      padding: 12px;
+      display:grid;
+      gap: 12px;
+      scroll-behavior: smooth;
+      position: relative;
+      z-index: 1;
+    }
+    .fadeTop, .fadeBottom{
+      position:absolute;
+      left:0; right:0;
+      height: 34px;
+      pointer-events:none;
+      z-index: 2;
+    }
+    .fadeTop{ top:0; background: linear-gradient(180deg, rgba(0,0,0,.88), rgba(0,0,0,0)); }
+    .fadeBottom{ bottom:0; background: linear-gradient(0deg, rgba(0,0,0,.88), rgba(0,0,0,0)); }
+
     .award{
       border-radius: var(--r2);
       border: 1px solid rgba(255,255,255,.10);
@@ -393,27 +430,41 @@
       display:block;
       margin-top: 8px;
       color: var(--muted2);
-      font-weight: 700;
+      font-weight: 750;
       font-size: 13.5px;
+      line-height: 1.4;
     }
 
     @media (max-width: 980px){
       .grid3{ grid-template-columns: 1fr; }
+      .awardsScroll{ max-height: 380px; }
     }
+
     @media (prefers-reduced-motion: reduce){
       :root{ --lerp: 1; }
-      .reveal, .reveal.in{
-        transition:none !important;
-        transform:none !important;
-        filter:none !important;
-        opacity:1 !important;
-      }
-      .name span{ animation:none; }
+      .reveal, .reveal.in{ transition:none !important; transform:none !important; filter:none !important; opacity:1 !important; }
       .shell::before, .xp::before{ display:none; }
       #viewport{ overflow-y:auto; }
       #content{ transform:none !important; }
       body{ overflow:auto; }
     }
+    
+    .lineMain{
+  flex: 1;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.lineText{
+  flex: 1;
+  min-width: 0;
+}
+.lineBtn{
+  flex: none;
+  margin-left: 12px;
+  white-space: nowrap;
+}
   </style>
 </head>
 
@@ -424,7 +475,7 @@
       <a href="#experience" data-nav="experience">Experience</a>
       <a href="#awards" data-nav="awards">Awards</a>
       <a href="#contact" data-nav="contact">Contact</a>
-      <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+      <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN</a>
       <a href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
       <a href="mailto:KianFoshee@gmail.com">Email</a>
     </nav>
@@ -440,12 +491,11 @@
             <p class="dots">Research • Data Infrastructure • Execution</p>
 
             <div class="row">
-              <a class="btn primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Open paper</a>
+              <a class="btn primary" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN profile</a>
               <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
               <a class="btn" href="YOUR_OUTPUTS_LINK" target="_blank" rel="noreferrer">Outputs</a>
             </div>
 
-            <!-- one-line cards -->
             <div class="grid3">
               <div class="box">
                 <h3>Who I am</h3>
@@ -456,8 +506,8 @@
                 <div class="oneLine">Messy data → reproducible assets → decision-ready outputs.</div>
               </div>
               <div class="box">
-                <h3>What I’m known for</h3>
-                <div class="oneLine">Hardening keys, joins, and outputs so results hold up.</div>
+                <h3>Mastery in R</h3>
+                <div class="oneLine">Advanced R for data pipelines, reproducibility, and research outputs.</div>
               </div>
             </div>
           </div>
@@ -467,47 +517,55 @@
           <div class="shell reveal" data-reveal>
             <div class="st">
               <div class="t">Experience</div>
-              <div class="s">Quick + clear impact</div>
+              <div class="s"></div>
             </div>
 
             <div class="stack">
 
               <div class="xp">
                 <div class="xpTop">
-                  <p class="xpTitle">Opportunity Insights — Economic Mobility Research Contributor</p>
-                  <span class="xpMeta">Research infrastructure</span>
+                  <p class="xpTitle">Opportunity Insights (Harvard) — Economic Mobility Researcher</p>
+                  <span class="xpMeta">2 research papers</span>
                 </div>
 
                 <div class="xpQuick">
-                  <div class="line"><span class="num">1</span><div><b>Reproducible R deliverables shipped</b>: cleaned data, joins, maps, and model outputs.</div></div>
-                  <div class="line"><span class="num">2</span><div><b>PhD-level research collaboration</b>: iterated on questions and write-ups with OI-affiliated researchers.</div></div>
-                  <div class="line"><span class="num">3</span><div><b>More trustworthy results</b>: stable geo keys + join QA so merges don’t silently fail.</div></div>
+                  <div class="line">
+  <span class="num">1</span>
+  <div class="lineMain">
+    <div class="lineText">
+      <b>Proposed and worked on 2 research papers</b> in economic mobility.
+    </div>
+    <a class="btn small lineBtn" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN papers</a>
+  </div>
+</div>
+               
+
+                  <div class="line"><span class="num">2</span><div><b>Worked with PhD-level researchers</b> to iterate on methods, definitions, and what the results mean.</div></div>
+                  <div class="line"><span class="num">3</span><div><b>Built the data backbone</b> (cleaning + joins + QA) so analyses were reproducible and trustworthy.</div></div>
                 </div>
               </div>
 
               <div class="xp">
                 <div class="xpTop">
-                  <p class="xpTitle">Supreme Pickle — Founder / Owner</p>
-                  <span class="xpMeta">$50K+ sales • 40K+ followers • 100M+ views</span>
+                  <p class="xpTitle">Supreme Pickle — Founder (Pickleball Brand)</p>
+                  <span class="xpMeta">$50K+ • 40K+ • 100M+</span>
                 </div>
-
                 <div class="xpQuick">
-                  <div class="line"><span class="num">1</span><div><b>End-to-end operations owned</b>: sourcing, QA, inventory, listings, customer support.</div></div>
-                  <div class="line"><span class="num">2</span><div><b>$50K+ sales • 40K+ followers • 100M+ views</b>: growth built through product + distribution loops.</div></div>
-                  <div class="line"><span class="num">3</span><div><b>Repeatable systems built</b>: fulfillment and iteration scaled without breaking as demand increased.</div></div>
+                  <div class="line"><span class="num">1</span><div><b>Created a pickleball brand</b> and ran the business end-to-end (product, ops, customer support).</div></div>
+                  <div class="line"><span class="num">2</span><div><b>$50K+ sales • 40K+ followers • 100M+ social views</b> via product + distribution loops.</div></div>
+                  <div class="line"><span class="num">3</span><div><b>Built repeatable systems</b> so fulfillment and iteration scaled as demand increased.</div></div>
                 </div>
               </div>
 
               <div class="xp">
                 <div class="xpTop">
-                  <p class="xpTitle">UT Dallas — Economic Research Assistant (Municipal / Policy)</p>
+                  <p class="xpTitle">UT Dallas — Research Assistant (Economics / Municipal Policy)</p>
                   <span class="xpMeta">N=1,000+ survey</span>
                 </div>
-
                 <div class="xpQuick">
-                  <div class="line"><span class="num">1</span><div><b>N=1,000+ survey cleaned + weighted</b>: analysis-ready dataset for policy questions.</div></div>
-                  <div class="line"><span class="num">2</span><div><b>Stakeholder-ready briefs delivered</b>: clear tables plus “what it means / what it doesn’t” takeaways.</div></div>
-                  <div class="line"><span class="num">3</span><div><b>Decision focus enforced</b>: centered outputs on what changes and what can’t be claimed.</div></div>
+                  <div class="line"><span class="num">1</span><div><b>Cleaned and weighted</b> an N=1,000+ survey so it could be analyzed reliably.</div></div>
+                  <div class="line"><span class="num">2</span><div><b>Translated results into plain-English briefs</b> (what it means, what it doesn’t) for stakeholders.</div></div>
+                  <div class="line"><span class="num">3</span><div><b>Focused on decisions</b>: highlighted what would change if the findings are acted on.</div></div>
                 </div>
               </div>
 
@@ -519,15 +577,41 @@
           <div class="shell reveal" data-reveal>
             <div class="st">
               <div class="t">Awards</div>
-              <div class="s">Selected</div>
+              <div class="s">Scroll to see more</div>
             </div>
 
-            <div class="stack">
-              <div class="award">World Economics Cup <span>Individual Top-10; Team 4th (World Finals)</span></div>
-              <div class="award">Northwestern Economics Tournament <span>2nd Place</span></div>
-              <div class="award">Harvard Pre-Collegiate Economics Challenge <span>3rd Place (Team); Individual High Distinction</span></div>
-              <div class="award">National Finance Challenge (Texas) <span>Perfect Score (1 of 56)</span></div>
-              <div class="award">National Economics Challenge (Texas) <span>Top Score (Top &lt; 10%)</span></div>
+            <div class="awardsWrap">
+              <div class="fadeTop"></div>
+              <div class="fadeBottom"></div>
+              <div class="awardsScroll" aria-label="Awards list">
+                <div class="award">World Economics Cup (WEC)
+                  <span>World Finals: Team 4th • Individual Top-10 • 2,502 competitors • 428 teams • 47 countries/regions</span>
+                </div>
+                <div class="award">Northwestern Economics Tournament (NET)
+                  <span>2nd Place • Strong international field</span>
+                </div>
+                <div class="award">Harvard Pre-Collegiate Economics Challenge (HPEC)
+                  <span>3rd Place (Team) • Individual High Distinction</span>
+                </div>
+                <div class="award">National Finance Challenge (Texas)
+                  <span>Perfect Score (1 of 56)</span>
+                </div>
+                <div class="award">National Economics Challenge (Texas)
+                  <span>Top Score</span>
+                </div>
+                <div class="award">St. Mark’s Economic Student Award
+                  <span>Top economics student (11th grade)</span>
+                </div>
+                <div class="award">National Latin Exam
+                  <span>Gold, Silver</span>
+                </div>
+                <div class="award">Genesis Women’s Shelter
+                  <span>Community Partner Commendation</span>
+                </div>
+                <div class="award">All-North Zone (Varsity Tennis)
+                  <span>2 years</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -541,7 +625,7 @@
 
             <div class="row" style="margin-top:0;">
               <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
-              <a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5572840" target="_blank" rel="noreferrer">Paper</a>
+              <a class="btn" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN</a>
               <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
             </div>
 
@@ -659,9 +743,13 @@
       }
 
       function onWheel(e) {
+        const insideAwards = e.target && e.target.closest && e.target.closest(".awardsScroll");
+        if (insideAwards) return;
+
         e.preventDefault();
         lastInput = performance.now();
         snapDone = false;
+
         target = clamp(target + e.deltaY, 0, maxScroll);
         requestTick();
       }
