@@ -270,6 +270,7 @@
       font-weight: 700;
     }
 
+    /* Section header */
     .st{
       display:flex;
       justify-content: space-between;
@@ -284,11 +285,6 @@
       letter-spacing: -0.02em;
       font-size: 20px;
       color: rgba(247,248,255,.94);
-    }
-    .st .s{
-      color: rgba(220,228,255,.55);
-      font-size: 14px;
-      font-weight: 800;
     }
 
     /* Experience */
@@ -354,6 +350,8 @@
       position: relative;
       z-index: 1;
     }
+
+    /* ✅ FIX: make numbering perfectly consistent using CSS GRID */
     .line{
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.10);
@@ -362,12 +360,12 @@
       color: var(--muted);
       font-size: 14.5px;
       line-height: 1.55;
-      display:flex;
-      gap: 12px;
-      align-items:flex-start;
+      display:grid;
+      grid-template-columns: 40px 1fr;
+      align-items: center;            /* keeps 1/2/3 vertically aligned */
+      column-gap: 12px;
     }
     .num{
-      flex: none;
       width: 28px;
       height: 28px;
       border-radius: 10px;
@@ -381,13 +379,16 @@
     }
     .line b{ color: rgba(247,248,255,.92); font-weight: 950; }
 
-    /* Inline paper button row inside OI */
-    .inlineBtns{
-      margin-top: 10px;
+    /* Button pinned to the right, same row */
+    .lineMain{
       display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
     }
+    .lineText{ flex: 1; min-width: 0; }
+    .lineBtn{ flex:none; margin-left: 12px; white-space: nowrap; }
 
     /* Awards */
     .awardsWrap{
@@ -438,6 +439,8 @@
     @media (max-width: 980px){
       .grid3{ grid-template-columns: 1fr; }
       .awardsScroll{ max-height: 380px; }
+      .lineMain{ flex-wrap: wrap; justify-content:flex-start; }
+      .lineBtn{ margin-left: 0; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -448,23 +451,6 @@
       #content{ transform:none !important; }
       body{ overflow:auto; }
     }
-    
-    .lineMain{
-  flex: 1;
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.lineText{
-  flex: 1;
-  min-width: 0;
-}
-.lineBtn{
-  flex: none;
-  margin-left: 12px;
-  white-space: nowrap;
-}
   </style>
 </head>
 
@@ -492,8 +478,7 @@
 
             <div class="row">
               <a class="btn primary" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN profile</a>
-              <a class="btn" href="YOUR_BEST_REPO" target="_blank" rel="noreferrer">Open repo</a>
-              <a class="btn" href="YOUR_OUTPUTS_LINK" target="_blank" rel="noreferrer">Outputs</a>
+            
             </div>
 
             <div class="grid3">
@@ -502,9 +487,9 @@
                 <div class="oneLine">Builder focused on correctness + execution.</div>
               </div>
               <div class="box">
-                <h3>What I do</h3>
-                <div class="oneLine">Messy data → reproducible assets → decision-ready outputs.</div>
-              </div>
+  <h3>What I do</h3>
+  <div class="oneLine">Propose ideas → test them empirically → ship decision-ready outputs.</div>
+</div>
               <div class="box">
                 <h3>Mastery in R</h3>
                 <div class="oneLine">Advanced R for data pipelines, reproducibility, and research outputs.</div>
@@ -517,7 +502,6 @@
           <div class="shell reveal" data-reveal>
             <div class="st">
               <div class="t">Experience</div>
-              <div class="s"></div>
             </div>
 
             <div class="stack">
@@ -530,18 +514,22 @@
 
                 <div class="xpQuick">
                   <div class="line">
-  <span class="num">1</span>
-  <div class="lineMain">
-    <div class="lineText">
-      <b>Proposed and worked on 2 research papers</b> in economic mobility.
-    </div>
-    <a class="btn small lineBtn" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN papers</a>
-  </div>
-</div>
-               
+                    <span class="num">1</span>
+                    <div class="lineMain">
+                      <div class="lineText"><b>Proposed and worked on 2 research papers</b> in economic mobility.</div>
+                      <a class="btn small lineBtn" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN papers</a>
+                    </div>
+                  </div>
 
-                  <div class="line"><span class="num">2</span><div><b>Worked with PhD-level researchers</b> to iterate on methods, definitions, and what the results mean.</div></div>
-                  <div class="line"><span class="num">3</span><div><b>Built the data backbone</b> (cleaning + joins + QA) so analyses were reproducible and trustworthy.</div></div>
+                  <div class="line">
+                    <span class="num">2</span>
+                    <div><b>Worked with PhD-level researchers</b> to iterate on methods, definitions, and what the results mean.</div>
+                  </div>
+
+                  <div class="line">
+                    <span class="num">3</span>
+                    <div><b>Built the data backbone</b> (cleaning + joins + QA) so analyses were reproducible and trustworthy.</div>
+                  </div>
                 </div>
               </div>
 
@@ -551,9 +539,18 @@
                   <span class="xpMeta">$50K+ • 40K+ • 100M+</span>
                 </div>
                 <div class="xpQuick">
-                  <div class="line"><span class="num">1</span><div><b>Created a pickleball brand</b> and ran the business end-to-end (product, ops, customer support).</div></div>
-                  <div class="line"><span class="num">2</span><div><b>$50K+ sales • 40K+ followers • 100M+ social views</b> via product + distribution loops.</div></div>
-                  <div class="line"><span class="num">3</span><div><b>Built repeatable systems</b> so fulfillment and iteration scaled as demand increased.</div></div>
+                  <div class="line">
+                    <span class="num">1</span>
+                    <div><b>Created a pickleball brand</b> and ran the business end-to-end (product, ops, customer support).</div>
+                  </div>
+                  <div class="line">
+                    <span class="num">2</span>
+                    <div><b>$50K+ sales • 40K+ followers • 100M+ social views</b> via product + distribution loops.</div>
+                  </div>
+                  <div class="line">
+                    <span class="num">3</span>
+                    <div><b>Built repeatable systems</b> so fulfillment and iteration scaled as demand increased.</div>
+                  </div>
                 </div>
               </div>
 
@@ -563,9 +560,18 @@
                   <span class="xpMeta">N=1,000+ survey</span>
                 </div>
                 <div class="xpQuick">
-                  <div class="line"><span class="num">1</span><div><b>Cleaned and weighted</b> an N=1,000+ survey so it could be analyzed reliably.</div></div>
-                  <div class="line"><span class="num">2</span><div><b>Translated results into plain-English briefs</b> (what it means, what it doesn’t) for stakeholders.</div></div>
-                  <div class="line"><span class="num">3</span><div><b>Focused on decisions</b>: highlighted what would change if the findings are acted on.</div></div>
+                  <div class="line">
+                    <span class="num">1</span>
+                    <div><b>Cleaned and weighted</b> an N=1,000+ survey so it could be analyzed reliably.</div>
+                  </div>
+                  <div class="line">
+                    <span class="num">2</span>
+                    <div><b>Translated results into plain-English briefs</b> (what it means, what it doesn’t) for stakeholders.</div>
+                  </div>
+                  <div class="line">
+                    <span class="num">3</span>
+                    <div><b>Focused on decisions</b>: highlighted what would change if the findings are acted on.</div>
+                  </div>
                 </div>
               </div>
 
@@ -577,7 +583,6 @@
           <div class="shell reveal" data-reveal>
             <div class="st">
               <div class="t">Awards</div>
-              <div class="s">Scroll to see more</div>
             </div>
 
             <div class="awardsWrap">
@@ -588,7 +593,7 @@
                   <span>World Finals: Team 4th • Individual Top-10 • 2,502 competitors • 428 teams • 47 countries/regions</span>
                 </div>
                 <div class="award">Northwestern Economics Tournament (NET)
-                  <span>2nd Place • Strong international field</span>
+                  <span>2nd Place • Strong field</span>
                 </div>
                 <div class="award">Harvard Pre-Collegiate Economics Challenge (HPEC)
                   <span>3rd Place (Team) • Individual High Distinction</span>
@@ -620,17 +625,14 @@
           <div class="shell reveal" data-reveal>
             <div class="st">
               <div class="t">Contact</div>
-              <div class="s">Quick links</div>
             </div>
 
             <div class="row" style="margin-top:0;">
               <a class="btn" href="mailto:KianFoshee@gmail.com">Email</a>
               <a class="btn" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=8481368" target="_blank" rel="noreferrer">SSRN</a>
-              <a class="btn" href="https://github.com/kfoshee" target="_blank" rel="noreferrer">GitHub</a>
             </div>
 
-            <div style="margin-top:18px; color: rgba(220,228,255,.55); font-size:13px;">Portfolio URL</div>
-            <div class="mono" style="margin-top:6px; color: rgba(247,248,255,.88); font-size:14px;">https://kfoshee.github.io/portfolio/</div>
+           
             <div style="margin-top:18px; color: rgba(220,228,255,.55); font-size:13px;">© <span id="year"></span> Kian Foshee</div>
           </div>
         </section>
@@ -725,13 +727,10 @@
       function render() {
         current += (target - current) * LERP;
         if (Math.abs(target - current) < 0.35) current = target;
-
         content.style.transform = `translate3d(0, ${-current}px, 0)`;
-
         updateReveal();
         updateActiveSection();
         maybeSnap();
-
         if (Math.abs(target - current) > 0.35) requestAnimationFrame(render);
         else ticking = false;
       }
@@ -749,7 +748,6 @@
         e.preventDefault();
         lastInput = performance.now();
         snapDone = false;
-
         target = clamp(target + e.deltaY, 0, maxScroll);
         requestTick();
       }
